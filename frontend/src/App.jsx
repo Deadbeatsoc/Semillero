@@ -1,14 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Map from '@arcgis/core/Map';
-import MapView from '@arcgis/core/views/MapView';
-import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
-import Graphic from '@arcgis/core/Graphic';
-import esriConfig from '@arcgis/core/config';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import { io } from 'socket.io-client';
 import FilterPanel from './components/FilterPanel.jsx';
 import ReportForm from './components/ReportForm.jsx';
 import Legend from './components/Legend.jsx';
-import '@arcgis/core/assets/esri/themes/light/main.css';
+import StreetViewExplorer from './components/StreetViewExplorer.jsx';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:4000';
@@ -21,9 +18,9 @@ const initialFilters = {
 };
 
 const defaultCenter = {
-  longitude: -90.5069,
-  latitude: 14.6349,
-  zoom: 12
+  longitude: -73.6294,
+  latitude: 4.1425,
+  zoom: 13
 };
 
 const maxItems = 120;
@@ -68,72 +65,43 @@ const getRiskClassName = (riskScore) => {
   return 'badge-risk-low';
 };
 
-const createPredictionGraphic = (prediction) =>
-  new Graphic({
-    geometry: {
-      type: 'point',
-      longitude: prediction.longitude,
-      latitude: prediction.latitude
-    },
-    attributes: prediction,
-    symbol: {
-      type: 'simple-marker',
-      color: prediction.riskScore >= 0.75 ? '#dc3545' : prediction.riskScore >= 0.55 ? '#ffc107' : '#198754',
-      size: 11,
-      outline: {
-        color: '#ffffff',
-        width: 1.5
-      }
-    },
-    popupTemplate: {
-      title: `Riesgo ${Math.round(prediction.riskScore * 100)}%`,
-      content: `\n        <strong>Segmento:</strong> ${prediction.roadSegment}<br />
-        <strong>Fecha:</strong> ${prediction.date}<br />
-        <strong>Hora:</strong> ${prediction.hour}<br />
-        <strong>Clima:</strong> ${prediction.weather === 'lluvia' ? 'Lluvia' : 'Sin lluvia'}<br />
-        <strong>Periodo:</strong> ${prediction.period === 'dia' ? 'Día' : 'Noche'}
-      `
-    }
-  });
+const severityColor = {
+  alta: '#dc3545',
+  media: '#fd7e14',
+  baja: '#0d6efd'
+};
 
-const createReportGraphic = (report) => {
-  const severityColor = {
-    alta: '#dc3545',
-    media: '#fd7e14',
-    baja: '#0d6efd'
-  };
+const MapBoundsController = ({ predictions, reports }) => {
+  const map = useMap();
 
-  return new Graphic({
-    geometry: {
-      type: 'point',
-      longitude: report.longitude,
-      latitude: report.latitude
-    },
-    attributes: report,
-    symbol: {
-      type: 'simple-marker',
-      color: severityColor[report.severity] || '#000000',
-      size: 12,
-      outline: {
-        color: '#ffffff',
-        width: 1.5
+  const bounds = useMemo(() => {
+    const points = [];
+    predictions.forEach((prediction) => {
+      if (typeof prediction.latitude === 'number' && typeof prediction.longitude === 'number') {
+        points.push([prediction.latitude, prediction.longitude]);
       }
-    },
-    popupTemplate: {
-      title: 'Reporte ciudadano',
-      content: `\n        <strong>Descripción:</strong> ${report.description}<br />
-        <strong>Severidad:</strong> ${report.severity}<br />
-        <strong>Registrado:</strong> ${new Date(report.createdAt).toLocaleString()}
-      `
+    });
+    reports.forEach((report) => {
+      if (typeof report.latitude === 'number' && typeof report.longitude === 'number') {
+        points.push([report.latitude, report.longitude]);
+      }
+    });
+    return points;
+  }, [predictions, reports]);
+
+  useEffect(() => {
+    if (bounds.length === 0) {
+      map.setView([defaultCenter.latitude, defaultCenter.longitude], defaultCenter.zoom);
+      return;
     }
-  });
+    map.fitBounds(bounds, { padding: [32, 32] });
+  }, [bounds, map]);
+
+  return null;
 };
 
 export default function App() {
-  const mapContainerRef = useRef(null);
   const filtersRef = useRef(initialFilters);
-  const predictionsLayerRef = useRef(new GraphicsLayer({ id: 'predictions-layer' }));
-  const reportsLayerRef = useRef(new GraphicsLayer({ id: 'reports-layer' }));
 
   const [filters, setFilters] = useState(initialFilters);
   const [predictions, setPredictions] = useState([]);
@@ -144,28 +112,6 @@ export default function App() {
   useEffect(() => {
     filtersRef.current = filters;
   }, [filters]);
-
-  useEffect(() => {
-    esriConfig.apiKey = import.meta.env.VITE_ARCGIS_API_KEY || '';
-    const map = new Map({
-      basemap: 'arcgis-navigation'
-    });
-
-    map.addMany([predictionsLayerRef.current, reportsLayerRef.current]);
-
-    const view = new MapView({
-      container: mapContainerRef.current,
-      map,
-      center: [defaultCenter.longitude, defaultCenter.latitude],
-      zoom: defaultCenter.zoom
-    });
-
-    view.ui.move('zoom', 'top-right');
-
-    return () => {
-      view.destroy();
-    };
-  }, []);
 
   const fetchPredictions = async (currentFilters) => {
     setLoadingPredictions(true);
@@ -254,22 +200,6 @@ export default function App() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!predictionsLayerRef.current) return;
-    const layer = predictionsLayerRef.current;
-    layer.removeAll();
-    const graphics = predictions.map((prediction) => createPredictionGraphic(prediction));
-    layer.addMany(graphics);
-  }, [predictions]);
-
-  useEffect(() => {
-    if (!reportsLayerRef.current) return;
-    const layer = reportsLayerRef.current;
-    layer.removeAll();
-    const graphics = reports.map((report) => createReportGraphic(report));
-    layer.addMany(graphics);
-  }, [reports]);
-
   const handleFilterChange = (nextFilters) => {
     setFilters(nextFilters);
   };
@@ -313,7 +243,82 @@ export default function App() {
             onReset={handleFilterReset}
             loading={loadingPredictions}
           />
-          <div className="map-container" ref={mapContainerRef} />
+          <div className="map-container">
+            <MapContainer
+              center={[defaultCenter.latitude, defaultCenter.longitude]}
+              zoom={defaultCenter.zoom}
+              className="leaflet-map"
+              scrollWheelZoom
+            >
+              <TileLayer
+                attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <MapBoundsController predictions={predictions} reports={reports} />
+              {predictions
+                .filter(
+                  (prediction) => typeof prediction.latitude === 'number' && typeof prediction.longitude === 'number'
+                )
+                .map((prediction) => (
+                  <CircleMarker
+                    key={`prediction-${prediction.id}`}
+                    center={[prediction.latitude, prediction.longitude]}
+                    radius={8}
+                    pathOptions={{
+                      color: prediction.riskScore >= 0.75 ? '#dc3545' : prediction.riskScore >= 0.55 ? '#ffc107' : '#198754',
+                      weight: 2,
+                      fillColor:
+                        prediction.riskScore >= 0.75
+                          ? 'rgba(220, 53, 69, 0.6)'
+                          : prediction.riskScore >= 0.55
+                          ? 'rgba(255, 193, 7, 0.6)'
+                          : 'rgba(25, 135, 84, 0.6)',
+                      fillOpacity: 0.8
+                    }}
+                  >
+                    <Popup>
+                      <strong>Riesgo {Math.round(prediction.riskScore * 100)}%</strong>
+                      <br />
+                      Segmento: {prediction.roadSegment}
+                      <br />
+                      Fecha: {prediction.date}
+                      <br />
+                      Hora: {prediction.hour}
+                      <br />
+                      Clima: {prediction.weather === 'lluvia' ? 'Lluvia' : 'Sin lluvia'}
+                      <br />
+                      Periodo: {prediction.period === 'dia' ? 'Día' : 'Noche'}
+                    </Popup>
+                  </CircleMarker>
+                ))}
+              {reports
+                .filter((report) => typeof report.latitude === 'number' && typeof report.longitude === 'number')
+                .map((report) => (
+                  <CircleMarker
+                    key={`report-${report.id}`}
+                    center={[report.latitude, report.longitude]}
+                    radius={10}
+                    pathOptions={{
+                      color: severityColor[report.severity] || '#000000',
+                      weight: 2,
+                      fillColor: (severityColor[report.severity] || '#000000') + 'b3',
+                      fillOpacity: 0.8
+                    }}
+                  >
+                    <Popup>
+                      <strong>Reporte ciudadano</strong>
+                      <br />
+                      Severidad: {report.severity}
+                      <br />
+                      Descripción: {report.description}
+                      <br />
+                      Registrado: {new Date(report.createdAt).toLocaleString()}
+                    </Popup>
+                  </CircleMarker>
+                ))}
+            </MapContainer>
+          </div>
+          <StreetViewExplorer />
         </div>
         <div className="flex-shrink-0" style={{ minWidth: '320px', maxWidth: '380px' }}>
           <Legend />
