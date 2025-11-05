@@ -12,9 +12,6 @@ export default defineConfig({
       }
     }
   },
-  optimizeDeps: {
-    exclude: ['@arcgis/core']
-  },
   build: {
     chunkSizeWarningLimit: 1600
   }
