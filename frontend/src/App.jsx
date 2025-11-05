@@ -8,6 +8,7 @@ import { io } from 'socket.io-client';
 import FilterPanel from './components/FilterPanel.jsx';
 import ReportForm from './components/ReportForm.jsx';
 import Legend from './components/Legend.jsx';
+import StreetViewExplorer from './components/StreetViewExplorer.jsx';
 import '@arcgis/core/assets/esri/themes/light/main.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || '';
@@ -314,6 +315,7 @@ export default function App() {
             loading={loadingPredictions}
           />
           <div className="map-container" ref={mapContainerRef} />
+          <StreetViewExplorer />
         </div>
         <div className="flex-shrink-0" style={{ minWidth: '320px', maxWidth: '380px' }}>
           <Legend />
