@@ -1,133 +1,136 @@
-# Plataforma de predicción y reporte de accidentes
+# Plataforma local de prediccion y reporte de accidentes
 
-Aplicación full-stack que muestra un mapa interactivo con predicciones reales de ArcGIS y reportes ciudadanos en tiempo real. El frontend está construido con React + Vite y utiliza ArcGIS JavaScript API para renderizar el mapa. El backend está desarrollado en Node.js con Express y Socket.IO para consultar ArcGIS y retransmitir eventos en vivo.
-
-## Requisitos previos
-
-- Node.js 18 o superior
-- Cuenta de ArcGIS para crear una aplicación (client id/secret) y acceder al servicio de predicciones
+Aplicacion full-stack con:
+- Frontend en React + Vite.
+- Mapa en OpenStreetMap (Leaflet).
+- Backend en Node.js + Express + Socket.IO.
+- Motor local de prediccion por zonas (sin ArcGIS API).
+- Geocodificacion para autocompletar direcciones y seleccionar ubicaciones desde el mapa.
 
 ## Estructura del proyecto
 
+```text
+Websemillero/
+|-- backend/    # API REST + WebSocket + modelo local
+`-- frontend/   # SPA React con mapa OSM
 ```
-Semillero/
-├── backend/    # API REST + WebSocket con Express y Socket.IO
-└── frontend/   # SPA en React + Vite que consume ArcGIS JS API
+
+## Requisitos
+
+- Node.js 18 o superior.
+
+## Backend
+
+```bash
+cd backend
+npm install
+cp .env.example .env
+npm run migrate
+npm run seed:villavicencio
+npm run dev
 ```
 
-## Configuración del backend
+Variables en `.env`:
+- `PORT`: puerto del backend (default `4000`).
+- `DEFAULT_CITY`: ciudad inicial para sockets (`villavicencio`, `bogota`, `medellin`, `cali`, `barranquilla`).
+- `LOCAL_PREDICTIONS_GEOJSON` (opcional): ruta a un GeoJSON local precomputado.
+- `GEOCODER_USER_AGENT` (opcional): identificador para consultas de geocodificacion.
+- `NOMINATIM_BASE_URL` (opcional): proveedor de geocodificacion (default Nominatim OSM).
+- `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`: conexion MySQL para migraciones.
+- `DB_CHARSET`, `DB_COLLATION`: codificacion/collation para crear esquema MySQL.
+- `SEED_ACCIDENT_COUNT` (opcional): cantidad de accidentes ficticios a generar (default `5000`).
+- `SEED_DELETE_PREVIOUS` (opcional): borra seed anterior (`true` por defecto).
+- `OVERPASS_URL` (opcional): endpoint Overpass para descargar vias OSM.
 
-1. Instala las dependencias:
+Si no defines `LOCAL_PREDICTIONS_GEOJSON`, el backend usa un modelo local sintetico entrenado en memoria.
 
-   ```bash
-   cd backend
-   npm install
-   ```
+### Migraciones MySQL
 
-2. Crea el archivo de variables de entorno:
+```bash
+cd backend
+npm run migrate
+```
 
-   ```bash
-   cp .env.example .env
-   ```
+- El script crea la base de datos si no existe.
+- Luego ejecuta los SQL en `backend/db/migrations` una sola vez (tabla `schema_migrations`).
 
-3. Completa los valores del archivo `.env`:
+### Seed Villavicencio (5000 registros)
 
-   - `PORT`: puerto en el que se expondrá el API (por defecto 4000).
-   - `ARCGIS_PREDICTIONS_URL`: endpoint REST de ArcGIS que devuelve las predicciones (por ejemplo, una capa de `FeatureServer`).
-   - Autenticación:
-     - Define `ARCGIS_TOKEN` con un token válido **o**
-     - Proporciona `ARCGIS_USERNAME` y `ARCGIS_PASSWORD` si el servicio acepta Basic Auth **o**
-     - Guarda `ARCGIS_CLIENT_ID` y `ARCGIS_CLIENT_SECRET` y usa estos valores para generar un token con el flujo *Client Credentials* de ArcGIS. Una vez obtenido, cópialo en `ARCGIS_TOKEN`.
+```bash
+cd backend
+npm run seed:villavicencio
+```
 
-4. Inicia el servidor de desarrollo (las variables del `.env` se cargan automáticamente mediante `dotenv`):
+Comando rapido (PowerShell):
 
-   ```bash
-   npm run dev
-   ```
+```powershell
+cd backend
+npm run migrate
+npm run seed:villavicencio
+```
 
-### Flujo real de predicciones
+- Descarga vias reales de OpenStreetMap (Overpass) dentro del bbox de Villavicencio.
+- Guarda esas vias en `road_segments` con `path_json`.
+- Inserta accidentes en `accident_events` eligiendo puntos sobre las polilineas de via.
+- Esto evita puntos en rios/montanas o zonas sin acceso vehicular, porque el muestreo se hace sobre calles.
 
-Cuando el frontend solicita `GET /api/predictions`, el backend construye la URL hacia `ARCGIS_PREDICTIONS_URL` aplicando los filtros recibidos (fecha, hora, clima y periodo). A continuación ejecuta una petición HTTP con las credenciales configuradas, normaliza la respuesta de ArcGIS y devuelve las predicciones al cliente. Cada predicción recibida se emite también vía Socket.IO mediante el evento `prediction:new` para mantener sincronizados a todos los clientes conectados.
+Nota: para esta seed necesitas acceso a internet hacia el endpoint de Overpass configurado.
 
-La API sigue exponiendo además:
+### Endpoints
 
-- `GET /api/predictions`: devuelve las predicciones normalizadas que provienen de ArcGIS.
-- `GET /api/reports`: devuelve los reportes ciudadanos guardados en memoria.
-- `POST /api/reports`: recibe un reporte (latitud, longitud, descripción y severidad) y lo retransmite en tiempo real vía WebSocket.
+- `GET /api/cities`: lista de ciudades soportadas.
+- `GET /api/predictions?city=&address=&latitude=&longitude=&date=&hour=&weather=&period=&rangeMode=&rangeStart=&rangeEnd=`: hotspots y probabilidad por zona.
+  - `rangeMode=dia` usa `rangeStart/rangeEnd` en formato `YYYY-MM-DD`.
+  - `rangeMode=mes` usa `rangeStart/rangeEnd` en formato `YYYY-MM`.
+  - En modo rango, el backend devuelve los puntos con mayor severidad en la ventana seleccionada.
+- `GET /api/geocode/suggest?query=&city=`: autocompletado de direcciones.
+- `GET /api/geocode/reverse?latitude=&longitude=&city=`: direccion aproximada para un punto.
+- `GET /api/reports`: reportes ciudadanos en memoria.
+- `POST /api/reports`: registrar reporte ciudadano.
 
-> El backend escucha por defecto en el puerto **4000**. Puedes modificarlo mediante la variable de entorno `PORT`.
+### Eventos Socket.IO
 
-## Configuración del frontend
+- `init`: envia reportes y una muestra de predicciones iniciales.
+- `report:new`: nuevo reporte ciudadano en tiempo real.
+
+## Frontend
 
 ```bash
 cd frontend
 npm install
 ```
 
-Crea un archivo `.env.local` (o `.env`) en `frontend/` para conectar con el backend y definir tu API key de ArcGIS JS:
+Archivo `.env.local` recomendado:
 
 ```bash
 VITE_API_URL=http://localhost:4000
 VITE_SOCKET_URL=http://localhost:4000
-VITE_ARCGIS_API_KEY=tu_api_key
 ```
 
-Vite carga automáticamente las variables que empiecen con `VITE_`, por lo que estarán disponibles en `import.meta.env` al ejecutar `npm run dev` o `npm run build`.
+Ejecutar:
 
-La aplicación utiliza la API de ArcGIS para pintar:
+```bash
+npm run dev
+```
 
-- Marcadores de **predicciones de IA** con un gradiente de riesgo (verde, amarillo, rojo).
-- Marcadores de **reportes ciudadanos** en vivo; cada vez que un usuario envía un reporte se emite un evento en tiempo real y el mapa se actualiza automáticamente.
+## Como usar tu propio GeoJSON del modelo
 
-### Flujo de uso
+1. Genera un archivo `predicciones.geojson` (por ejemplo desde tu pipeline Python local).
+2. Define en `backend/.env`:
 
-1. Ajusta los filtros (fecha, hora, clima y periodo) para recalcular las predicciones. El backend consulta ArcGIS con esos parámetros y devuelve los puntos que se visualizan en el mapa.
-2. Envía un reporte con las coordenadas y severidad del incidente. La API lo guarda en memoria y lo transmite vía Socket.IO al resto de clientes conectados.
-3. Observa el panel lateral con la lista de predicciones activas y los reportes más recientes.
+```bash
+LOCAL_PREDICTIONS_GEOJSON=C:\ruta\predicciones.geojson
+```
 
-## Estilos y UI
+3. Reinicia backend.
 
-La interfaz utiliza **Bootstrap 5** junto con estilos propios para lograr un diseño limpio y moderno. El mapa se renderiza dentro de un contenedor con esquinas redondeadas y sombras suaves.
+El motor detecta el archivo y usa esas predicciones en vez del modelo sintetico.
 
-## Notas técnicas
+## Notas
 
-- El backend no persiste datos: los reportes ciudadanos se guardan en memoria y se pierden al reiniciar el servidor.
-- El frontend usa la configuración de proxy de Vite para redirigir peticiones `/api` al backend durante el desarrollo.
-
-## Ejecución con datos reales
-
-1. **Backend** (primer terminal):
-
-   ```bash
-   cd backend
-   npm run dev
-   ```
-
-   Asegúrate de haber configurado previamente el archivo `.env` con las credenciales y la URL de ArcGIS.
-
-2. **Frontend** (segundo terminal):
-
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-
-   Vite leerá el archivo `.env.local`/`.env` y propagará las variables `VITE_` al entorno del navegador.
-
-Cuando despliegues en producción, exporta las mismas variables de entorno (`PORT`, `ARCGIS_*`) en el host del backend y define las variables `VITE_` durante el proceso de build del frontend para que las URLs y credenciales de ArcGIS apunten a tus servicios reales.
-
-## Scripts disponibles
-
-### Backend
-- `npm run dev`: inicia el servidor con **nodemon**.
-- `npm start`: ejecuta el servidor en modo producción.
-
-### Frontend
-- `npm run dev`: arranca el servidor de desarrollo de Vite.
-- `npm run build`: genera los artefactos listos para producción.
-- `npm run preview`: sirve la compilación generada por `build`.
-
-## Próximos pasos sugeridos
-
-- Conectar los reportes a una base de datos relacional o NoSQL para preservarlos.
-- Desplegar la solución en un servicio gestionado y proteger el API key de ArcGIS mediante variables de entorno.
+- Los reportes se guardan en memoria (se pierden al reiniciar).
+- El modelo local esta disenado como fallback para desarrollo local sin servicios ArcGIS.
+- El mapa inicia sin hotspots (modo normal). Los hotspots aparecen cuando aplicas filtros.
+- Puedes escribir una direccion y elegir una sugerencia, o activar "Seleccionar ubicacion en mapa" para llenar la barra automaticamente.
+- Si eliges modo temporal `dia a dia` o `mes a mes`, el mapa muestra los puntos mas graves del rango en vez de una consulta puntual.
+`````````````

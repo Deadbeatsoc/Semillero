@@ -13,23 +13,23 @@ export default function ReportForm({ onSubmit, submitting }) {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((previous) => ({ ...previous, [name]: value }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setError('');
 
-    const latitude = parseFloat(formData.latitude);
-    const longitude = parseFloat(formData.longitude);
+    const latitude = Number.parseFloat(formData.latitude);
+    const longitude = Number.parseFloat(formData.longitude);
 
-    if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
-      setError('Por favor ingresa coordenadas válidas.');
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+      setError('Ingresa coordenadas validas.');
       return;
     }
 
     if (!formData.description.trim()) {
-      setError('La descripción es obligatoria.');
+      setError('La descripcion es obligatoria.');
       return;
     }
 
@@ -47,11 +47,11 @@ export default function ReportForm({ onSubmit, submitting }) {
     <div className="card report-card">
       <div className="card-body">
         <h5 className="card-title">Reportar accidente</h5>
-        <p className="text-muted">Comparte un incidente reciente para que otros usuarios lo vean en tiempo real.</p>
+        <p className="text-muted">Envia un incidente para que aparezca en el mapa en tiempo real.</p>
         {error && <div className="alert alert-danger py-2">{error}</div>}
         <form className="row g-3" onSubmit={handleSubmit}>
           <div className="col-12">
-            <label className="form-label fw-semibold text-uppercase text-muted small">Descripción</label>
+            <label className="form-label fw-semibold text-uppercase text-muted small">Descripcion</label>
             <textarea
               className="form-control"
               name="description"
@@ -68,7 +68,7 @@ export default function ReportForm({ onSubmit, submitting }) {
               name="latitude"
               value={formData.latitude}
               onChange={handleChange}
-              placeholder="14.6349"
+              placeholder="4.1420"
             />
           </div>
           <div className="col-12 col-md-4">
@@ -78,17 +78,12 @@ export default function ReportForm({ onSubmit, submitting }) {
               name="longitude"
               value={formData.longitude}
               onChange={handleChange}
-              placeholder="-90.5069"
+              placeholder="-73.6266"
             />
           </div>
           <div className="col-12 col-md-4">
             <label className="form-label fw-semibold text-uppercase text-muted small">Severidad</label>
-            <select
-              className="form-select"
-              name="severity"
-              value={formData.severity}
-              onChange={handleChange}
-            >
+            <select className="form-select" name="severity" value={formData.severity} onChange={handleChange}>
               <option value="alta">Alta</option>
               <option value="media">Media</option>
               <option value="baja">Baja</option>
@@ -96,7 +91,7 @@ export default function ReportForm({ onSubmit, submitting }) {
           </div>
           <div className="col-12 d-flex justify-content-end">
             <button type="submit" className="btn btn-primary px-4" disabled={submitting}>
-              {submitting ? 'Enviando…' : 'Enviar reporte'}
+              {submitting ? 'Enviando...' : 'Enviar reporte'}
             </button>
           </div>
         </form>

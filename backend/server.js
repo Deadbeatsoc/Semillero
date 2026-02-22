@@ -1,12 +1,22 @@
 import 'dotenv/config';
-import express from 'express';
 import cors from 'cors';
+import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
-import { fetchArcgisPredictions, ArcgisClientError } from './services/arcgisClient.js';
+import {
+  fetchLocalPredictions,
+  getAvailableCities,
+  LocalPredictionEngineError
+} from './services/localPredictionEngine.js';
+import {
+  GeocodingClientError,
+  reverseGeocode,
+  searchAddressSuggestions
+} from './services/geocodingClient.js';
 
 const PORT = process.env.PORT || 4000;
+const DEFAULT_CITY = process.env.DEFAULT_CITY || 'villavicencio';
 
 const app = express();
 app.use(cors());
@@ -22,23 +32,78 @@ const io = new Server(httpServer, {
 
 let reports = [];
 
+app.get('/api/cities', (req, res) => {
+  res.json({ data: getAvailableCities() });
+});
+
 app.get('/api/predictions', async (req, res) => {
-  const { date, hour, weather, period } = req.query;
+  const {
+    city,
+    date,
+    hour,
+    weather,
+    period,
+    address,
+    latitude,
+    longitude,
+    rangeMode,
+    rangeStart,
+    rangeEnd
+  } = req.query;
 
   try {
-    const predictions = await fetchArcgisPredictions({ date, hour, weather, period });
-
-    predictions.forEach((prediction) => {
-      io.emit('prediction:new', prediction);
+    const payload = await fetchLocalPredictions({
+      city,
+      date,
+      hour,
+      weather,
+      period,
+      address,
+      latitude,
+      longitude,
+      rangeMode,
+      rangeStart,
+      rangeEnd
     });
-
-    return res.json({ data: predictions });
+    return res.json(payload);
   } catch (error) {
-    const status = error instanceof ArcgisClientError ? error.status : 500;
+    const status = error instanceof LocalPredictionEngineError ? error.status : 500;
     const message =
-      error instanceof ArcgisClientError
+      error instanceof LocalPredictionEngineError
         ? error.message
-        : 'Ocurrió un error inesperado al obtener las predicciones.';
+        : 'Ocurrio un error inesperado al obtener las predicciones locales.';
+    return res.status(status).json({ message });
+  }
+});
+
+app.get('/api/geocode/suggest', async (req, res) => {
+  const { query, city } = req.query;
+
+  try {
+    const suggestions = await searchAddressSuggestions({ query, city });
+    return res.json({ data: suggestions });
+  } catch (error) {
+    const status = error instanceof GeocodingClientError ? error.status : 500;
+    const message =
+      error instanceof GeocodingClientError
+        ? error.message
+        : 'Ocurrio un error inesperado al buscar sugerencias de direccion.';
+    return res.status(status).json({ message });
+  }
+});
+
+app.get('/api/geocode/reverse', async (req, res) => {
+  const { latitude, longitude, city } = req.query;
+
+  try {
+    const match = await reverseGeocode({ latitude, longitude, city });
+    return res.json({ data: match });
+  } catch (error) {
+    const status = error instanceof GeocodingClientError ? error.status : 500;
+    const message =
+      error instanceof GeocodingClientError
+        ? error.message
+        : 'Ocurrio un error inesperado al buscar direccion por coordenadas.';
     return res.status(status).json({ message });
   }
 });
@@ -76,24 +141,25 @@ app.post('/api/reports', (req, res) => {
 
 io.on('connection', async (socket) => {
   try {
-    const predictions = await fetchArcgisPredictions();
+    const { data: predictions } = await fetchLocalPredictions({ city: DEFAULT_CITY });
     socket.emit('init', {
       reports,
-      predictions
+      predictions: predictions.slice(0, 80)
     });
   } catch (error) {
     socket.emit('init', {
       reports,
       predictions: []
     });
-    if (!(error instanceof ArcgisClientError)) {
+
+    if (!(error instanceof LocalPredictionEngineError)) {
       // eslint-disable-next-line no-console
-      console.error('Error inesperado al obtener predicciones para el socket:', error);
+      console.error('Error inesperado al obtener predicciones iniciales para socket:', error);
     }
   }
 });
 
 httpServer.listen(PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`Servidor de predicción de tráfico escuchando en el puerto ${PORT}`);
+  console.log(`Servidor de prediccion de trafico escuchando en el puerto ${PORT}`);
 });
