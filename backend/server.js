@@ -1,26 +1,52 @@
 import 'dotenv/config';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import cors from 'cors';
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import { v4 as uuidv4 } from 'uuid';
+import { pool } from './db/mysqlPool.js';
+import { createActivityLog } from './models/activityModel.js';
+import { listApprovedTodayReports } from './models/reportModel.js';
+import { requireAuth } from './middleware/authMiddleware.js';
+import adminRouter from './routes/adminRoutes.js';
+import activityRouter from './routes/activityRoutes.js';
+import authRouter from './routes/authRoutes.js';
+import reportRouter from './routes/reportRoutes.js';
+import { bootstrapAuthData } from './services/bootstrapAuthData.js';
 import {
   fetchLocalPredictions,
   getAvailableCities,
   LocalPredictionEngineError
 } from './services/localPredictionEngine.js';
+import { ensureEvidenceDirectory } from './services/reportEvidenceService.js';
+import { resolveAuthenticatedUser } from './services/sessionAuthService.js';
 import {
   GeocodingClientError,
   reverseGeocode,
   searchAddressSuggestions
 } from './services/geocodingClient.js';
+import {
+  WeatherForecastError,
+  fetchWeatherForecast
+} from './services/weatherForecastService.js';
 
 const PORT = process.env.PORT || 4000;
 const DEFAULT_CITY = process.env.DEFAULT_CITY || 'villavicencio';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const UPLOADS_DIR = path.resolve(__dirname, 'uploads');
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '8mb' }));
+app.use('/uploads', express.static(UPLOADS_DIR));
+
+app.use('/api/auth', authRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/activity', activityRouter);
+app.use('/api/reports', reportRouter);
+app.use('/api', requireAuth);
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -30,7 +56,23 @@ const io = new Server(httpServer, {
   }
 });
 
-let reports = [];
+const logUserActivity = async ({ userId, eventType, eventData = null }) => {
+  try {
+    const connection = await pool.getConnection();
+    try {
+      await createActivityLog(connection, {
+        userId,
+        eventType,
+        eventData
+      });
+    } finally {
+      connection.release();
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(`No se pudo registrar actividad (${eventType}):`, error.message);
+  }
+};
 
 app.get('/api/cities', (req, res) => {
   res.json({ data: getAvailableCities() });
@@ -64,6 +106,15 @@ app.get('/api/predictions', async (req, res) => {
       rangeMode,
       rangeStart,
       rangeEnd
+    });
+    await logUserActivity({
+      userId: req.authUser.id,
+      eventType: 'prediction_query',
+      eventData: {
+        city: payload?.meta?.city?.key || city || DEFAULT_CITY,
+        rangeMode: rangeMode || 'none',
+        hasAddressFilter: Boolean((address || '').trim())
+      }
     });
     return res.json(payload);
   } catch (error) {
@@ -108,39 +159,44 @@ app.get('/api/geocode/reverse', async (req, res) => {
   }
 });
 
-app.get('/api/reports', (req, res) => {
-  res.json({ data: reports });
+app.get('/api/weather/forecast', async (req, res) => {
+  const { city } = req.query;
+  try {
+    const forecast = await fetchWeatherForecast({ city });
+    return res.json({ data: forecast });
+  } catch (error) {
+    const status = error instanceof WeatherForecastError ? error.status : 500;
+    const message =
+      error instanceof WeatherForecastError
+        ? error.message
+        : 'Ocurrio un error inesperado al consultar el clima.';
+    return res.status(status).json({ message });
+  }
 });
 
-app.post('/api/reports', (req, res) => {
-  const { description, latitude, longitude, severity } = req.body;
-
-  if (
-    typeof latitude !== 'number' ||
-    typeof longitude !== 'number' ||
-    !description ||
-    !description.trim()
-  ) {
-    return res.status(400).json({ message: 'Datos del reporte incompletos.' });
+io.use(async (socket, next) => {
+  try {
+    const rawToken = String(
+      socket.handshake?.auth?.token || socket.handshake?.query?.token || ''
+    ).trim();
+    const resolved = await resolveAuthenticatedUser(rawToken, { touch: true });
+    socket.data.authUser = resolved.user;
+    return next();
+  } catch {
+    return next(new Error('No autorizado'));
   }
-
-  const newReport = {
-    id: uuidv4(),
-    description: description.trim(),
-    latitude,
-    longitude,
-    severity: severity || 'media',
-    createdAt: new Date().toISOString()
-  };
-
-  reports = [newReport, ...reports].slice(0, 50);
-  io.emit('report:new', newReport);
-
-  return res.status(201).json(newReport);
 });
 
 io.on('connection', async (socket) => {
   try {
+    const connection = await pool.getConnection();
+    let reports = [];
+    try {
+      reports = await listApprovedTodayReports(connection);
+    } finally {
+      connection.release();
+    }
+
     const { data: predictions } = await fetchLocalPredictions({ city: DEFAULT_CITY });
     socket.emit('init', {
       reports,
@@ -159,7 +215,37 @@ io.on('connection', async (socket) => {
   }
 });
 
-httpServer.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Servidor de prediccion de trafico escuchando en el puerto ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await ensureEvidenceDirectory();
+    const bootstrapData = await bootstrapAuthData();
+
+    if (bootstrapData.createdAdmin && !bootstrapData.createdAdmin.reusedExisting) {
+      // eslint-disable-next-line no-console
+      console.log('Administrador inicial creado.');
+      // eslint-disable-next-line no-console
+      console.log(`Usuario admin: ${bootstrapData.createdAdmin.username}`);
+      // eslint-disable-next-line no-console
+      console.log(`Contrasena admin inicial: ${bootstrapData.createdAdmin.generatedPassword}`);
+    }
+
+    if (bootstrapData.createdCode) {
+      // eslint-disable-next-line no-console
+      console.log(`Codigo de verificacion inicial: ${bootstrapData.activeCode}`);
+    }
+
+    httpServer.listen(PORT, () => {
+      // eslint-disable-next-line no-console
+      console.log(`Servidor de prediccion de trafico escuchando en el puerto ${PORT}`);
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(
+      'No se pudo inicializar autenticacion. Ejecuta primero "npm run migrate".',
+      error.message
+    );
+    process.exit(1);
+  }
+};
+
+startServer();

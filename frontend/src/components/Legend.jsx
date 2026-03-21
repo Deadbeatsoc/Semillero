@@ -1,31 +1,67 @@
 import React from 'react';
 
+const legendItems = [
+  {
+    id: 'high-risk',
+    label: 'Riesgo alto',
+    badgeClassName: 'bg-danger text-white',
+    description: 'Probabilidad mayor o igual a 0.75'
+  },
+  {
+    id: 'medium-risk',
+    label: 'Riesgo medio',
+    badgeClassName: 'bg-warning text-dark',
+    description: 'Probabilidad entre 0.55 y 0.74'
+  },
+  {
+    id: 'low-risk',
+    label: 'Riesgo bajo',
+    badgeClassName: 'bg-success text-white',
+    description: 'Probabilidad menor a 0.55'
+  },
+  {
+    id: 'hotspot-shadow',
+    label: 'Sombra hotspot',
+    badgeClassName: 'bg-primary text-white',
+    description: 'Zona principal del filtro aplicado en el mapa'
+  },
+  {
+    id: 'query-point',
+    label: 'Consulta',
+    badgeClassName: 'bg-info text-dark',
+    description: 'Punto elegido por direccion o click en mapa'
+  },
+  {
+    id: 'type-severity',
+    label: 'Tipo y gravedad',
+    badgeClassName: 'bg-secondary text-white',
+    description: 'Cada popup muestra moto/carro/peaton y severidad probable'
+  },
+  {
+    id: 'citizen-report',
+    label: 'Reporte',
+    badgeClassName: 'bg-dark text-white',
+    description: 'Incidente reportado por usuarios'
+  }
+];
+
 export default function Legend() {
   return (
     <div className="card border-0 shadow-sm">
       <div className="card-body">
-        <h6 className="text-uppercase text-muted small mb-3">Leyenda del mapa</h6>
-        <div className="d-flex flex-column gap-3">
-          <div className="d-flex align-items-center gap-3">
-            <span className="badge rounded-pill bg-danger text-white px-3">Riesgo alto</span>
-            <small className="text-muted">Probabilidad mayor o igual a 0.75</small>
-          </div>
-          <div className="d-flex align-items-center gap-3">
-            <span className="badge rounded-pill bg-warning text-dark px-3">Riesgo medio</span>
-            <small className="text-muted">Probabilidad entre 0.55 y 0.74</small>
-          </div>
-          <div className="d-flex align-items-center gap-3">
-            <span className="badge rounded-pill bg-success text-white px-3">Riesgo bajo</span>
-            <small className="text-muted">Probabilidad menor a 0.55</small>
-          </div>
-          <div className="d-flex align-items-center gap-3">
-            <span className="badge rounded-pill bg-primary text-white px-3">Sombra hotspot</span>
-            <small className="text-muted">Zona principal del filtro aplicado en el mapa</small>
-          </div>
-          <div className="d-flex align-items-center gap-3">
-            <span className="badge rounded-pill bg-dark text-white px-3">Reporte</span>
-            <small className="text-muted">Incidente reportado por usuarios</small>
-          </div>
+        <h6 className="panel-title mb-3">Leyenda del mapa</h6>
+        <div className="d-flex flex-column gap-2">
+          {legendItems.map((item) => (
+            <div key={item.id} className="legend-row d-flex align-items-center justify-content-between gap-2">
+              <span className={`badge rounded-pill px-3 py-2 ${item.badgeClassName}`}>{item.label}</span>
+              <button type="button" className="legend-info-button" aria-label={`Informacion de ${item.label}`}>
+                !
+                <span role="tooltip" className="legend-tooltip">
+                  {item.description}
+                </span>
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </div>

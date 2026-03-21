@@ -209,14 +209,170 @@ const formatHour = (hour) => {
   return `${String(normalized).padStart(2, '0')}:00`;
 };
 
+const resolvePeriodFromHour = (hour) => (hour >= 6 && hour < 18 ? 'dia' : 'noche');
+
 const resolvePeriod = (period, hour) => {
+  if (hour !== null && hour !== undefined) {
+    return resolvePeriodFromHour(hour);
+  }
   if (period && period !== 'todos') {
     return period;
   }
-  if (hour === null || hour === undefined) {
-    return 'todos';
+  return 'todos';
+};
+
+const normalizeDistribution = (distribution, fallbackKey = '') => {
+  const entries = Object.entries(distribution || {}).map(([key, value]) => [
+    key,
+    clamp(Number(value) || 0, 0, 4)
+  ]);
+
+  if (!entries.length) {
+    return fallbackKey ? { [fallbackKey]: 1 } : {};
   }
-  return hour >= 6 && hour < 18 ? 'dia' : 'noche';
+
+  let total = entries.reduce((sum, [, value]) => sum + value, 0);
+  if (!Number.isFinite(total) || total <= 1e-9) {
+    total = 1;
+    return Object.fromEntries(
+      entries.map(([key]) => [key, key === fallbackKey ? 1 : 0])
+    );
+  }
+
+  return Object.fromEntries(
+    entries.map(([key, value]) => [key, Number((value / total).toFixed(4))])
+  );
+};
+
+const resolveDominantLabel = (
+  distribution,
+  { fallback = '', mixedLabel = '', mixedDelta = 0 } = {}
+) => {
+  const sorted = Object.entries(distribution || {}).sort((left, right) => right[1] - left[1]);
+  if (!sorted.length) {
+    return fallback;
+  }
+
+  const [topLabel, topValue] = sorted[0];
+  const secondValue = sorted[1]?.[1] ?? 0;
+  if (mixedLabel && topValue - secondValue < mixedDelta) {
+    return mixedLabel;
+  }
+
+  return topLabel;
+};
+
+const buildAccidentInsights = ({
+  filters,
+  predLeveProb,
+  predMedioProb,
+  predGraveProb,
+  baseAccidentTypes,
+  dayPct
+}) => {
+  const effectivePeriod = resolvePeriod(filters.period, filters.hour);
+  const baseTypeDistribution = normalizeDistribution(
+    {
+      moto: baseAccidentTypes?.moto ?? 0.4,
+      carro: baseAccidentTypes?.carro ?? 0.4,
+      peaton: baseAccidentTypes?.peaton ?? 0.2
+    },
+    'carro'
+  );
+
+  let moto = baseTypeDistribution.moto;
+  let carro = baseTypeDistribution.carro;
+  let peaton = baseTypeDistribution.peaton;
+
+  if (filters.hour !== null) {
+    if (filters.hour >= 6 && filters.hour <= 9) {
+      moto *= 1.18;
+      carro *= 1.24;
+      peaton *= 0.82;
+    } else if (filters.hour >= 10 && filters.hour <= 16) {
+      moto *= 0.94;
+      carro *= 1.06;
+      peaton *= 1.16;
+    } else if (filters.hour >= 17 && filters.hour <= 21) {
+      moto *= 1.24;
+      carro *= 1.18;
+      peaton *= 0.78;
+    } else {
+      moto *= 1.34;
+      carro *= 0.82;
+      peaton *= 0.56;
+    }
+  } else if (effectivePeriod === 'dia') {
+    moto *= 0.93;
+    carro *= 1.08;
+    peaton *= 1.18;
+  } else if (effectivePeriod === 'noche') {
+    moto *= 1.23;
+    carro *= 0.9;
+    peaton *= 0.64;
+  }
+
+  if (filters.weather === 'lluvia') {
+    moto *= 1.2 + (1 - clamp(dayPct, 0, 1)) * 0.12;
+    carro *= 1.14;
+    peaton *= 0.88;
+  } else if (filters.weather === 'no_lluvia') {
+    moto *= 0.92;
+    carro *= 1.06;
+    peaton *= 1.1;
+  }
+
+  const accidentTypeBreakdown = normalizeDistribution({ moto, carro, peaton }, 'carro');
+  const probableAccidentType = resolveDominantLabel(accidentTypeBreakdown, {
+    fallback: 'carro',
+    mixedLabel: 'mixto',
+    mixedDelta: 0.05
+  });
+
+  let baja = clamp(predLeveProb, 0, 1);
+  let media = clamp(predMedioProb, 0, 1);
+  let alta = clamp(predGraveProb, 0, 1);
+
+  if (filters.weather === 'lluvia') {
+    alta *= 1.19;
+    media *= 1.09;
+    baja *= 0.88;
+  } else if (filters.weather === 'no_lluvia') {
+    alta *= 0.9;
+    media *= 0.98;
+    baja *= 1.08;
+  }
+
+  if (filters.hour !== null) {
+    if (filters.hour >= 0 && filters.hour <= 4) {
+      alta *= 1.24;
+      media *= 1.08;
+      baja *= 0.82;
+    } else if (filters.hour >= 17 && filters.hour <= 21) {
+      alta *= 1.12;
+      media *= 1.08;
+    } else if (filters.hour >= 10 && filters.hour <= 15) {
+      alta *= 0.93;
+      baja *= 1.1;
+    }
+  } else if (effectivePeriod === 'noche') {
+    alta *= 1.14;
+    media *= 1.06;
+    baja *= 0.9;
+  }
+
+  const severityBreakdown = normalizeDistribution({ baja, media, alta }, 'media');
+  const probableSeverity = resolveDominantLabel(severityBreakdown, {
+    fallback: 'media'
+  });
+
+  return {
+    effectivePeriod,
+    probableAccidentType,
+    accidentTypeBreakdown,
+    probableSeverity,
+    severityBreakdown
+  };
 };
 
 const normalizeRangeMode = (value) =>
@@ -701,7 +857,14 @@ const buildAddressScopedPredictions = (predictions, queryPoint) => {
     roadSegment: nearestPrediction.roadSegment,
     probability: nearestPrediction.riskScore,
     riskLevel: nearestPrediction.riskLevel,
-    distanceKm: Number(nearestPrediction.__distanceKm.toFixed(3))
+    distanceKm: Number(nearestPrediction.__distanceKm.toFixed(3)),
+    probableAccidentType: nearestPrediction.probableAccidentType || 'carro',
+    accidentTypeBreakdown: nearestPrediction.accidentTypeBreakdown || null,
+    probableSeverity: nearestPrediction.probableSeverity || 'media',
+    severityBreakdown: nearestPrediction.severityBreakdown || null,
+    weather: nearestPrediction.weather || 'todos',
+    period: nearestPrediction.period || 'todos',
+    hour: nearestPrediction.hour || ''
   };
 
   return {
@@ -713,8 +876,9 @@ const buildAddressScopedPredictions = (predictions, queryPoint) => {
 const normalizeFilters = (filters = {}) => {
   const profile = getCityProfile(filters.city);
   const weather = WEATHER_VALUES.has(filters.weather) ? filters.weather : 'todos';
-  const period = PERIOD_VALUES.has(filters.period) ? filters.period : 'todos';
   const hour = parseHour(filters.hour);
+  const requestedPeriod = PERIOD_VALUES.has(filters.period) ? filters.period : 'todos';
+  const period = hour === null ? requestedPeriod : 'todos';
   const pointDate = toIsoDate(filters.date);
   const address = typeof filters.address === 'string' ? filters.address.trim() : '';
   const latitude = parseCoordinate(filters.latitude, -90, 90);
@@ -805,6 +969,14 @@ const buildSyntheticCells = (cityProfile) => {
       const weekendPct = clamp(0.12 + (1 - corridorFactor) * 0.28 + random() * 0.22, 0.05, 0.88);
       const rainPct = clamp(0.16 + random() * 0.46 + (1 - corridorFactor) * 0.07, 0.05, 0.93);
       const dayPct = clamp(0.34 + corridorFactor * 0.23 + random() * 0.24, 0.12, 0.95);
+      const baseActorDistribution = normalizeDistribution(
+        {
+          moto: clamp(0.26 + (1 - corridorFactor) * 0.24 + random() * 0.28, 0.12, 0.8),
+          carro: clamp(0.28 + corridorFactor * 0.27 + random() * 0.26, 0.15, 0.82),
+          peaton: clamp(0.1 + weekendPct * 0.23 + random() * 0.2, 0.05, 0.48)
+        },
+        'carro'
+      );
 
       cells.push({
         id: `${cityProfile.key}-${row}-${col}`,
@@ -831,6 +1003,9 @@ const buildSyntheticCells = (cityProfile) => {
         weekendPct,
         rainPct,
         dayPct,
+        motoPct: baseActorDistribution.moto,
+        carroPct: baseActorDistribution.carro,
+        peatonPct: baseActorDistribution.peaton,
         accidentesLeve,
         accidentesMedio,
         accidentesGrave,
@@ -890,40 +1065,49 @@ const buildFilterFactors = (cell, filters) => {
 
   if (filters.hour !== null) {
     if (filters.hour >= 6 && filters.hour <= 9) {
-      density *= 1 + 0.58 * cell.hourPeakAmPct;
-      am *= 1.35;
-      pm *= 0.9;
+      density *= 1.12 + 1.05 * cell.hourPeakAmPct;
+      am *= 1.62;
+      pm *= 0.82;
+      day *= 1.08;
+    } else if (filters.hour >= 10 && filters.hour <= 16) {
+      density *= 0.82 + 0.48 * cell.dayPct;
+      day *= 1.12;
     } else if (filters.hour >= 17 && filters.hour <= 20) {
-      density *= 1 + 0.62 * cell.hourPeakPmPct;
-      pm *= 1.38;
-      am *= 0.9;
+      density *= 1.16 + 1.08 * cell.hourPeakPmPct;
+      pm *= 1.7;
+      am *= 0.8;
+      day *= 0.88;
+    } else if (filters.hour >= 21 && filters.hour <= 23) {
+      density *= 0.72 + (1 - cell.dayPct) * 0.58;
+      day *= 0.72;
     } else if (filters.hour >= 0 && filters.hour <= 4) {
-      density *= 0.68 + (1 - cell.dayPct) * 0.3;
-      day *= 0.75;
+      density *= 0.52 + (1 - cell.dayPct) * 0.5;
+      day *= 0.58;
     } else {
-      density *= 0.85 + cell.dayPct * 0.34;
+      density *= 0.86 + 0.45 * cell.hourPeakAmPct;
+      day *= 0.84;
     }
   }
 
   if (filters.weather === 'lluvia') {
-    density *= 1 + 0.52 * cell.rainPct;
-    rain *= 1.42;
+    density *= 1.12 + 0.88 * cell.rainPct;
+    rain *= 1.72;
   } else if (filters.weather === 'no_lluvia') {
-    density *= 1 - 0.26 * cell.rainPct;
-    rain *= 0.76;
+    density *= 0.74 + 0.22 * (1 - cell.rainPct);
+    rain *= 0.62;
   }
 
   const effectivePeriod = resolvePeriod(filters.period, filters.hour);
-  if (effectivePeriod === 'dia') {
-    density *= 0.88 + 0.45 * cell.dayPct;
-    day *= 1.25;
-  } else if (effectivePeriod === 'noche') {
-    density *= 0.84 + 0.45 * (1 - cell.dayPct);
-    day *= 0.78;
+  if (filters.hour === null && effectivePeriod === 'dia') {
+    density *= 0.9 + 0.58 * cell.dayPct;
+    day *= 1.36;
+  } else if (filters.hour === null && effectivePeriod === 'noche') {
+    density *= 0.78 + 0.66 * (1 - cell.dayPct);
+    day *= 0.66;
   }
 
   return {
-    density,
+    density: clamp(density, 0.35, 2.45),
     am,
     pm,
     weekend,
@@ -1074,6 +1258,61 @@ const parseGeoJsonPredictions = async (cityProfile) => {
           latitude: parseMaybeNumber(props.latitude) ?? cityProfile.center.latitude,
           longitude: parseMaybeNumber(props.longitude) ?? cityProfile.center.longitude
         };
+        const featureRandom = createSeededRandom(
+          `${cityProfile.key}-gj-${props.OBJECTID ?? props.id ?? index}`
+        );
+        const corridorFactor = Math.exp(
+          -Math.pow(
+            (centroid.longitude - cityProfile.center.longitude) /
+              Math.max((cityProfile.bbox[2] - cityProfile.bbox[0]) * 0.22, 0.0001),
+            2
+          )
+        );
+
+        const hourPeakAmPct = clamp(
+          parseMaybeNumber(props.HOUR_PEAK_AM_PCT ?? props.hourPeakAmPct ?? props.hour_peak_am_pct) ??
+            (0.17 + corridorFactor * 0.22 + featureRandom() * 0.28),
+          0.03,
+          0.94
+        );
+        const hourPeakPmPct = clamp(
+          parseMaybeNumber(props.HOUR_PEAK_PM_PCT ?? props.hourPeakPmPct ?? props.hour_peak_pm_pct) ??
+            (0.19 + corridorFactor * 0.24 + featureRandom() * 0.27),
+          0.05,
+          0.95
+        );
+        const weekendPct = clamp(
+          parseMaybeNumber(props.WEEKEND_PCT ?? props.weekendPct ?? props.weekend_pct) ??
+            (0.14 + (1 - corridorFactor) * 0.25 + featureRandom() * 0.2),
+          0.05,
+          0.9
+        );
+        const rainPct = clamp(
+          parseMaybeNumber(props.RAIN_PCT ?? props.rainPct ?? props.rain_pct) ??
+            (0.18 + featureRandom() * 0.44 + (1 - corridorFactor) * 0.08),
+          0.05,
+          0.95
+        );
+        const dayPct = clamp(
+          parseMaybeNumber(props.DAY_PCT ?? props.dayPct ?? props.day_pct) ??
+            (0.36 + corridorFactor * 0.23 + featureRandom() * 0.2),
+          0.08,
+          0.95
+        );
+        const baseActorDistribution = normalizeDistribution(
+          {
+            moto:
+              parseMaybeNumber(props.MOTO_PCT ?? props.motoPct ?? props.moto_pct) ??
+              (0.28 + (1 - corridorFactor) * 0.24 + featureRandom() * 0.22),
+            carro:
+              parseMaybeNumber(props.CARRO_PCT ?? props.carroPct ?? props.carro_pct) ??
+              (0.32 + corridorFactor * 0.26 + featureRandom() * 0.21),
+            peaton:
+              parseMaybeNumber(props.PEATON_PCT ?? props.peatonPct ?? props.peaton_pct) ??
+              (0.1 + weekendPct * 0.26 + featureRandom() * 0.18)
+          },
+          'carro'
+        );
 
         const leve = clamp(
           parseMaybeNumber(props.PRED_LEVE_PROB ?? props.predLeveProb ?? props.pred_leve_prob) ?? 0,
@@ -1110,6 +1349,14 @@ const parseGeoJsonPredictions = async (cityProfile) => {
           priority:
             parseMaybeNumber(props.PRIORIDAD ?? props.priority) ??
             (riskScore >= 0.78 ? 4 : riskScore >= 0.62 ? 3 : riskScore >= 0.45 ? 2 : 1),
+          hourPeakAmPct,
+          hourPeakPmPct,
+          weekendPct,
+          rainPct,
+          dayPct,
+          motoPct: baseActorDistribution.moto,
+          carroPct: baseActorDistribution.carro,
+          peatonPct: baseActorDistribution.peaton,
           weather: 'todos',
           period: 'todos',
           hour: '',
@@ -1194,6 +1441,7 @@ const buildCacheKey = (filters) =>
   });
 
 const formatPredictionFromCell = (cell, filters, cityModel) => {
+  const filterFactors = buildFilterFactors(cell, filters);
   const features = getAdjustedFeatureVector(cell, filters);
   const pLeveModel = predictLogisticProbability(cityModel.models.leve, features);
   const pMedioModel = predictLogisticProbability(cityModel.models.medio, features);
@@ -1209,7 +1457,29 @@ const formatPredictionFromCell = (cell, filters, cityModel) => {
 
   const weightedRisk = (predLeveProb + predMedioProb * 2 + predGraveProb * 3) / 6;
   const exposureFactor = clamp(cell.accidentesTotal / 28, 0, 1);
-  const riskScore = clamp(weightedRisk * 0.84 + exposureFactor * 0.16, 0, 1);
+  const baseRiskScore = clamp(weightedRisk * 0.84 + exposureFactor * 0.16, 0, 1);
+  const contextSwing = clamp(
+    0.86 +
+      (filterFactors.density - 1) * 0.38 +
+      (filterFactors.rain - 1) * 0.16 +
+      (filterFactors.day - 1) * 0.12,
+    0.5,
+    1.55
+  );
+  const contextRiskScore = clamp(baseRiskScore * contextSwing, 0, 1);
+  const riskScore = clamp(baseRiskScore * 0.72 + contextRiskScore * 0.28, 0, 1);
+  const insights = buildAccidentInsights({
+    filters,
+    predLeveProb,
+    predMedioProb,
+    predGraveProb,
+    baseAccidentTypes: {
+      moto: cell.motoPct,
+      carro: cell.carroPct,
+      peaton: cell.peatonPct
+    },
+    dayPct: cell.dayPct
+  });
 
   return {
     id: cell.id,
@@ -1227,31 +1497,46 @@ const formatPredictionFromCell = (cell, filters, cityModel) => {
     date: filters.date || new Date().toISOString().slice(0, 10),
     hour: formatHour(filters.hour),
     weather: filters.weather,
-    period: resolvePeriod(filters.period, filters.hour),
+    period: insights.effectivePeriod,
+    probableAccidentType: insights.probableAccidentType,
+    accidentTypeBreakdown: insights.accidentTypeBreakdown,
+    probableSeverity: insights.probableSeverity,
+    severityBreakdown: insights.severityBreakdown,
+    hourPeakAmPct: cell.hourPeakAmPct,
+    hourPeakPmPct: cell.hourPeakPmPct,
+    weekendPct: cell.weekendPct,
+    rainPct: cell.rainPct,
+    dayPct: cell.dayPct,
+    motoPct: cell.motoPct,
+    carroPct: cell.carroPct,
+    peatonPct: cell.peatonPct,
     geometry: cell.geometry
   };
 };
 
 const applyFiltersToGeoJsonPrediction = (prediction, filters) => {
-  let riskScore = prediction.riskScore;
-
-  if (filters.weather === 'lluvia') {
-    riskScore = clamp(riskScore * 1.12, 0, 1);
-  }
-  if (filters.weather === 'no_lluvia') {
-    riskScore = clamp(riskScore * 0.92, 0, 1);
-  }
-
-  if (filters.hour !== null) {
-    if (filters.hour >= 6 && filters.hour <= 9) riskScore = clamp(riskScore * 1.08, 0, 1);
-    if (filters.hour >= 17 && filters.hour <= 20) riskScore = clamp(riskScore * 1.12, 0, 1);
-    if (filters.hour >= 0 && filters.hour <= 4) riskScore = clamp(riskScore * 0.84, 0, 1);
-  }
-
-  const period = resolvePeriod(filters.period, filters.hour);
-  if (period === 'noche') {
-    riskScore = clamp(riskScore * 1.07, 0, 1);
-  }
+  const pseudoCell = {
+    hourPeakAmPct: clamp(prediction.hourPeakAmPct ?? 0.42, 0.03, 0.95),
+    hourPeakPmPct: clamp(prediction.hourPeakPmPct ?? 0.45, 0.03, 0.95),
+    weekendPct: clamp(prediction.weekendPct ?? 0.28, 0.05, 0.9),
+    rainPct: clamp(prediction.rainPct ?? 0.36, 0.05, 0.95),
+    dayPct: clamp(prediction.dayPct ?? 0.56, 0.05, 0.95)
+  };
+  const filterFactors = buildFilterFactors(pseudoCell, filters);
+  const densityFactor = clamp(filterFactors.density, 0.38, 2.3);
+  const riskScore = clamp(prediction.riskScore * densityFactor, 0, 1);
+  const insights = buildAccidentInsights({
+    filters,
+    predLeveProb: prediction.predLeveProb,
+    predMedioProb: prediction.predMedioProb,
+    predGraveProb: prediction.predGraveProb,
+    baseAccidentTypes: {
+      moto: prediction.motoPct,
+      carro: prediction.carroPct,
+      peaton: prediction.peatonPct
+    },
+    dayPct: pseudoCell.dayPct
+  });
 
   return {
     ...prediction,
@@ -1261,7 +1546,11 @@ const applyFiltersToGeoJsonPrediction = (prediction, filters) => {
     date: filters.date || prediction.date,
     hour: filters.hour === null ? prediction.hour : formatHour(filters.hour),
     weather: filters.weather,
-    period
+    period: insights.effectivePeriod,
+    probableAccidentType: insights.probableAccidentType,
+    accidentTypeBreakdown: insights.accidentTypeBreakdown,
+    probableSeverity: insights.probableSeverity,
+    severityBreakdown: insights.severityBreakdown
   };
 };
 
@@ -1332,6 +1621,10 @@ const buildSeverePointsForRange = (cityModel, filters) => {
         existing.predLeveProb = prediction.predLeveProb;
         existing.predMedioProb = prediction.predMedioProb;
         existing.predGraveProb = prediction.predGraveProb;
+        existing.probableAccidentType = prediction.probableAccidentType;
+        existing.accidentTypeBreakdown = prediction.accidentTypeBreakdown;
+        existing.probableSeverity = prediction.probableSeverity;
+        existing.severityBreakdown = prediction.severityBreakdown;
         existing.date = step.date;
         existing.hour = prediction.hour;
         existing.weather = prediction.weather;
