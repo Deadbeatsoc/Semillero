@@ -179,6 +179,19 @@ body {
   background: #dbeafe;
 }
 
+.leaflet-map {
+  height: 100%;
+  min-height: 480px;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+}
+
+.leaflet-popup-content {
+  margin: 0.75rem;
+}
+
 .filters-card,
 .report-card {
   border-radius: 18px;
