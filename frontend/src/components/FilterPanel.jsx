@@ -316,7 +316,7 @@ export default function FilterPanel({
         </section>
 
         <div className="filter-actions d-flex flex-column flex-sm-row justify-content-sm-end gap-2 mt-4 pt-3 border-top">
-          <button type="button" className="btn btn-outline-primary btn-sm" onClick={onReset}>
+          <button type="button" className="btn btn-outline-primary btn-sm btn-no-hover" onClick={onReset}>
             Limpiar
           </button>
           <button
@@ -386,6 +386,7 @@ export default function FilterPanel({
                           <strong>
                             {Math.round(Number(entry.precipitationProbability) || 0)}% |{' '}
                             {Number(Number(entry.precipMm) || 0).toFixed(2)} mm
+                            {entry.willItRain ? ' | lluvia prevista' : ''}
                           </strong>
                         </div>
                       ))}
@@ -403,7 +404,10 @@ export default function FilterPanel({
                           </div>
                           <div className="text-muted small">
                             Hora pico: {day.peakHour || 'N/A'} | Promedio:{' '}
-                            {Math.round(Number(day.avgPrecipitationProbability) || 0)}%
+                            {Math.round(Number(day.avgPrecipitationProbability) || 0)}% | Max mm:{' '}
+                            {Number(Number(day.maxPrecipMm) || 0).toFixed(2)} | Total mm:{' '}
+                            {Number(Number(day.totalPrecipMm) || 0).toFixed(2)} | Horas lluviosas:{' '}
+                            {Number(day.rainyHours) || 0}
                           </div>
                           {Array.isArray(day.topHours) && day.topHours.length > 0 && (
                             <div className="text-muted small">

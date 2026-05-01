@@ -4,6 +4,7 @@ const initialState = {
   description: '',
   severity: 'media'
 };
+const MAX_EVIDENCE_BYTES = 6 * 1024 * 1024;
 
 const readFileAsDataUrl = (file) =>
   new Promise((resolve, reject) => {
@@ -46,6 +47,14 @@ export default function ReportForm({
     if (!file) {
       setEvidenceName('');
       setEvidencePreview('');
+      return;
+    }
+
+    if (file.size > MAX_EVIDENCE_BYTES) {
+      setEvidenceName('');
+      setEvidencePreview('');
+      setError('La imagen supera el maximo permitido de 6MB.');
+      event.target.value = '';
       return;
     }
 

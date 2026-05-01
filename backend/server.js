@@ -160,9 +160,9 @@ app.get('/api/geocode/reverse', async (req, res) => {
 });
 
 app.get('/api/weather/forecast', async (req, res) => {
-  const { city } = req.query;
+  const { city, latitude, longitude } = req.query;
   try {
-    const forecast = await fetchWeatherForecast({ city });
+    const forecast = await fetchWeatherForecast({ city, latitude, longitude });
     return res.json({ data: forecast });
   } catch (error) {
     const status = error instanceof WeatherForecastError ? error.status : 500;

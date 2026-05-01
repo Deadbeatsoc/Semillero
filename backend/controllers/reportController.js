@@ -48,7 +48,6 @@ const createReportRequest = async (req, res) => {
     savedEvidence = await saveEvidenceDataUrl(evidenceImageDataUrl);
 
     const reportId = uuidv4();
-    const sourceSystem = 'user_report_pending_v2';
     await withTransaction(async (connection) => {
       await insertPendingReport(connection, {
         id: reportId,
@@ -57,7 +56,6 @@ const createReportRequest = async (req, res) => {
         latitude,
         longitude,
         cityId: null,
-        sourceSystem,
         evidenceUrl: savedEvidence.relativeUrl,
         reportedByUserId: req.authUser?.id || null
       });

@@ -28,6 +28,17 @@ const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
 const normalizeCityKey = (value) => String(value || '').trim().toLowerCase();
 
+const parseCoordinate = (value, min, max) => {
+  if (value === null || value === undefined || value === '') {
+    return null;
+  }
+  const parsed = Number.parseFloat(String(value).trim());
+  if (!Number.isFinite(parsed) || parsed < min || parsed > max) {
+    return null;
+  }
+  return parsed;
+};
+
 const resolveCityProfile = (city) => {
   const cityKey = normalizeCityKey(city);
   if (CITY_COORDINATES[cityKey]) {
@@ -42,7 +53,32 @@ const resolveCityProfile = (city) => {
   };
 };
 
-const buildCacheKey = (cityKey) => `forecast:${cityKey}:days:${WEATHER_API_DAYS}`;
+const resolveWeatherLocation = ({ city, latitude, longitude }) => {
+  const cityProfile = resolveCityProfile(city);
+  const lat = parseCoordinate(latitude, -90, 90);
+  const lon = parseCoordinate(longitude, -180, 180);
+  if (lat === null || lon === null) {
+    return {
+      cityKey: cityProfile.key,
+      label: cityProfile.label,
+      latitude: cityProfile.latitude,
+      longitude: cityProfile.longitude,
+      source: 'city_center',
+      cacheToken: cityProfile.key
+    };
+  }
+
+  return {
+    cityKey: cityProfile.key,
+    label: cityProfile.label,
+    latitude: lat,
+    longitude: lon,
+    source: 'query_coordinates',
+    cacheToken: `${cityProfile.key}:${lat.toFixed(3)},${lon.toFixed(3)}`
+  };
+};
+
+const buildCacheKey = (locationToken) => `forecast:${locationToken}:days:${WEATHER_API_DAYS}`;
 
 const getCached = (cacheKey) => {
   const cached = forecastCache.get(cacheKey);
@@ -90,6 +126,7 @@ const buildDailySummary = (hourlyRows = []) => {
     }
     const probability = clamp(Number(row?.precipitationProbability) || 0, 0, 100);
     const precipMm = Math.max(0, Number(row?.precipMm) || 0);
+    const willItRain = Boolean(row?.willItRain);
     const hour = extractHourLabel(row?.time);
     const existing = byDate.get(isoDate);
     if (!existing) {
@@ -97,16 +134,22 @@ const buildDailySummary = (hourlyRows = []) => {
         date: isoDate,
         maxPrecipitationProbability: probability,
         avgAccumulator: probability,
+        maxPrecipMm: precipMm,
+        totalPrecipMm: precipMm,
+        rainyHours: willItRain ? 1 : 0,
         samples: 1,
-        hours: hour ? [{ time: hour, precipitationProbability: probability, precipMm }] : []
+        hours: hour ? [{ time: hour, precipitationProbability: probability, precipMm, willItRain }] : []
       });
       return;
     }
     existing.maxPrecipitationProbability = Math.max(existing.maxPrecipitationProbability, probability);
     existing.avgAccumulator += probability;
+    existing.maxPrecipMm = Math.max(existing.maxPrecipMm, precipMm);
+    existing.totalPrecipMm += precipMm;
+    existing.rainyHours += willItRain ? 1 : 0;
     existing.samples += 1;
     if (hour) {
-      existing.hours.push({ time: hour, precipitationProbability: probability, precipMm });
+      existing.hours.push({ time: hour, precipitationProbability: probability, precipMm, willItRain });
     }
   });
 
@@ -125,13 +168,17 @@ const buildDailySummary = (hourlyRows = []) => {
       .map((hourEntry) => ({
         time: hourEntry.time,
         precipitationProbability: Math.round(hourEntry.precipitationProbability),
-        precipMm: Number(hourEntry.precipMm.toFixed(2))
+        precipMm: Number(hourEntry.precipMm.toFixed(2)),
+        willItRain: Boolean(hourEntry.willItRain)
       }));
 
     return {
       date: entry.date,
       maxPrecipitationProbability: Math.round(entry.maxPrecipitationProbability),
       avgPrecipitationProbability: Math.round(entry.avgAccumulator / entry.samples),
+      maxPrecipMm: Number(entry.maxPrecipMm.toFixed(2)),
+      totalPrecipMm: Number(entry.totalPrecipMm.toFixed(2)),
+      rainyHours: entry.rainyHours,
       peakHour: topHours[0]?.time || '',
       topHours
     };
@@ -160,12 +207,11 @@ const parseWeatherApiErrorMessage = async (response) => {
   return '';
 };
 
-const fetchWeatherForecast = async ({ city }) => {
+const fetchWeatherForecast = async ({ city, latitude, longitude }) => {
   assertConfigured();
 
-  const cityProfile = resolveCityProfile(city);
-  const cityKey = cityProfile.key;
-  const cacheKey = buildCacheKey(cityKey);
+  const weatherLocation = resolveWeatherLocation({ city, latitude, longitude });
+  const cacheKey = buildCacheKey(weatherLocation.cacheToken);
   const cached = getCached(cacheKey);
   if (cached) {
     return cached;
@@ -173,7 +219,7 @@ const fetchWeatherForecast = async ({ city }) => {
 
   const params = new URLSearchParams({
     key: WEATHER_API_KEY,
-    q: `${cityProfile.latitude},${cityProfile.longitude}`,
+    q: `${weatherLocation.latitude},${weatherLocation.longitude}`,
     days: String(WEATHER_API_DAYS),
     aqi: 'no',
     alerts: 'no',
@@ -203,7 +249,8 @@ const fetchWeatherForecast = async ({ city }) => {
     .map((hourEntry) => ({
       time: toIsoDateTime(hourEntry?.time),
       precipitationProbability: clamp(Number(hourEntry?.chance_of_rain) || 0, 0, 100),
-      precipMm: Math.max(0, Number(hourEntry?.precip_mm) || 0)
+      precipMm: Math.max(0, Number(hourEntry?.precip_mm) || 0),
+      willItRain: Number(hourEntry?.will_it_rain) === 1
     }))
     .filter((entry) => entry.time);
 
@@ -211,10 +258,11 @@ const fetchWeatherForecast = async ({ city }) => {
 
   const normalizedPayload = {
     city: {
-      key: cityKey,
-      label: cityProfile.label,
-      latitude: cityProfile.latitude,
-      longitude: cityProfile.longitude
+      key: weatherLocation.cityKey,
+      label: weatherLocation.label,
+      latitude: weatherLocation.latitude,
+      longitude: weatherLocation.longitude,
+      source: weatherLocation.source
     },
     generatedAt: new Date().toISOString(),
     timezone: String(payload?.location?.tz_id || 'America/Bogota'),
@@ -266,7 +314,8 @@ const fetchWeatherForecast = async ({ city }) => {
       return selected.map((entry) => ({
         time: String(entry.time),
         precipitationProbability: Math.round(entry.precipitationProbability),
-        precipMm: Number(entry.precipMm.toFixed(2))
+        precipMm: Number(entry.precipMm.toFixed(2)),
+        willItRain: Boolean(entry.willItRain)
       }));
     })()
   };

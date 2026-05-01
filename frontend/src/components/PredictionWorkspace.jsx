@@ -8,7 +8,12 @@ import 'leaflet/dist/leaflet.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:4000';
-const AUTO_RAIN_THRESHOLD = 40;
+const AUTO_RAIN_THRESHOLD = Math.max(
+  1,
+  Math.min(100, Number.parseInt(import.meta.env.VITE_AUTO_RAIN_THRESHOLD || '55', 10) || 55)
+);
+const AUTO_RAIN_MIN_MM_PER_HOUR = 0.2;
+const AUTO_RAIN_DAY_TOTAL_MM = 1.2;
 
 const fallbackCity = {
   key: 'villavicencio',
@@ -187,6 +192,13 @@ const getRequestedMinutesFromDay = (hourInput) => {
   return parsedHour * 60 + parsedMinute;
 };
 
+const isRainyHourFromForecastRow = (row) => {
+  const probability = Number(row?.precipitationProbability) || 0;
+  const precipMm = Number(row?.precipMm) || 0;
+  const willItRain = Boolean(row?.willItRain);
+  return willItRain || probability >= AUTO_RAIN_THRESHOLD || precipMm >= AUTO_RAIN_MIN_MM_PER_HOUR;
+};
+
 const resolveAutoWeatherFromForecast = ({ filters, forecast }) => {
   if (!forecast || !Array.isArray(forecast.hourly) || !forecast.hourly.length) {
     return null;
@@ -207,9 +219,6 @@ const resolveAutoWeatherFromForecast = ({ filters, forecast }) => {
     return null;
   }
 
-  let probability = 0;
-  let sourceHour = '';
-
   if (requestedMinutes !== null) {
     const selected = [...dayRows]
       .map((row) => {
@@ -228,25 +237,55 @@ const resolveAutoWeatherFromForecast = ({ filters, forecast }) => {
     if (!selected) {
       return null;
     }
-    probability = Number(selected.row?.precipitationProbability) || 0;
-    sourceHour = selected.timeLabel || '';
+    const selectedProbability = Number(selected.row?.precipitationProbability) || 0;
+    const selectedPrecipMm = Number(selected.row?.precipMm) || 0;
+    const selectedWillItRain = Boolean(selected.row?.willItRain);
+    const sourceHour = selected.timeLabel || '';
+    const weather = isRainyHourFromForecastRow(selected.row) ? 'lluvia' : 'no_lluvia';
+    return {
+      weather,
+      probability: Math.max(0, Math.min(100, Math.round(selectedProbability))),
+      avgProbability: Math.max(0, Math.min(100, Math.round(selectedProbability))),
+      precipMm: Number(selectedPrecipMm.toFixed(2)),
+      totalPrecipMm: Number(selectedPrecipMm.toFixed(2)),
+      rainyHours: selectedWillItRain ? 1 : 0,
+      sourceDate: selectedDate,
+      sourceHour,
+      key: `${selectedDate}|${sourceHour}|${Math.round(selectedProbability)}|${selectedPrecipMm.toFixed(2)}|${weather}`
+    };
   } else {
-    probability = dayRows.reduce(
+    const maxProbability = dayRows.reduce(
       (max, row) => Math.max(max, Number(row?.precipitationProbability) || 0),
       0
     );
-    sourceHour = 'dia';
+    const avgProbability =
+      dayRows.reduce((sum, row) => sum + (Number(row?.precipitationProbability) || 0), 0) / dayRows.length;
+    const totalPrecipMm = dayRows.reduce((sum, row) => sum + Math.max(0, Number(row?.precipMm) || 0), 0);
+    const peakPrecipMm = dayRows.reduce((max, row) => Math.max(max, Number(row?.precipMm) || 0), 0);
+    const rainyHours = dayRows.reduce(
+      (sum, row) => sum + (isRainyHourFromForecastRow(row) ? 1 : 0),
+      0
+    );
+    const weather =
+      rainyHours >= 2 ||
+      totalPrecipMm >= AUTO_RAIN_DAY_TOTAL_MM ||
+      maxProbability >= 75 ||
+      avgProbability >= AUTO_RAIN_THRESHOLD
+        ? 'lluvia'
+        : 'no_lluvia';
+    const sourceHour = 'dia';
+    return {
+      weather,
+      probability: Math.max(0, Math.min(100, Math.round(maxProbability))),
+      avgProbability: Math.max(0, Math.min(100, Math.round(avgProbability))),
+      precipMm: Number(peakPrecipMm.toFixed(2)),
+      totalPrecipMm: Number(totalPrecipMm.toFixed(2)),
+      rainyHours,
+      sourceDate: selectedDate,
+      sourceHour,
+      key: `${selectedDate}|${sourceHour}|${Math.round(maxProbability)}|${Math.round(avgProbability)}|${totalPrecipMm.toFixed(2)}|${rainyHours}|${weather}`
+    };
   }
-
-  const roundedProbability = Math.max(0, Math.min(100, Math.round(probability)));
-  const weather = roundedProbability >= AUTO_RAIN_THRESHOLD ? 'lluvia' : 'no_lluvia';
-  return {
-    weather,
-    probability: roundedProbability,
-    sourceDate: selectedDate,
-    sourceHour,
-    key: `${selectedDate}|${sourceHour}|${roundedProbability}|${weather}`
-  };
 };
 
 export default function PredictionWorkspace({
@@ -286,6 +325,7 @@ export default function PredictionWorkspace({
   const [weatherForecast, setWeatherForecast] = useState(null);
   const [loadingWeatherForecast, setLoadingWeatherForecast] = useState(false);
   const [weatherAutoMessage, setWeatherAutoMessage] = useState('');
+  const [isWeatherAutoEnabled, setIsWeatherAutoEnabled] = useState(true);
 
   const topPredictions = useMemo(() => predictions.slice(0, 60), [predictions]);
   const isQueryActive = hasActiveFilters(appliedFilters || initialFilters);
@@ -463,7 +503,7 @@ export default function PredictionWorkspace({
     }
   };
 
-  const fetchWeatherForecast = async (cityKey) => {
+  const fetchWeatherForecast = async (filtersContext) => {
     if (!authToken) {
       return;
     }
@@ -471,8 +511,12 @@ export default function PredictionWorkspace({
     setLoadingWeatherForecast(true);
     try {
       const params = new URLSearchParams();
-      if (cityKey) {
-        params.append('city', cityKey);
+      if (filtersContext?.city) {
+        params.append('city', filtersContext.city);
+      }
+      if (isValidCoordinate(filtersContext?.latitude, filtersContext?.longitude)) {
+        params.append('latitude', String(filtersContext.latitude));
+        params.append('longitude', String(filtersContext.longitude));
       }
       const endpoint = `${API_BASE_URL}/api/weather/forecast${params.toString() ? `?${params.toString()}` : ''}`;
       const response = ensureAuthorizedOrThrow(
@@ -510,10 +554,15 @@ export default function PredictionWorkspace({
     if (!authToken) {
       return;
     }
-    fetchWeatherForecast(draftFilters.city);
-  }, [authToken, draftFilters.city, authHeaders]);
+    fetchWeatherForecast(draftFilters);
+  }, [authToken, draftFilters.city, draftFilters.latitude, draftFilters.longitude, authHeaders]);
 
   useEffect(() => {
+    if (!isWeatherAutoEnabled) {
+      lastAutoWeatherKeyRef.current = '';
+      return;
+    }
+
     const decision = resolveAutoWeatherFromForecast({
       filters: draftFilters,
       forecast: weatherForecast
@@ -528,7 +577,13 @@ export default function PredictionWorkspace({
     const weatherLabel = decision.weather === 'lluvia' ? 'Lluvia' : 'Sin lluvia';
     const dateLabel = decision.sourceDate;
     const hourLabel = decision.sourceHour === 'dia' ? 'todo el dia' : decision.sourceHour;
-    const nextMessage = `Clima autoajustado a ${weatherLabel} (${decision.probability}% lluvia para ${dateLabel} ${hourLabel}).`;
+    const detailLabel =
+      decision.sourceHour === 'dia'
+        ? `max ${decision.probability}% | prom ${decision.avgProbability}% | ${decision.totalPrecipMm.toFixed(
+            2
+          )} mm | ${decision.rainyHours} h lluviosas`
+        : `${decision.probability}% | ${decision.precipMm.toFixed(2)} mm`;
+    const nextMessage = `Clima autoajustado a ${weatherLabel} (${detailLabel} para ${dateLabel} ${hourLabel}).`;
 
     if (draftFilters.weather !== decision.weather) {
       setDraftFilters((current) => ({
@@ -542,6 +597,7 @@ export default function PredictionWorkspace({
       setWeatherAutoMessage(nextMessage);
     }
   }, [
+    isWeatherAutoEnabled,
     draftFilters.rangeMode,
     draftFilters.date,
     draftFilters.hour,
@@ -988,6 +1044,7 @@ export default function PredictionWorkspace({
     const rangeMode = nextFilters.rangeMode || 'none';
     const isRangeSelected = rangeMode !== 'none';
     const hasHourSelected = Boolean((nextFilters.hour || '').trim());
+    const weatherChanged = nextFilters.weather !== draftFilters.weather;
     setDraftFilters({
       ...nextFilters,
       address: isRangeSelected ? '' : nextFilters.address,
@@ -998,6 +1055,17 @@ export default function PredictionWorkspace({
       latitude: changedCity || isRangeSelected ? null : nextFilters.latitude,
       longitude: changedCity || isRangeSelected ? null : nextFilters.longitude
     });
+
+    if (weatherChanged) {
+      const shouldEnableAuto = nextFilters.weather === 'todos';
+      setIsWeatherAutoEnabled(shouldEnableAuto);
+      if (!shouldEnableAuto) {
+        lastAutoWeatherKeyRef.current = '';
+        setWeatherAutoMessage('Clima en modo manual. Usa "Todos" para reactivar el autoajuste.');
+      } else {
+        setWeatherAutoMessage('');
+      }
+    }
 
     if (changedCity || isRangeSelected) {
       setAddressSuggestions([]);
@@ -1038,6 +1106,7 @@ export default function PredictionWorkspace({
     setRangeSummary(null);
     setAddressSuggestions([]);
     setIsPickingOnMap(false);
+    setIsWeatherAutoEnabled(true);
     lastQueryProbabilityRef.current = null;
     lastAutoWeatherKeyRef.current = '';
     setWeatherAutoMessage('');
@@ -1072,7 +1141,17 @@ export default function PredictionWorkspace({
       );
 
       if (!response.ok) {
-        throw new Error('Error al enviar el reporte');
+        if (response.status === 413) {
+          throw new Error('La imagen es demasiado pesada. Usa una de hasta 6MB.');
+        }
+        let apiMessage = '';
+        try {
+          const errorPayload = await response.json();
+          apiMessage = String(errorPayload?.message || '').trim();
+        } catch {
+          apiMessage = '';
+        }
+        throw new Error(apiMessage || 'Error al enviar el reporte');
       }
 
       const saved = await response.json();
@@ -1119,7 +1198,10 @@ export default function PredictionWorkspace({
             weatherForecastLoading={loadingWeatherForecast}
             weatherAutoMessage={weatherAutoMessage}
           />
-          <div className="map-container" ref={mapContainerRef} />
+          <div
+            className={`map-container ${isPickingOnMap ? 'map-container--pick-location' : ''}`}
+            ref={mapContainerRef}
+          />
         </div>
         <div className="side-column flex-shrink-0">
           <Legend />

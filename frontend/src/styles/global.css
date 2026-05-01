@@ -172,6 +172,15 @@ body {
   background: radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.12), rgba(255, 255, 255, 0.35) 55%);
 }
 
+.map-container.map-container--pick-location,
+.map-container.map-container--pick-location .leaflet-container,
+.map-container.map-container--pick-location .leaflet-grab,
+.map-container.map-container--pick-location .leaflet-interactive {
+  cursor:
+    url('../assets/cursors/pegman-cursor.svg') 14 33,
+    crosshair !important;
+}
+
 .leaflet-container {
   width: 100%;
   height: 100%;
@@ -238,6 +247,36 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #475569;
+}
+
+.form-control,
+.form-select {
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.form-control::placeholder,
+textarea.form-control::placeholder,
+input.form-control::placeholder {
+  color: #64748b;
+  opacity: 1;
+  font-weight: 400;
+}
+
+.form-control:focus::placeholder,
+textarea.form-control:focus::placeholder,
+input.form-control:focus::placeholder {
+  color: #94a3b8;
+}
+
+.btn-no-hover {
+  --bs-btn-hover-color: var(--bs-btn-color);
+  --bs-btn-hover-bg: var(--bs-btn-bg);
+  --bs-btn-hover-border-color: var(--bs-btn-border-color);
+  --bs-btn-active-color: var(--bs-btn-color);
+  --bs-btn-active-bg: var(--bs-btn-bg);
+  --bs-btn-active-border-color: var(--bs-btn-border-color);
+  --bs-btn-focus-shadow-rgb: 13, 110, 253;
 }
 
 .weather-inline-trigger {

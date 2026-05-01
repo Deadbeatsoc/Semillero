@@ -102,7 +102,7 @@ Nota: para esta seed necesitas acceso a internet hacia el endpoint de Overpass c
   - En modo rango, el backend devuelve los puntos con mayor severidad en la ventana seleccionada.
 - `GET /api/geocode/suggest?query=&city=`: autocompletado de direcciones.
 - `GET /api/geocode/reverse?latitude=&longitude=&city=`: direccion aproximada para un punto.
-- `GET /api/weather/forecast?city=`: pronostico de lluvia por hora y resumen diario para la ciudad.
+- `GET /api/weather/forecast?city=&latitude=&longitude=`: pronostico de lluvia por hora y resumen diario. Si envias coordenadas, consulta clima para ese punto (si no, usa el centro de la ciudad).
 - `GET /api/reports`: reportes ciudadanos **aprobados hoy** (visibles en mapa).
 - `POST /api/reports`: crea solicitud pendiente con descripcion, punto en mapa y foto evidencia.
 
@@ -157,5 +157,6 @@ El motor detecta el archivo y usa esas predicciones en vez del modelo sintetico.
 - El modelo local esta disenado como fallback para desarrollo local sin servicios ArcGIS.
 - El mapa inicia sin hotspots (modo normal). Los hotspots aparecen cuando aplicas filtros.
 - Puedes escribir una direccion y elegir una sugerencia, o activar "Seleccionar ubicacion en mapa" para llenar la barra automaticamente.
+- Para prediccion puntual por direccion, debes tener coordenadas validas (sugerencia seleccionada o punto en mapa). El backend ya no usa ubicacion heuristica por texto libre.
 - Si eliges modo temporal `dia a dia` o `mes a mes`, el mapa muestra los puntos mas graves del rango en vez de una consulta puntual.
 `````````````

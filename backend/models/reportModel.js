@@ -7,7 +7,6 @@ const insertPendingReport = async (
     severity,
     latitude,
     longitude,
-    sourceSystem,
     evidenceUrl,
     reportedByUserId = null
   }
@@ -23,10 +22,9 @@ const insertPendingReport = async (
         severity,
         latitude,
         longitude,
-        status,
-        source_system
+        status
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'nuevo', ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'nuevo')
     `,
     [
       id,
@@ -36,8 +34,7 @@ const insertPendingReport = async (
       evidenceUrl,
       severity,
       latitude,
-      longitude,
-      sourceSystem
+      longitude
     ]
   );
 };

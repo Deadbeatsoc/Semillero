@@ -73,6 +73,19 @@ const MAX_RANGE_DAY_STEPS = 120;
 const MAX_RANGE_MONTH_STEPS = 24;
 const HIGH_SEVERITY_THRESHOLD = 0.75;
 const MEDIUM_HIGH_SEVERITY_THRESHOLD = 0.62;
+const ADDRESS_SCOPE_RADIUS_KM = 3.2;
+const ADDRESS_SCOPE_MIN_POINTS = 8;
+const ADDRESS_SCOPE_MAX_POINTS = 24;
+const ADDRESS_SCOPE_QUERY_NEIGHBORS = 12;
+const ADDRESS_SCOPE_DISTANCE_SIGMA_KM = 0.95;
+const ADDRESS_SCOPE_MAX_REASONABLE_DISTANCE_KM = 6;
+const CONTEXT_BASELINES = {
+  rainPct: 0.35,
+  dayPct: 0.56,
+  weekendPct: 0.28,
+  hourPeakAmPct: 0.42,
+  hourPeakPmPct: 0.45
+};
 
 const cityModelCache = new Map();
 const responseCache = new Map();
@@ -260,6 +273,28 @@ const resolveDominantLabel = (
   }
 
   return topLabel;
+};
+
+const clampProbability = (value) => clamp(Number(value) || 0, 0.001, 0.999);
+
+const safeLikelihoodRatio = (numerator, denominator, min = 0.35, max = 2.85) => {
+  const numeratorClamped = clampProbability(numerator);
+  const denominatorClamped = clampProbability(denominator);
+  return clamp(numeratorClamped / denominatorClamped, min, max);
+};
+
+const applyLikelihoodRatioToProbability = (probability, likelihoodRatio) => {
+  const p = clampProbability(probability);
+  const lr = clamp(Number(likelihoodRatio) || 1, 0.28, 3.8);
+  const odds = p / (1 - p);
+  const updatedOdds = odds * lr;
+  return updatedOdds / (1 + updatedOdds);
+};
+
+const gaussianDistanceWeight = (distanceKm, sigmaKm = ADDRESS_SCOPE_DISTANCE_SIGMA_KM) => {
+  const safeSigma = Math.max(Number(sigmaKm) || 0, 0.15);
+  const distance = Math.max(Number(distanceKm) || 0, 0);
+  return Math.exp(-(distance * distance) / (2 * safeSigma * safeSigma));
 };
 
 const buildAccidentInsights = ({
@@ -740,7 +775,7 @@ const getCityProfile = (cityInput) => {
   return CITY_PROFILES[resolved] || CITY_PROFILES[DEFAULT_CITY_KEY];
 };
 
-const resolveAddressPoint = (filters, cityProfile) => {
+const resolveAddressPoint = (filters) => {
   const latitude = parseCoordinate(filters.latitude, -90, 90);
   const longitude = parseCoordinate(filters.longitude, -180, 180);
   const normalizedAddress = normalizeAddressText(filters.address);
@@ -758,42 +793,7 @@ const resolveAddressPoint = (filters, cityProfile) => {
   if (!normalizedAddress) {
     return null;
   }
-
-  const [west, south, east, north] = cityProfile.bbox;
-  const random = createSeededRandom(`${cityProfile.key}-${normalizedAddress}`);
-
-  const numberTokens = normalizedAddress.match(/\d+/g) || [];
-  const firstNumber = numberTokens[0] ? Number.parseInt(numberTokens[0], 10) : Math.round(random() * 99 + 1);
-  const secondNumber = numberTokens[1] ? Number.parseInt(numberTokens[1], 10) : Math.round(random() * 99 + 1);
-
-  let colRatio = (firstNumber % 100) / 100;
-  let rowRatio = (secondNumber % 100) / 100;
-
-  const isCarrera = /\b(carrera|cra|cr|kr)\b/.test(normalizedAddress);
-  const isCalle = /\b(calle|cll|cl)\b/.test(normalizedAddress);
-
-  if (isCalle && !isCarrera) {
-    rowRatio = (firstNumber % 100) / 100;
-    colRatio = (secondNumber % 100) / 100;
-  }
-
-  if (!numberTokens.length) {
-    colRatio = random();
-    rowRatio = random();
-  }
-
-  const jitterLng = (random() - 0.5) * 0.04;
-  const jitterLat = (random() - 0.5) * 0.04;
-  colRatio = clamp(colRatio + jitterLng, 0.05, 0.95);
-  rowRatio = clamp(rowRatio + jitterLat, 0.05, 0.95);
-
-  return {
-    address: filters.address.trim(),
-    normalizedAddress,
-    latitude: south + (north - south) * rowRatio,
-    longitude: west + (east - west) * colRatio,
-    source: 'address_heuristic'
-  };
+  return null;
 };
 
 const hasActiveFilters = (filters) =>
@@ -828,22 +828,145 @@ const buildAddressScopedPredictions = (predictions, queryPoint) => {
     .sort((left, right) => left.__distanceKm - right.__distanceKm);
 
   const nearestPrediction = predictionsWithDistance[0];
-  const maxDistanceKm = 2.4;
-  let selected = predictionsWithDistance.filter((prediction) => prediction.__distanceKm <= maxDistanceKm);
-
-  if (selected.length < 6) {
-    selected = predictionsWithDistance.slice(0, 12);
+  if (!nearestPrediction) {
+    return {
+      predictions: [],
+      query: null
+    };
   }
 
-  const normalizedSelected = selected
+  if (nearestPrediction.__distanceKm > ADDRESS_SCOPE_MAX_REASONABLE_DISTANCE_KM) {
+    const fallbackSeverity = normalizeDistribution(
+      {
+        baja: nearestPrediction.predLeveProb ?? 0,
+        media: nearestPrediction.predMedioProb ?? 0,
+        alta: nearestPrediction.predGraveProb ?? 0
+      },
+      'media'
+    );
+
+    return {
+      predictions: [],
+      query: {
+        address: queryPoint.address,
+        normalizedAddress: queryPoint.normalizedAddress,
+        latitude: queryPoint.latitude,
+        longitude: queryPoint.longitude,
+        source: queryPoint.source || 'unknown',
+        matchedPredictionId: nearestPrediction.id,
+        roadSegment: nearestPrediction.roadSegment,
+        probability: nearestPrediction.riskScore,
+        riskLevel: nearestPrediction.riskLevel,
+        distanceKm: Number(nearestPrediction.__distanceKm.toFixed(3)),
+        probableAccidentType: nearestPrediction.probableAccidentType || 'carro',
+        accidentTypeBreakdown: nearestPrediction.accidentTypeBreakdown || null,
+        probableSeverity: resolveDominantLabel(fallbackSeverity, { fallback: 'media' }),
+        severityBreakdown: fallbackSeverity,
+        weather: nearestPrediction.weather || 'todos',
+        period: nearestPrediction.period || 'todos',
+        hour: nearestPrediction.hour || '',
+        supportPoints: 1,
+        withinCoverage: false
+      }
+    };
+  }
+
+  let selected = predictionsWithDistance.filter(
+    (prediction) => prediction.__distanceKm <= ADDRESS_SCOPE_RADIUS_KM
+  );
+
+  if (selected.length < ADDRESS_SCOPE_MIN_POINTS) {
+    selected = predictionsWithDistance.slice(0, ADDRESS_SCOPE_MIN_POINTS);
+  }
+  if (selected.length > ADDRESS_SCOPE_MAX_POINTS) {
+    selected = selected.slice(0, ADDRESS_SCOPE_MAX_POINTS);
+  }
+
+  const selectedWithWeights = selected.map((prediction) => {
+    const distanceWeight = gaussianDistanceWeight(prediction.__distanceKm);
+    return {
+      ...prediction,
+      __distanceWeight: distanceWeight,
+      __localScore: distanceWeight * (Number(prediction.riskScore) || 0)
+    };
+  });
+
+  const queryNeighbors = selectedWithWeights.slice(
+    0,
+    Math.min(ADDRESS_SCOPE_QUERY_NEIGHBORS, selectedWithWeights.length)
+  );
+  const totalWeight = queryNeighbors.reduce((sum, prediction) => sum + prediction.__distanceWeight, 0);
+  const safeTotalWeight = totalWeight > 1e-9 ? totalWeight : 1;
+  const weightedAverage = (resolver, fallback) => {
+    if (totalWeight <= 1e-9) {
+      return fallback;
+    }
+    return queryNeighbors.reduce(
+      (sum, prediction) => sum + resolver(prediction) * prediction.__distanceWeight,
+      0
+    ) / safeTotalWeight;
+  };
+
+  const weightedTypeBreakdown = normalizeDistribution(
+    {
+      moto: weightedAverage(
+        (prediction) => clamp(prediction.motoPct ?? 0, 0, 1),
+        clamp(nearestPrediction.motoPct ?? 0.33, 0, 1)
+      ),
+      carro: weightedAverage(
+        (prediction) => clamp(prediction.carroPct ?? 0, 0, 1),
+        clamp(nearestPrediction.carroPct ?? 0.33, 0, 1)
+      ),
+      peaton: weightedAverage(
+        (prediction) => clamp(prediction.peatonPct ?? 0, 0, 1),
+        clamp(nearestPrediction.peatonPct ?? 0.34, 0, 1)
+      )
+    },
+    'carro'
+  );
+  const weightedSeverityBreakdown = normalizeDistribution(
+    {
+      baja: weightedAverage(
+        (prediction) => clamp(prediction.predLeveProb ?? 0, 0, 1),
+        clamp(nearestPrediction.predLeveProb ?? 0.33, 0, 1)
+      ),
+      media: weightedAverage(
+        (prediction) => clamp(prediction.predMedioProb ?? 0, 0, 1),
+        clamp(nearestPrediction.predMedioProb ?? 0.33, 0, 1)
+      ),
+      alta: weightedAverage(
+        (prediction) => clamp(prediction.predGraveProb ?? 0, 0, 1),
+        clamp(nearestPrediction.predGraveProb ?? 0.34, 0, 1)
+      )
+    },
+    'media'
+  );
+  const weightedRiskScore = clamp(
+    weightedAverage(
+      (prediction) => clamp(prediction.riskScore ?? 0, 0, 1),
+      clamp(nearestPrediction.riskScore ?? 0, 0, 1)
+    ),
+    0,
+    1
+  );
+
+  const normalizedSelected = selectedWithWeights
     .map((prediction) => ({
       ...prediction,
       distanceToQueryKm: Number(prediction.__distanceKm.toFixed(3)),
       isQueryMatch: prediction.id === nearestPrediction.id
     }))
-    .sort((left, right) => right.riskScore - left.riskScore)
+    .sort((left, right) => {
+      if (right.__localScore !== left.__localScore) {
+        return right.__localScore - left.__localScore;
+      }
+      if (left.__distanceKm !== right.__distanceKm) {
+        return left.__distanceKm - right.__distanceKm;
+      }
+      return right.riskScore - left.riskScore;
+    })
     .map((prediction) => {
-      const { __distanceKm, ...rest } = prediction;
+      const { __distanceKm, __distanceWeight, __localScore, ...rest } = prediction;
       return rest;
     });
 
@@ -855,16 +978,24 @@ const buildAddressScopedPredictions = (predictions, queryPoint) => {
     source: queryPoint.source || 'unknown',
     matchedPredictionId: nearestPrediction.id,
     roadSegment: nearestPrediction.roadSegment,
-    probability: nearestPrediction.riskScore,
-    riskLevel: nearestPrediction.riskLevel,
+    probability: weightedRiskScore,
+    riskLevel: getRiskLevel(weightedRiskScore),
     distanceKm: Number(nearestPrediction.__distanceKm.toFixed(3)),
-    probableAccidentType: nearestPrediction.probableAccidentType || 'carro',
-    accidentTypeBreakdown: nearestPrediction.accidentTypeBreakdown || null,
-    probableSeverity: nearestPrediction.probableSeverity || 'media',
-    severityBreakdown: nearestPrediction.severityBreakdown || null,
+    probableAccidentType: resolveDominantLabel(weightedTypeBreakdown, {
+      fallback: 'carro',
+      mixedLabel: 'mixto',
+      mixedDelta: 0.05
+    }),
+    accidentTypeBreakdown: weightedTypeBreakdown,
+    probableSeverity: resolveDominantLabel(weightedSeverityBreakdown, {
+      fallback: 'media'
+    }),
+    severityBreakdown: weightedSeverityBreakdown,
     weather: nearestPrediction.weather || 'todos',
     period: nearestPrediction.period || 'todos',
-    hour: nearestPrediction.hour || ''
+    hour: nearestPrediction.hour || '',
+    supportPoints: queryNeighbors.length,
+    withinCoverage: true
   };
 
   return {
@@ -1029,106 +1160,85 @@ const getBaseFeatureVector = (cell) => [
   cell.centroid.longitude
 ];
 
-const buildFilterFactors = (cell, filters) => {
-  let density = 1;
-  let am = 1;
-  let pm = 1;
-  let weekend = 1;
-  let rain = 1;
-  let day = 1;
+const buildContextLikelihoodRatio = (cell, filters) => {
+  const rainPct = clamp(cell.rainPct ?? CONTEXT_BASELINES.rainPct, 0.03, 0.97);
+  const dayPct = clamp(cell.dayPct ?? CONTEXT_BASELINES.dayPct, 0.03, 0.97);
+  const weekendPct = clamp(cell.weekendPct ?? CONTEXT_BASELINES.weekendPct, 0.03, 0.97);
+  const hourPeakAmPct = clamp(cell.hourPeakAmPct ?? CONTEXT_BASELINES.hourPeakAmPct, 0.03, 0.97);
+  const hourPeakPmPct = clamp(cell.hourPeakPmPct ?? CONTEXT_BASELINES.hourPeakPmPct, 0.03, 0.97);
+
+  let likelihoodRatio = 1;
 
   if (filters.date) {
     const date = new Date(filters.date);
     if (!Number.isNaN(date.getTime())) {
       const isWeekend = date.getUTCDay() === 0 || date.getUTCDay() === 6;
-      if (isWeekend) {
-        density *= 0.9 + 0.75 * cell.weekendPct;
-        weekend *= 1.35;
-      } else {
-        density *= 1.05 + (1 - cell.weekendPct) * 0.22;
-        weekend *= 0.86;
-      }
-
-      const month = date.getUTCMonth() + 1;
-      if ([4, 5, 10, 11].includes(month)) {
-        density *= 1.08;
-      }
-      if ([12, 1].includes(month)) {
-        density *= 1.06;
-        weekend *= 1.08;
-      }
-      if ([6, 7, 8].includes(month)) {
-        density *= 0.97;
-      }
-    }
-  }
-
-  if (filters.hour !== null) {
-    if (filters.hour >= 6 && filters.hour <= 9) {
-      density *= 1.12 + 1.05 * cell.hourPeakAmPct;
-      am *= 1.62;
-      pm *= 0.82;
-      day *= 1.08;
-    } else if (filters.hour >= 10 && filters.hour <= 16) {
-      density *= 0.82 + 0.48 * cell.dayPct;
-      day *= 1.12;
-    } else if (filters.hour >= 17 && filters.hour <= 20) {
-      density *= 1.16 + 1.08 * cell.hourPeakPmPct;
-      pm *= 1.7;
-      am *= 0.8;
-      day *= 0.88;
-    } else if (filters.hour >= 21 && filters.hour <= 23) {
-      density *= 0.72 + (1 - cell.dayPct) * 0.58;
-      day *= 0.72;
-    } else if (filters.hour >= 0 && filters.hour <= 4) {
-      density *= 0.52 + (1 - cell.dayPct) * 0.5;
-      day *= 0.58;
-    } else {
-      density *= 0.86 + 0.45 * cell.hourPeakAmPct;
-      day *= 0.84;
+      likelihoodRatio *= isWeekend
+        ? safeLikelihoodRatio(weekendPct, CONTEXT_BASELINES.weekendPct, 0.45, 2.35)
+        : safeLikelihoodRatio(1 - weekendPct, 1 - CONTEXT_BASELINES.weekendPct, 0.5, 2.1);
     }
   }
 
   if (filters.weather === 'lluvia') {
-    density *= 1.12 + 0.88 * cell.rainPct;
-    rain *= 1.72;
+    likelihoodRatio *= safeLikelihoodRatio(rainPct, CONTEXT_BASELINES.rainPct, 0.45, 2.5);
   } else if (filters.weather === 'no_lluvia') {
-    density *= 0.74 + 0.22 * (1 - cell.rainPct);
-    rain *= 0.62;
+    likelihoodRatio *= safeLikelihoodRatio(1 - rainPct, 1 - CONTEXT_BASELINES.rainPct, 0.5, 2.1);
   }
 
-  const effectivePeriod = resolvePeriod(filters.period, filters.hour);
-  if (filters.hour === null && effectivePeriod === 'dia') {
-    density *= 0.9 + 0.58 * cell.dayPct;
-    day *= 1.36;
-  } else if (filters.hour === null && effectivePeriod === 'noche') {
-    density *= 0.78 + 0.66 * (1 - cell.dayPct);
-    day *= 0.66;
+  if (filters.hour !== null) {
+    if (filters.hour >= 6 && filters.hour <= 9) {
+      likelihoodRatio *= safeLikelihoodRatio(hourPeakAmPct, CONTEXT_BASELINES.hourPeakAmPct, 0.42, 2.65);
+    } else if (filters.hour >= 17 && filters.hour <= 20) {
+      likelihoodRatio *= safeLikelihoodRatio(hourPeakPmPct, CONTEXT_BASELINES.hourPeakPmPct, 0.42, 2.65);
+    } else if (filters.hour >= 10 && filters.hour <= 16) {
+      likelihoodRatio *= safeLikelihoodRatio(dayPct, CONTEXT_BASELINES.dayPct, 0.55, 1.75);
+    } else {
+      likelihoodRatio *= safeLikelihoodRatio(1 - dayPct, 1 - CONTEXT_BASELINES.dayPct, 0.5, 2.25);
+    }
+  } else {
+    const effectivePeriod = resolvePeriod(filters.period, filters.hour);
+    if (effectivePeriod === 'dia') {
+      likelihoodRatio *= safeLikelihoodRatio(dayPct, CONTEXT_BASELINES.dayPct, 0.55, 1.85);
+    } else if (effectivePeriod === 'noche') {
+      likelihoodRatio *= safeLikelihoodRatio(1 - dayPct, 1 - CONTEXT_BASELINES.dayPct, 0.5, 2.2);
+    }
   }
+
+  return clamp(likelihoodRatio, 0.22, 4.4);
+};
+
+const buildSeverityProbabilities = ({
+  baseLeveProb,
+  baseMedioProb,
+  baseGraveProb,
+  contextLikelihoodRatio
+}) => {
+  const leveAdjusted = applyLikelihoodRatioToProbability(baseLeveProb, Math.pow(contextLikelihoodRatio, 0.78));
+  const medioAdjusted = applyLikelihoodRatioToProbability(baseMedioProb, contextLikelihoodRatio);
+  const graveAdjusted = applyLikelihoodRatioToProbability(baseGraveProb, Math.pow(contextLikelihoodRatio, 1.22));
+  const incidentProbability = clamp((leveAdjusted + medioAdjusted + graveAdjusted) / 3, 0, 1);
+
+  const normalizedSeverity = normalizeDistribution(
+    { baja: leveAdjusted, media: medioAdjusted, alta: graveAdjusted },
+    'media'
+  );
 
   return {
-    density: clamp(density, 0.35, 2.45),
-    am,
-    pm,
-    weekend,
-    rain,
-    day
+    incidentProbability,
+    predLeveProb: clamp(normalizedSeverity.baja ?? 0, 0, 1),
+    predMedioProb: clamp(normalizedSeverity.media ?? 0, 0, 1),
+    predGraveProb: clamp(normalizedSeverity.alta ?? 0, 0, 1)
   };
 };
 
-const getAdjustedFeatureVector = (cell, filters) => {
-  const factors = buildFilterFactors(cell, filters);
-  return [
-    cell.densityKd * factors.density,
-    cell.distHotspotKm,
-    cell.hourPeakAmPct * factors.am,
-    cell.hourPeakPmPct * factors.pm,
-    cell.weekendPct * factors.weekend,
-    cell.rainPct * factors.rain,
-    cell.dayPct * factors.day,
-    cell.centroid.latitude,
-    cell.centroid.longitude
-  ];
+const computeRiskScoreFromSeverity = ({
+  incidentProbability = 0,
+  predLeveProb,
+  predMedioProb,
+  predGraveProb
+}) => {
+  const severityImpact = clamp(predLeveProb * 0.35 + predMedioProb * 0.67 + predGraveProb, 0, 1);
+  return clamp(incidentProbability * severityImpact, 0, 1);
 };
 
 const buildModel = (cells, cityKey) => {
@@ -1441,33 +1551,19 @@ const buildCacheKey = (filters) =>
   });
 
 const formatPredictionFromCell = (cell, filters, cityModel) => {
-  const filterFactors = buildFilterFactors(cell, filters);
-  const features = getAdjustedFeatureVector(cell, filters);
-  const pLeveModel = predictLogisticProbability(cityModel.models.leve, features);
-  const pMedioModel = predictLogisticProbability(cityModel.models.medio, features);
-  const pGraveModel = predictLogisticProbability(cityModel.models.grave, features);
-
-  const baseLeve = cell.accidentesTotal > 0 ? cell.accidentesLeve / cell.accidentesTotal : 0.04;
-  const baseMedio = cell.accidentesTotal > 0 ? cell.accidentesMedio / cell.accidentesTotal : 0.025;
-  const baseGrave = cell.accidentesTotal > 0 ? cell.accidentesGrave / cell.accidentesTotal : 0.012;
-
-  const predLeveProb = clamp(pLeveModel * 0.72 + baseLeve * 0.28, 0, 1);
-  const predMedioProb = clamp(pMedioModel * 0.75 + baseMedio * 0.25, 0, 1);
-  const predGraveProb = clamp(pGraveModel * 0.8 + baseGrave * 0.2, 0, 1);
-
-  const weightedRisk = (predLeveProb + predMedioProb * 2 + predGraveProb * 3) / 6;
-  const exposureFactor = clamp(cell.accidentesTotal / 28, 0, 1);
-  const baseRiskScore = clamp(weightedRisk * 0.84 + exposureFactor * 0.16, 0, 1);
-  const contextSwing = clamp(
-    0.86 +
-      (filterFactors.density - 1) * 0.38 +
-      (filterFactors.rain - 1) * 0.16 +
-      (filterFactors.day - 1) * 0.12,
-    0.5,
-    1.55
-  );
-  const contextRiskScore = clamp(baseRiskScore * contextSwing, 0, 1);
-  const riskScore = clamp(baseRiskScore * 0.72 + contextRiskScore * 0.28, 0, 1);
+  const features = getBaseFeatureVector(cell);
+  const baseLeveProb = predictLogisticProbability(cityModel.models.leve, features);
+  const baseMedioProb = predictLogisticProbability(cityModel.models.medio, features);
+  const baseGraveProb = predictLogisticProbability(cityModel.models.grave, features);
+  const contextLikelihoodRatio = buildContextLikelihoodRatio(cell, filters);
+  const severityProbabilities = buildSeverityProbabilities({
+    baseLeveProb,
+    baseMedioProb,
+    baseGraveProb,
+    contextLikelihoodRatio
+  });
+  const { predLeveProb, predMedioProb, predGraveProb } = severityProbabilities;
+  const riskScore = computeRiskScoreFromSeverity(severityProbabilities);
   const insights = buildAccidentInsights({
     filters,
     predLeveProb,
@@ -1522,14 +1618,20 @@ const applyFiltersToGeoJsonPrediction = (prediction, filters) => {
     rainPct: clamp(prediction.rainPct ?? 0.36, 0.05, 0.95),
     dayPct: clamp(prediction.dayPct ?? 0.56, 0.05, 0.95)
   };
-  const filterFactors = buildFilterFactors(pseudoCell, filters);
-  const densityFactor = clamp(filterFactors.density, 0.38, 2.3);
-  const riskScore = clamp(prediction.riskScore * densityFactor, 0, 1);
+  const contextLikelihoodRatio = buildContextLikelihoodRatio(pseudoCell, filters);
+  const severityProbabilities = buildSeverityProbabilities({
+    baseLeveProb: prediction.predLeveProb,
+    baseMedioProb: prediction.predMedioProb,
+    baseGraveProb: prediction.predGraveProb,
+    contextLikelihoodRatio
+  });
+  const { predLeveProb, predMedioProb, predGraveProb } = severityProbabilities;
+  const riskScore = computeRiskScoreFromSeverity(severityProbabilities);
   const insights = buildAccidentInsights({
     filters,
-    predLeveProb: prediction.predLeveProb,
-    predMedioProb: prediction.predMedioProb,
-    predGraveProb: prediction.predGraveProb,
+    predLeveProb,
+    predMedioProb,
+    predGraveProb,
     baseAccidentTypes: {
       moto: prediction.motoPct,
       carro: prediction.carroPct,
@@ -1540,6 +1642,9 @@ const applyFiltersToGeoJsonPrediction = (prediction, filters) => {
 
   return {
     ...prediction,
+    predLeveProb,
+    predMedioProb,
+    predGraveProb,
     riskScore,
     riskLevel: getRiskLevel(riskScore),
     priority: riskScore >= 0.78 ? 4 : riskScore >= 0.62 ? 3 : riskScore >= 0.45 ? 2 : 1,
@@ -1709,6 +1814,17 @@ const fetchLocalPredictions = async (inputFilters = {}) => {
   const cityProfile = getCityProfile(filters.city);
   const rangeActive = isRangeActive(filters);
 
+  if (
+    !rangeActive &&
+    filters.address &&
+    (filters.latitude === null || filters.longitude === null)
+  ) {
+    throw new LocalPredictionEngineError(
+      'Selecciona una direccion sugerida o un punto en el mapa para usar coordenadas exactas.',
+      400
+    );
+  }
+
   if (!hasActiveFilters(filters)) {
     return {
       data: [],
@@ -1756,7 +1872,7 @@ const fetchLocalPredictions = async (inputFilters = {}) => {
     range = rangeResult.range;
   } else {
     const predictions = buildPredictions(cityModel, filters);
-    const queryPoint = resolveAddressPoint(filters, cityModel.profile);
+    const queryPoint = resolveAddressPoint(filters);
     const scoped = buildAddressScopedPredictions(predictions, queryPoint);
     scopedPredictions = scoped.predictions;
     query = scoped.query;
