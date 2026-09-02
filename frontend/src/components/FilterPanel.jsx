@@ -18,6 +18,12 @@ const periodOptions = [
   { value: 'noche', label: 'Noche' }
 ];
 
+const datasetOptions = [
+  { value: 'mixto', label: 'Mixta (real + sintetica)' },
+  { value: 'real', label: 'Solo datos reales' },
+  { value: 'sintetico', label: 'Solo datos sinteticos' }
+];
+
 const inferPeriodFromHour = (hourInput) => {
   if (!hourInput) {
     return '';
@@ -147,7 +153,22 @@ export default function FilterPanel({
                 ))}
               </select>
             </div>
-            <div className="col-12 col-md-8 col-lg-9 position-relative">
+            <div className="col-12 col-md-4 col-lg-3">
+              <label className="form-label filter-label">Base de datos</label>
+              <select
+                className="form-select"
+                name="dataset"
+                value={filters.dataset || 'mixto'}
+                onChange={handleChange}
+              >
+                {datasetOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="col-12 col-md-4 col-lg-6 position-relative">
               <label className="form-label filter-label">Direccion</label>
               <input
                 className="form-control"
@@ -332,7 +353,7 @@ export default function FilterPanel({
         {loading && (
           <div className="d-flex align-items-center gap-2 mt-3 text-primary">
             <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
-            <span>Calculando hotspots y probabilidad...</span>
+            <span>Calculando hotspots e indice de riesgo...</span>
           </div>
         )}
 

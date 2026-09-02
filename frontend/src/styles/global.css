@@ -789,3 +789,59 @@ input.form-control:focus::placeholder {
     grid-template-columns: 1fr;
   }
 }
+
+.accident-heatmap {
+  position: relative;
+}
+
+.accident-heatmap__canvas {
+  width: 100%;
+  height: 420px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #dbeafe;
+  z-index: 0;
+}
+
+.accident-heatmap__canvas .leaflet-container {
+  height: 100%;
+  border-radius: 14px;
+}
+
+.accident-heatmap__empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.accident-heatmap__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+.accident-heatmap__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.accident-heatmap__legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.12);
+}
+
+.accident-heatmap__legend-hint {
+  margin-left: auto;
+  font-style: italic;
+  color: #64748b;
+}

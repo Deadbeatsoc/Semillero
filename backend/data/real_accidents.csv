@@ -1,0 +1,925 @@
+occurred_at,severity,weather,period,latitude,longitude,description,address
+2022-01-04 16:16:00,baja,desconocido,dia,4.135149,-73.640245,Siniestro real Secretaria Movilidad (CAMIONETA - TAXI),CALLE 15 CON CARRERA 41
+2022-01-04 11:30:00,baja,desconocido,dia,4.1383448,-73.6251878,Siniestro real Secretaria Movilidad (TRACTOCAMION - AUTOMOVIL),CARRERA 22 CON CALLE 21 SUR CHORILLANO 
+2022-01-04 17:15:00,baja,desconocido,dia,4.1315402,-73.6375818,Siniestro real Secretaria Movilidad (CAMION - AUTOMOVIL),CARRERA 48 CON CALLE 12B
+2022-01-01 11:21:00,baja,desconocido,dia,4.1072393,-73.6551039,Siniestro real Secretaria Movilidad (AUTOMOVIL - TAXI),CARRERA 48 CON CALLE 21A SUR
+2022-01-01 22:30:00,media,desconocido,noche,4.1273105,-73.5469268,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 60 CON CALLE 29 RELIQUIA
+2022-01-01 05:20:00,media,desconocido,noche,4.1466248,-73.6114317,Siniestro real Secretaria Movilidad (MOTO),CALLE 35 CON CARRERA 11 ESTE
+2022-01-01 07:03:00,media,desconocido,dia,4.1073777,-73.6507247,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 44 CON CALLE 18B
+2022-01-06 17:00:00,baja,desconocido,dia,4.1466248,-73.6114317,Siniestro real Secretaria Movilidad (MOTOCARRO - CAMION - TAXI),CALLE 35 CON CARRERA 11 ESTE
+2022-01-07 12:00:00,baja,desconocido,dia,4.146513,-73.639241,Siniestro real Secretaria Movilidad (CAMIONETA - TAXI),CALLE 35 CON CARRERA 37
+2022-01-09 13:00:00,baja,desconocido,dia,4.0906593,-73.6650041,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CALLE 44 CON CARRERA 38
+2022-01-05 13:20:00,baja,desconocido,dia,4.1061699,-73.6562067,Siniestro real Secretaria Movilidad (AUTOMOVIL - TRACTOCAMION),CARRERA 48 CON CALLE 23 SUR MONTECARLO
+2022-01-06 11:15:00,baja,desconocido,dia,4.146282,-73.6121013,Siniestro real Secretaria Movilidad (AUTOMOVIL - VOLQUETA),CALLE 35 CON CARRERA 12
+2022-01-08 11:30:00,baja,desconocido,dia,4.1563187,-73.6548665,Siniestro real Secretaria Movilidad (MICROBUS - AUTOMOVIL),CALLE 44 CON CARRERA 52 BARRIO 12 OCTUBRE
+2022-01-04 09:40:00,media,desconocido,dia,4.1475246,-73.6405088,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 37 CON CARRERA 37 BARZAL
+2022-01-03 01:38:00,media,desconocido,noche,4.1069147,-73.6552709,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 48 CON CALLE 22 SUR
+2022-01-05 14:10:00,media,desconocido,dia,4.0997266,-73.659546,Siniestro real Secretaria Movilidad (BUS - MOTO),CARRERA 48 CON CALLE 31 SUR VIA ACACIAS
+2022-01-11 18:15:00,baja,desconocido,noche,4.0877859,-73.6675656,Siniestro real Secretaria Movilidad (AUTOMOVIL - TRACTOCAMION),CALLE 49 CON CARRERA 1
+2022-01-11 10:20:00,baja,desconocido,dia,4.1312358,-73.6135251,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMION),CARRERA 12A CON CALLE 8
+2022-01-07 19:29:00,baja,desconocido,noche,4.13839,-73.635636,Siniestro real Secretaria Movilidad (AUTOMOVIL - BUSETA),AVENIDA 40 CON CARRERA 37
+2022-01-11 17:38:00,baja,desconocido,dia,4.144737,-73.6430095,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 35 CON CARRERA 42 BARZAL
+2022-01-11 13:30:00,baja,desconocido,dia,4.1200204,-73.6289316,Siniestro real Secretaria Movilidad (CAMIONETA - TAXI),CARRERA 32 CON CALLE 4
+2022-01-10 14:05:00,media,desconocido,dia,4.1570009,-73.6522288,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 44 CON CARRERA 47
+2022-01-08 18:00:00,media,desconocido,noche,4.1471055,-73.6163191,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 16A
+2022-01-11 16:40:00,baja,desconocido,dia,4.1311658,-73.5894322,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 14 CON CALLE 26B PINILLA
+2022-01-10 11:55:00,media,desconocido,dia,4.1137959,-73.5836309,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CARRERA 19 CON CALLE 25
+2022-01-13 10:00:00,baja,desconocido,dia,4.2590361,-73.5615301,Siniestro real Secretaria Movilidad (CAMION - TAXI),CALLE 7 CON CARRERA 1
+2022-01-11 10:21:00,baja,desconocido,dia,4.1041709,-73.6568307,Siniestro real Secretaria Movilidad (CAMION - AUTOMOVIL),CARRERA 48 CON CALLE 25 SUR
+2022-01-13 13:40:00,baja,desconocido,dia,4.1220266,-73.6320123,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CALLE 6 SUR CON CARRERA 34
+2022-01-12 20:30:00,baja,desconocido,noche,4.1361748,-73.6317081,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CARRERA 36 CON CALLE 22
+2022-01-12 08:13:00,media,desconocido,dia,4.138274,-73.6246591,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 21 SUR CON CARRERA 21 CHORILLANO
+2022-01-14 14:40:00,baja,desconocido,dia,4.2699263,-73.4842289,Siniestro real Secretaria Movilidad (AUTOMOVIL - TAXI),CARRERA 16 CON CALLE 12
+2022-01-15 09:23:00,baja,desconocido,dia,4.1454145,-73.6053542,Siniestro real Secretaria Movilidad (TAXI - TAXI),CALLE 36 CON CARRERA 5
+2022-01-15 13:45:00,baja,desconocido,dia,4.135039,-73.627307,Siniestro real Secretaria Movilidad (MICROBUS - AUTOMOVIL - CAMIONETA),CARRERA 33 CON CALLE 18 BARRIO LA FLORIDA
+2022-01-16 13:19:00,baja,desconocido,dia,4.121827,-73.64768,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CALLE 5 SUR CON CARRERA 51
+2022-01-13 14:38:00,baja,desconocido,dia,4.1310911,-73.6376851,Siniestro real Secretaria Movilidad (TAXI - MICROBUS),CARRERA 48 CON CALLE 12-24
+2022-01-17 11:34:00,baja,desconocido,dia,4.1502802,-73.635783,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMPERO),CALLE 36 CON CARRERA 30
+2022-01-17 11:30:00,baja,desconocido,dia,4.1470811,-73.6388111,Siniestro real Secretaria Movilidad (CAMIONETA - TAXI),CALLE 35 CON CARRERA 36
+2022-01-15 11:43:00,media,desconocido,dia,4.1405198,-73.6181096,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 25 CON CARRERA 16B
+2022-01-15 13:00:00,baja,desconocido,dia,4.110086,-73.6325048,Siniestro real Secretaria Movilidad (AUTOMOVIL - TAXI),DIAGONAL 6 SUR CON CALLE 5A SUR
+2022-01-11 16:29:00,baja,desconocido,dia,4.150076,-73.636654,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),CALLE 36 CON CARRERA 31A
+2022-01-15 14:36:00,media,desconocido,dia,4.1001215,-73.6476401,Siniestro real Secretaria Movilidad (BICICLETA - MOTO),CARRERA 38 CON CALLE 26A GUATAPE II
+2022-01-17 07:24:00,media,desconocido,dia,4.1470849,-73.6447028,Siniestro real Secretaria Movilidad (BUSETA - BUSETA - MOTO),CARRERA 43 CON CALLE 39
+2022-01-19 07:28:00,baja,desconocido,dia,4.1432912,-73.6513704,Siniestro real Secretaria Movilidad (AUTOMOVIL),CALLE 35 CON CARRERA 52
+2022-01-19 10:40:00,baja,desconocido,dia,4.1021308,-73.6523811,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 25 CON CARRERA 43
+2022-02-18 06:28:00,baja,desconocido,dia,4.147806,-73.6192101,Siniestro real Secretaria Movilidad (AUTOMOVIL - POSTE),CALLE 35 ESTE CON CARRERA 19
+2022-01-21 12:08:00,baja,desconocido,dia,4.13839,-73.635636,Siniestro real Secretaria Movilidad (CAMION - AUTOMOVIL),AVENIDA 40 CON CARRERA 37
+2022-01-21 11:40:00,baja,desconocido,dia,4.1378001,-73.6087634,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 21 SUR CON CARRERA 8 ESTE
+2022-01-21 08:10:00,baja,desconocido,dia,4.1306588,-73.6193172,Siniestro real Secretaria Movilidad (TAXI - CAMION),CALLE 8 CON CARRERA 19
+2022-01-23 13:34:00,baja,desconocido,dia,4.1334538,-73.6296102,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CARRERA 36 CON CALLE 17 SUR
+2022-01-15 22:00:00,media,desconocido,noche,4.0773501,-73.6694152,Siniestro real Secretaria Movilidad (MOTO),CARRERA 43 CON CALLE 66
+2022-01-23 16:20:00,baja,desconocido,dia,4.1061699,-73.6562067,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),CARRERA 48 CON CALLE 23 SUR  
+2022-01-20 13:30:00,media,desconocido,dia,4.1305959,-73.5906516,Siniestro real Secretaria Movilidad (BICICLETA - TAXI),CALLE 25A CON CARRERA 13A
+2022-01-24 16:34:00,baja,desconocido,dia,4.2636481,-73.5555006,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CALLE 19 CON CARRERA 1
+2022-01-24 12:05:00,baja,desconocido,dia,4.1360083,-73.6386976,Siniestro real Secretaria Movilidad (CAMION - CAMIONETA),CALLE 19 CON CARRERA 40
+2022-01-20 20:08:00,media,desconocido,noche,4.1310911,-73.6376851,Siniestro real Secretaria Movilidad (BUSETA),CARRERA 48 CON CALLE 12 SUR PLAYA RIKA
+2022-01-24 20:53:00,baja,desconocido,noche,4.1586324,-73.6388817,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 30 CON CALLE 45
+2022-01-23 07:25:00,baja,desconocido,dia,4.1416383,-73.6237134,Siniestro real Secretaria Movilidad (MICROBUS - CAMION),CARRERA 21 CON CALLE 25 
+2022-01-24 20:04:00,baja,desconocido,noche,4.135641,-73.6277725,Siniestro real Secretaria Movilidad (AUTOMOVIL - TAXI),CARRERA 33 CON CALLE 20
+2022-01-25 17:30:00,baja,desconocido,dia,4.138076,-73.630788,Siniestro real Secretaria Movilidad (CAMPERO - CAMIONETA),CALLE 23 CON CARRERA 34 SAN BENITO
+2022-01-20 10:50:00,media,desconocido,dia,4.139285,-73.636117,Siniestro real Secretaria Movilidad (BICICLETA - PEATON),CARRERA 37 CON CALLE 26 SUR
+2022-01-25 12:17:00,baja,desconocido,dia,4.134344,-73.627109,Siniestro real Secretaria Movilidad (CAMPERO - BUSETA),CARRERA 33 CON CALLE 17A
+2022-01-23 21:30:00,media,desconocido,noche,4.136734,-73.640852,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 42 ESTE CON CALLE 19
+2022-01-22 12:00:00,media,desconocido,dia,4.1408162,-73.6316389,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 33 CON CALLE 25
+2022-01-27 13:45:00,baja,desconocido,dia,4.1038024,-73.6576372,Siniestro real Secretaria Movilidad (TRACTOCAMION - AUTOMOVIL),CARRERA 48 CON CALLE 26
+2022-01-24 19:42:00,media,desconocido,noche,4.1161982,-73.6484181,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 CON CALLE 11
+2022-01-28 09:40:00,baja,desconocido,dia,4.1513249,-73.6377146,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CALLE 38 CON CARRERA 32
+2022-01-27 15:40:00,baja,desconocido,dia,4.1337145,-73.6271866,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 33 CON CALLE 17 FLORIDA
+2022-01-28 09:30:00,baja,desconocido,dia,4.143165,-73.6182117,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CARRERA 17 SUR CON CALLE 28 ESTE
+2022-01-28 15:44:00,baja,desconocido,dia,4.1061699,-73.6562067,Siniestro real Secretaria Movilidad (CAMION - AUTOMOVIL),CARRERA 48 CON CALLE 23
+2022-01-12 06:57:00,media,desconocido,dia,4.1463602,-73.605847,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 37 CON CARRERA 6
+2022-01-27 07:54:00,alta,desconocido,dia,4.147806,-73.6192101,Siniestro real Secretaria Movilidad (BICICLETA - MOTO),CALLE 35 CON CARRERA 19
+2022-01-21 09:47:00,media,desconocido,dia,4.1350071,-73.6157737,Siniestro real Secretaria Movilidad (NN),CALLE 14 CON CARRERA 14
+2022-01-24 04:44:00,media,desconocido,noche,4.1251163,-73.6196799,Siniestro real Secretaria Movilidad (MOTO - MICROBUS),CARRERA 22 CON CALLE 4D
+2022-01-28 19:52:00,media,desconocido,noche,4.1503119,-73.6236265,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CARRERA 20E CON CALLE 36A
+2022-01-29 03:23:00,media,desconocido,noche,4.125827,-73.6202233,Siniestro real Secretaria Movilidad (MOTO - POSTE),CARRERA 22 CON CALLE 5
+2022-01-28 21:50:00,media,desconocido,noche,4.1501163,-73.6153111,Siniestro real Secretaria Movilidad (MOTO - CAIDA OCUPANTE),CARRERA 15 ESTE CON CALLE 38
+2022-01-31 06:40:00,baja,desconocido,dia,4.1467185,-73.6125124,Siniestro real Secretaria Movilidad (CAMION - TAXI),CALLE 35 CON CARRERA 13
+2022-01-28 16:23:00,alta,desconocido,dia,4.1069691,-73.6479544,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 40 CON CALLE 17A SUR
+2022-02-01 12:00:00,baja,desconocido,dia,4.1289968,-73.5862983,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 19 CON CALLE 23A
+2022-02-01 09:05:00,baja,desconocido,dia,4.1407943,-73.6361018,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA),CARRERA 36A CON CALLE 26C
+2022-01-30 18:18:00,baja,desconocido,noche,4.148084,-73.6196412,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA),CALLE 35 CON CARRERA 19A
+2022-01-28 19:10:00,media,desconocido,noche,4.1090591,-73.6546729,Siniestro real Secretaria Movilidad (CAMIONETA - PEATON),CARRERA 48 CON CALLE 19 SUR
+2022-01-29 09:18:00,baja,desconocido,dia,4.1256966,-73.6260089,Siniestro real Secretaria Movilidad (CAMIONETA - INMUEBLE),CALLE 10 SUR CON CARRERA 25
+2022-01-30 17:28:00,alta,desconocido,dia,4.147806,-73.6192101,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 19
+2022-01-31 19:05:00,media,desconocido,noche,4.1342409,-73.6363411,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),AVENIDA 40 CON CALLE 16 SUB NIVEL VILLACENTRO
+2022-02-01 12:37:00,baja,desconocido,dia,4.0769395,-73.6694194,Siniestro real Secretaria Movilidad (AUTOMOVIL - VIVIENDA),CARRERA 43 CON CALLE 67
+2022-02-02 11:12:00,baja,desconocido,dia,4.147999,-73.635912,Siniestro real Secretaria Movilidad (CAMIONETA - TAXI),CALLE 34A CON CARRERA 31A
+2022-02-03 08:38:00,baja,desconocido,dia,4.1434141,-73.6112112,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 11 CON CALLE 31
+2022-02-01 17:08:00,media,desconocido,dia,4.15293,-73.631772,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 37D CON CARRERA 26 SAN ISIDRIO
+2022-02-06 23:52:00,baja,desconocido,noche,4.1321659,-73.6147002,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CALLE 10 CON CARRERA 12C
+2022-02-07 18:01:00,baja,desconocido,noche,4.1365377,-73.6357704,Siniestro real Secretaria Movilidad (CAMIONETA - BUSETA),AVENIDA 40 CON CALLE 23
+2022-02-06 22:21:00,baja,desconocido,noche,4.1392426,-73.5880286,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 16 CON CALLE 36
+2022-02-07 13:10:00,baja,desconocido,dia,4.1150055,-73.5838329,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA),CALLE 23 CON CARRERA 19A
+2022-02-04 10:51:00,baja,desconocido,dia,4.1231286,-73.6236301,Siniestro real Secretaria Movilidad (TAXI),CALLE 5 SUR CON CARRERA 26
+2022-02-03 16:00:00,media,desconocido,dia,4.1283189,-73.6382152,Siniestro real Secretaria Movilidad (MOTO - MOTO),AVENIDA 40 CON CALLE 9
+2022-02-06 16:17:00,alta,desconocido,dia,4.1469331,-73.6173486,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 34A CON CARRERA 17 ESTE
+2022-02-03 21:09:00,baja,desconocido,noche,4.0762135,-73.6694298,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO - MOTO),CARRERA 43 CON CALLE 69 SUR
+2022-02-08 16:00:00,baja,desconocido,dia,4.0997266,-73.659546,Siniestro real Secretaria Movilidad (MICROBUS - TRACTOCAMION),CARRERA 48 SUR CON CALLE 31
+2022-02-03 14:06:00,media,desconocido,dia,4.1496274,-73.6069648,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 40 CON CARRERA 7C
+2022-02-07 08:14:00,media,desconocido,dia,4.1416383,-73.6237134,Siniestro real Secretaria Movilidad (MOTO - CAMPERO),CALLE 25 CON CARRERA 21 BARRIO CANEY
+2022-02-03 22:16:00,media,desconocido,noche,4.1395698,-73.6352973,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),AVENIDA 40 CON CALLE 26
+2022-02-06 07:42:00,media,desconocido,dia,4.1041709,-73.6568307,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 CON CALLE 25 SUR
+2022-02-10 00:29:00,media,desconocido,noche,4.1149086,-73.6081511,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 22 CON CALLE 10
+2022-02-07 15:00:00,media,desconocido,dia,4.1301508,-73.5862481,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 26 CON CARRERA 19
+2022-01-29 10:40:00,media,desconocido,dia,4.150076,-73.636654,Siniestro real Secretaria Movilidad (AUTOMOVIL -TRACCION ANIMAL),CALLE 36 CON CARRERA 31A
+2022-02-04 06:19:00,alta,desconocido,dia,4.1385316,-73.6378048,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CARRERA 39 CON CALLE 24
+2022-02-12 14:12:00,media,desconocido,dia,4.146282,-73.6121013,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 35 CON CARRERA 12 ESTE
+2022-02-15 10:31:00,baja,desconocido,dia,4.1490628,-73.6365192,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 35 CON CARRERA 30
+2022-02-15 11:32:00,baja,desconocido,dia,4.1402611,-73.6354135,Siniestro real Secretaria Movilidad (CAMION - AUTOMOVIL),CALLE 26B CON CARRERA 35
+2022-02-14 08:40:00,alta,desconocido,dia,4.1374445,-73.5890932,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 15 ESTE
+2022-02-17 12:00:00,baja,desconocido,dia,4.1619547,-73.6396949,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 48 CON CARRERA 30
+2022-02-17 11:06:00,baja,desconocido,dia,4.1361748,-73.6317081,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),CARRERA 36 CON CALLE 22
+2022-02-18 18:50:00,baja,desconocido,noche,4.129308,-73.612276,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CALLE 5 CON CARRERA 11
+2022-02-18 15:15:00,baja,desconocido,dia,4.1382558,-73.5808153,Siniestro real Secretaria Movilidad (CAMIONETA - TAXI),CALLE 36 CON CARRERA 23
+2022-02-16 13:30:00,baja,desconocido,dia,4.1258673,-73.6332132,Siniestro real Secretaria Movilidad (AUTOMOVIL - OBJETO FIJO PUENTE),CALLE 9 SUR CON CARRERA 40
+2022-02-17 15:30:00,baja,desconocido,dia,4.1298447,-73.638292,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),AVENIDA 40 CON CALLE 11
+2022-02-17 13:28:00,baja,desconocido,dia,4.1591537,-73.6441832,Siniestro real Secretaria Movilidad (AUTOMOVIL - TRACTOCAMION),CALLE 44 CON CARRERA 35C
+2022-02-16 19:53:00,media,desconocido,noche,4.1383448,-73.6251878,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 22 CON CALLE 21 SUR CHORILLANO 
+2022-02-21 20:22:00,baja,desconocido,noche,4.130372,-73.5917658,Siniestro real Secretaria Movilidad (BUSETA - MOTO),CALLE 25 CON CARRERA 12
+2022-02-19 15:50:00,baja,desconocido,dia,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CARRERA 1 CON CALLE 15 
+2022-02-17 15:49:00,media,desconocido,dia,4.128401,-73.5863101,Siniestro real Secretaria Movilidad (AUTOMOVIL - BICICLETA),CALLE 21 CON CARRERA 19
+2022-02-20 21:50:00,media,desconocido,noche,4.1436188,-73.6347283,Siniestro real Secretaria Movilidad (MOTO - TAXI),AVENIDA 40 CON CALLE 31
+2022-02-16 22:23:00,media,desconocido,noche,4.1338063,-73.5859408,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 19 CON CALLE 31
+2022-02-23 15:26:00,baja,desconocido,dia,4.1477159,-73.6367237,Siniestro real Secretaria Movilidad (CAMPERO - MICROBUS),CARRERA 33 CON CALLE 34A
+2022-02-22 16:39:00,baja,desconocido,dia,4.1458205,-73.6421437,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CALLE 37 CON CARRERA 41 BARZAL
+2022-02-22 13:44:00,baja,desconocido,dia,4.1474403,-73.6179242,Siniestro real Secretaria Movilidad (CAMPERO - TAXI - BUSETA),CALLE 35 CON CARRERA 17B
+2022-02-21 10:10:00,baja,desconocido,dia,4.1016319,-73.6582435,Siniestro real Secretaria Movilidad (AUTOMOVIL - BUSETA),CARRERA 48 CON CALLE 29 SUR CAMINOS DE MONTECARLO
+2022-02-20 04:25:00,baja,desconocido,noche,4.1023003,-73.6156693,Siniestro real Secretaria Movilidad (CAMIONETA - POSTE),CALLE 21 SUR CON CARRERA 24
+2022-02-21 08:10:00,baja,desconocido,dia,4.1394999,-73.6344196,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CARRERA 36 CON CALLE 26B SUR
+2022-02-22 07:05:00,baja,desconocido,dia,4.1374445,-73.5890932,Siniestro real Secretaria Movilidad (VOLQUETA - AUTOMOVIK),CALLE 35 CON CARRERA 15 ESTE
+2022-02-20 00:00:00,media,desconocido,noche,4.147806,-73.6192101,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 35 CON CARRERA 19
+2022-02-21 22:34:00,media,desconocido,noche,4.137877,-73.629476,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 22 CON CALLE 22
+2022-02-20 16:54:00,media,desconocido,dia,4.1422908,-73.6161204,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CALLE 27 CON CARRERA 15 ESTE
+2022-02-20 02:48:00,media,desconocido,noche,4.128401,-73.5863101,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 21 SUR CON CARRERA 19
+2022-02-23 22:36:00,baja,desconocido,noche,4.1245254,-73.6191167,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 22 CON CALLE 4 VIA PUERTO LOPEZ
+2022-02-23 09:04:00,baja,desconocido,dia,4.1479831,-73.6416004,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CARRERA 38 CON CALLE 37C
+2022-02-23 17:10:00,media,desconocido,dia,4.131809,-73.617761,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 9 CON CARRERA 15A
+2022-02-26 13:18:00,baja,desconocido,dia,4.1090591,-73.6546729,Siniestro real Secretaria Movilidad (AUTOMOVIL - VOLQUETA),CARRERA 48 SUR CON CALLE 19 SUR
+2022-02-23 07:30:00,baja,desconocido,dia,4.1276385,-73.6387959,Siniestro real Secretaria Movilidad (AUTOMOVIL - MICROBUS),CARRERA 48 CON CALLE 7 ESPERANZA
+2022-02-27 14:30:00,baja,desconocido,dia,4.1183796,-73.5960386,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CARRERA 12 CON CALLE 15
+2022-02-26 14:27:00,baja,desconocido,dia,4.1383448,-73.6251878,Siniestro real Secretaria Movilidad (VOLQUETA - AUTOMOVIK),CARRERA 22 CON CALLE 21 SUR CHORILLANO 
+2022-02-28 08:22:00,baja,desconocido,dia,4.1226738,-73.6296313,Siniestro real Secretaria Movilidad (TAXI - TAXI),CALLE 6 CON CARRERA 32
+2022-02-26 14:14:00,baja,desconocido,dia,4.102968,-73.6528492,Siniestro real Secretaria Movilidad (CAMIONETA - CAMION),CALLE 24A CON CARRERA 44 ROCHELA
+2022-02-26 00:06:00,baja,desconocido,noche,4.1579842,-73.6395068,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CALLE 44 CON CARRERA 31
+2022-02-27 14:50:00,media,desconocido,dia,4.146282,-73.6121013,Siniestro real Secretaria Movilidad (MOTO),CARRERA 12 CON CALLE 35
+2022-03-02 16:36:00,baja,desconocido,dia,4.1403826,-73.6372707,Siniestro real Secretaria Movilidad (TAXI - CAMPERO),CARRERA 38 CON CALLE 26C 
+2022-03-01 08:27:00,baja,desconocido,dia,4.1520615,-73.6399433,Siniestro real Secretaria Movilidad (AUTOMOVIL - BUSETA),CALLE 40 CON CARRERA 33A
+2022-03-01 15:53:00,baja,desconocido,dia,4.1304908,-73.6171982,Siniestro real Secretaria Movilidad (CAMION - AUTOMOVIL),CALLE 6 CON CARRERA 16
+2022-02-24 10:16:00,media,desconocido,dia,4.0977366,-73.6406144,Siniestro real Secretaria Movilidad (CAMIONETA - CAMION),CARRERA 33 CON CALLE 31
+2022-02-28 20:06:00,media,desconocido,noche,4.2593625,-73.5597698,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CARRERA 1 CON CALLE 10
+2022-03-03 07:16:00,baja,desconocido,dia,4.146282,-73.6121013,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CALLE 35 CON CARRERA 12 ESTE
+2022-03-03 17:30:00,baja,desconocido,dia,4.1335296,-73.6267637,Siniestro real Secretaria Movilidad (AUTOMOVIL - TRACTOCAMION),CARRERA 22 CON CALLE 16 SUT
+2022-03-02 20:02:00,media,desconocido,noche,4.11995,-73.5636471,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 42 ESTE CON CALLE 14
+2022-02-26 10:35:00,baja,desconocido,dia,4.153799,-73.636784,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CALLE 40 CON CARRERA 30 CENTRO
+2022-03-03 07:25:00,baja,desconocido,dia,4.1375851,-73.6358749,Siniestro real Secretaria Movilidad (CAMIONETA - MICROBUS),AVENIDA 40 CON CARRERA 38
+2022-03-05 11:21:00,baja,desconocido,dia,4.1182557,-73.6284592,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),CALLE 3 C CON CARRERA 32
+2022-03-04 08:36:00,baja,desconocido,dia,4.098685,-73.6392093,Siniestro real Secretaria Movilidad (AUTOMOVIL - BUSETA),CALLE 31 CON CARRERA 31
+2022-03-05 05:32:00,baja,desconocido,noche,4.131674,-73.637986,Siniestro real Secretaria Movilidad (MOTO - MOTO),AVENIDA 40 CON CALLE 12B
+2022-03-05 15:49:00,baja,desconocido,dia,4.137288,-73.5873565,Siniestro real Secretaria Movilidad (AUTOMOVIL - TRACTOCAMION),CALLE 35 CON CARRERA 17 
+2022-03-06 08:10:00,media,desconocido,dia,4.1514799,-73.6193419,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 39 CON CARRERA 19A
+2022-03-26 20:20:00,media,desconocido,noche,4.1408162,-73.6316389,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 33 CON CALLE 25
+2022-03-05 11:16:00,baja,desconocido,dia,4.1362625,-73.6439299,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CALLE 15 CON CARRERA 44 C BARRIO BUQUE
+2022-03-05 20:16:00,media,desconocido,noche,4.1216224,-73.6293601,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 32 CON CALLE 5 LA VEGA
+2022-03-02 16:20:00,media,desconocido,dia,4.1306076,-73.6401588,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 40 CON CALLE 11
+2022-03-09 19:03:00,baja,desconocido,noche,4.0908381,-73.6668158,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CARRERA 48 CON CALLE 45 
+2022-03-07 07:16:00,baja,desconocido,dia,4.1383448,-73.6251878,Siniestro real Secretaria Movilidad (TRACTOCAMION - AUTOMOVIL),CARRERA 22 CON CALLE 21 SUR CHORILLANO 
+2022-03-06 21:00:00,media,desconocido,noche,4.100664,-73.647878,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CARRERA 38 CON CALLE 25 SUR
+2022-03-11 17:01:00,baja,desconocido,dia,4.1583155,-73.6492888,Siniestro real Secretaria Movilidad (CAMPERO - AUTOMOVIL),CALLE 44 CON CARRERA 42
+2022-03-11 19:20:00,baja,desconocido,noche,4.2602732,-73.5640758,Siniestro real Secretaria Movilidad (CAMPERO - CAMIONETA),CALLE 7 CON CARRERA 4
+2022-03-10 16:18:00,baja,desconocido,dia,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA - TAXI),CALLE 1 CON CARRERA 48 ANILLO VIAL
+2022-03-10 16:34:00,baja,desconocido,dia,4.1276385,-73.6387959,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA),CARRERA 48 CON CALLE 7 ESPERANZA
+2022-03-09 15:17:00,alta,desconocido,dia,4.1402466,-73.625156,Siniestro real Secretaria Movilidad (CAMION - AUTOMOVIL),CALLE 23C CON CARRERA 23
+2022-03-08 18:40:00,media,desconocido,noche,4.106478,-73.6448675,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 37 CON CALLE 18
+2022-03-09 17:09:00,baja,desconocido,dia,4.2596634,-73.5598087,Siniestro real Secretaria Movilidad (AUTOMOVIL - TAXI),CARRERA 1 CON CALLE 10A
+2022-03-15 11:39:00,media,desconocido,dia,4.1149086,-73.6081511,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 22 CON CALLE 10 SUR
+2022-03-13 20:01:00,media,desconocido,noche,4.1298447,-73.638292,Siniestro real Secretaria Movilidad (MOTO - PEATON),AVENIDA 40 CON CALLE 11
+2022-03-17 16:00:00,baja,desconocido,dia,4.1482463,-73.6402635,Siniestro real Secretaria Movilidad (TRACTOCAMION - AVISO),CARRERA 36 CON CALLE 37 SUR 
+2022-03-15 18:30:00,media,desconocido,noche,4.1010971,-73.658793,Siniestro real Secretaria Movilidad (MICROBUS - MOTO),CARRERA 48 CON CALLE 29C
+2022-03-15 17:35:00,media,desconocido,dia,4.080406,-73.6693723,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 43 CON CALLE 58 PORFIA
+2022-03-16 16:10:00,baja,desconocido,dia,4.1161982,-73.6484181,Siniestro real Secretaria Movilidad (TAXI - VOLQUETA),CARRERA 48 CON CALLE 11 SERRAMONTE
+2022-03-16 09:40:00,baja,desconocido,dia,4.1069147,-73.6552709,Siniestro real Secretaria Movilidad (VOLQUETA - AUTOMOVIL),CARRERA 48 CON CALLE 22 SYR
+2022-03-16 20:41:00,baja,desconocido,noche,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (TRACTOCAMION - AUTOMOVIL -MICROBUS - AUTOMOVIL),CARRERA 1 CON CALLE 15 
+2022-03-18 19:20:00,baja,desconocido,noche,4.1090591,-73.6546729,Siniestro real Secretaria Movilidad (AUTOMOVIL - VOLQUETA),CARRERA 48 CON CALLE 19 SUR
+2022-03-18 13:00:00,baja,desconocido,dia,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (TAXI - TRACTOCAMION),CARRERA 48 CON CALLE 1 FUNDADORES
+2022-03-19 09:55:00,baja,desconocido,dia,4.1235755,-73.6421892,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),AVENIDA 40 CON CALLE 4
+2022-03-22 13:05:00,baja,desconocido,dia,4.1405565,-73.6248409,Siniestro real Secretaria Movilidad (BUSETA - AUTOMOVIL),CARRERA 22 CON CALLE 24
+2022-03-10 16:20:00,baja,desconocido,dia,4.1383448,-73.6251878,Siniestro real Secretaria Movilidad (VOLQUETA - AUTOMOVIL),CARRERA 22 CON CALLE 21 SUR  
+2022-03-13 10:30:00,baja,desconocido,dia,4.150076,-73.636654,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),CALLE 36 CON CARRERA 31A
+2022-03-20 21:42:00,baja,desconocido,noche,4.1273383,-73.6322528,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 39 CON CALLE 10C
+2022-03-23 07:34:00,baja,desconocido,dia,4.1383448,-73.6251878,Siniestro real Secretaria Movilidad (CAMION - AUTOMOVIL),CARRERA 22 CON CALLE 21 SUR
+2022-03-23 10:35:00,baja,desconocido,dia,4.1090591,-73.6546729,Siniestro real Secretaria Movilidad (TRACTOCAMION - AUTOMOVIL),CARRERA 48 CON CALLE 19 SUR
+2022-03-23 13:00:00,baja,desconocido,dia,4.1339602,-73.6363095,Siniestro real Secretaria Movilidad (BUS - CAMIONETA),CARRERA 48 CON CALLE 16
+2022-03-20 00:40:00,media,desconocido,noche,4.1374445,-73.5890932,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 35 CON CARRERA 15 ESTE
+2022-03-21 15:15:00,media,desconocido,dia,4.1208687,-73.6336293,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 6 SUR CON CARRERA 36
+2022-03-20 14:50:00,media,desconocido,dia,4.1502802,-73.635783,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 30 CON CALLE 36 
+2022-03-17 16:39:00,media,desconocido,dia,4.1077935,-73.655383,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 CON CALLE 21 SUR
+2022-03-20 07:45:00,media,desconocido,dia,4.1149086,-73.6081511,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 22 CON CALLE 10
+2022-03-21 00:40:00,media,desconocido,noche,4.1411201,-73.6318889,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 33 CON CALLE 26
+2022-03-17 22:10:00,media,desconocido,noche,4.1116102,-73.6532388,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 48 CON CALLE 17 SUR
+2022-03-23 07:30:00,baja,desconocido,dia,4.1384495,-73.6155606,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 21 SUR CON CARRERA 14 ESTE
+2022-03-21 01:58:00,baja,desconocido,noche,4.0762135,-73.6694298,Siniestro real Secretaria Movilidad (MOTO CARRO - CAMIONETA),CARRERA 43 CON CALLE 69  
+2022-03-24 17:00:00,alta,desconocido,dia,4.1317733,-73.6370544,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 48 CON CALLE 13
+2022-03-23 13:40:00,media,desconocido,dia,4.1069147,-73.6552709,Siniestro real Secretaria Movilidad (CAMIONETA - BICICLETA),CARRERA 48 CON CALLE 22 SUR
+2022-03-29 13:22:00,baja,desconocido,dia,4.147538,-73.639416,Siniestro real Secretaria Movilidad (AUTOMOVIL - TAXI),CALLE 36 CON CARRERA 36
+2022-03-27 18:53:00,baja,desconocido,noche,4.1137959,-73.5836309,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 19 CON CALLE 25
+2022-03-28 10:52:00,baja,desconocido,dia,4.1411201,-73.6318889,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CARRERA 33 CON CALLE 26 MAIZARO
+2022-03-27 13:06:00,baja,desconocido,dia,4.1489982,-73.62915,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMPERO),CALLE 32 CON CALLE 36
+2022-03-24 14:00:00,baja,desconocido,dia,4.1276385,-73.6387959,Siniestro real Secretaria Movilidad (MOTO - VEHICULO FUGA),CARRERA 48 CON CALLE 7 ESPERANZA
+2022-03-27 01:52:00,baja,desconocido,noche,4.1392718,-73.6154652,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO - CAMIONETA),CALLE 24 CON CARRERA 14 BARRIO PINILLA
+2022-03-25 13:20:00,media,desconocido,dia,4.144737,-73.6430095,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 42 CON CALLE 35
+2022-03-22 17:13:00,media,desconocido,dia,4.1404983,-73.5812235,Siniestro real Secretaria Movilidad (MICROBUS - PEATON),CARRERA 23 CON CALLE 37B
+2022-03-28 06:50:00,media,desconocido,dia,4.1137959,-73.5836309,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 19 CON CALLE 25
+2022-03-21 19:30:00,media,desconocido,noche,4.1514799,-73.6193419,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 39 CON CARRERA 19A
+2022-03-30 10:39:00,media,desconocido,dia,4.1109361,-73.6331731,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 36 CON CALLE 5 SUR
+2022-04-01 14:00:00,baja,desconocido,dia,4.137288,-73.5873565,Siniestro real Secretaria Movilidad (TRACTOCAMION - BUSETA),CALLE 35 CON CARRERA 17 CEIBA
+2022-04-04 16:05:00,baja,desconocido,dia,4.1487389,-73.6372969,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA),CALLE 35 CON CARRERA 33
+2022-04-03 16:45:00,baja,desconocido,dia,4.1021503,-73.6159777,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CALLE 21 SUR CON CARRERA 25 ESTE
+2022-04-04 20:00:00,baja,desconocido,noche,4.1160081,-73.6099726,Siniestro real Secretaria Movilidad (CAMIONETA -AUTOMOVIL),CARRERA 22 CON CALLE 8
+2022-04-05 09:10:00,baja,desconocido,dia,4.2657357,-73.5677187,Siniestro real Secretaria Movilidad (CAMION - AUTOMOVIL),CARRERA 12 CON CALLE 8A
+2022-04-02 20:00:00,media,desconocido,noche,4.1476628,-73.6171035,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CARRERA 17 CON CALLE 35A
+2022-04-03 06:58:00,media,desconocido,dia,4.1324714,-73.5492604,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 60 ESTE
+2022-04-03 06:35:00,media,desconocido,dia,4.1359456,-73.643006,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 15 CON CARRERA 43 SEMAFORO
+2022-04-03 22:51:00,media,desconocido,noche,4.1375851,-73.6358749,Siniestro real Secretaria Movilidad (MOTO - TAXI),AVENIDA 40 CON CARRERA 38 BARRIO SIETE DE AGOSTO
+2022-04-01 22:11:00,media,desconocido,noche,4.1244094,-73.5636353,Siniestro real Secretaria Movilidad (MOTO - VEHICULO FUGA),CARRERA 42 CON CALLE 17B
+2022-04-03 14:18:00,media,desconocido,dia,4.1142159,-73.5856868,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 17 CON CALLE 23 BARRIO PINILLA
+2022-04-11 13:45:00,baja,desconocido,dia,4.1077935,-73.655383,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CARRERA 48 CON CALLE 21
+2022-04-09 21:15:00,baja,desconocido,noche,4.1383484,-73.615929,Siniestro real Secretaria Movilidad (AUTOMOVIL - MICROBUS),CALLE 21 CON CARRERA 15
+2022-04-07 12:00:00,baja,desconocido,dia,4.1490628,-73.6365192,Siniestro real Secretaria Movilidad (TAXI - BUSETA),CALLE 35 CON CARRERA 30
+2022-04-09 11:52:00,baja,desconocido,dia,4.1404983,-73.5812235,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CARRERA 23 CON CALLE 37B
+2022-04-09 14:50:00,baja,desconocido,dia,4.1538488,-73.6326696,Siniestro real Secretaria Movilidad (TAXI - BUSETA),CALLE 38 CON CARRERA 27 SAN ISIDRIO
+2022-04-09 17:10:00,baja,desconocido,dia,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (BUS - AUTOMOVIL),CALLE 15 CON CARRERA 1
+2022-04-12 12:24:00,baja,desconocido,dia,4.1466215,-73.6056941,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 6 CON CALLE 37A
+2022-04-12 21:37:00,baja,desconocido,noche,4.2587411,-73.5603644,Siniestro real Secretaria Movilidad (AUTOMOVIL - TAXI),CARRERA 1 CON CALLE 8
+2022-04-10 15:30:00,media,desconocido,dia,4.1426432,-73.6161078,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 15 ESTE CON CALLE 28
+2022-04-11 06:51:00,media,desconocido,dia,4.1208669,-73.6455556,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 48 CON CALLE 5
+2022-04-09 20:40:00,media,desconocido,noche,4.0584923,-73.6725686,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 92 CON CARRERA 52
+2022-04-10 19:16:00,media,desconocido,noche,4.0792848,-73.6715781,Siniestro real Secretaria Movilidad (MOTO - BUSETA),CARRERA 45 CON CALLE 61 SUR
+2022-04-14 07:50:00,baja,desconocido,dia,4.1393212,-73.6254403,Siniestro real Secretaria Movilidad (CAMIONETA - TAXI),CALLE 23 CON CARRERA 23
+2022-04-17 13:17:00,baja,desconocido,dia,4.150839,-73.633816,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL - AUTOMOVIL),CALLE 37 CON CARRERA 28-26
+2022-04-13 19:10:00,alta,desconocido,noche,4.152432,-73.639226,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA),CALLE 40 CON CARRERA 33 CENTRO
+2022-04-14 10:35:00,media,desconocido,dia,4.1371153,-73.6265415,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),TRANSVERSAL 23 DIAGONAL 19
+2022-04-03 06:58:00,media,desconocido,dia,4.1324714,-73.5492604,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 60 ESTE
+2022-04-17 15:40:00,alta,desconocido,dia,4.0782262,-73.6692882,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 43 CON CALLE 64 PORFIA
+2022-04-21 05:15:00,baja,desconocido,noche,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (AUTOMOVIL - MICROBUS),CARRERA 1 CON CALLE 15 
+2022-04-22 13:10:00,baja,desconocido,dia,4.1306076,-73.6401588,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 40 CON CALLE 11
+2022-04-23 16:54:00,baja,desconocido,dia,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (VOLQUETA - AUTOMOVIL),CARRERA 48 CON CALLE 1  
+2022-04-18 22:22:00,media,desconocido,noche,4.1374445,-73.5890932,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 15 ESTE
+2022-04-14 14:22:00,alta,desconocido,dia,4.137288,-73.5873565,Siniestro real Secretaria Movilidad (BICICLETA - MOTO),CALLE 35 CON CARRERA 17 ESTE
+2022-04-18 17:06:00,media,desconocido,dia,4.1035847,-73.6166614,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 25 CON CALLE 19 BARRIO 2000
+2022-04-24 20:00:00,baja,desconocido,noche,4.1298047,-73.5862742,Siniestro real Secretaria Movilidad (AUTOMOVIL - MICROBUS),CALLE 25 CON CARRERA 19
+2022-04-22 11:50:00,baja,desconocido,dia,4.1383448,-73.6251878,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CARRERA 22 CON CALLE 21 SUR
+2022-04-23 03:00:00,baja,desconocido,noche,4.1124002,-73.6379534,Siniestro real Secretaria Movilidad (TAXI - ARBOL),CALLE 5 CON CARRERA 40
+2022-04-18 20:20:00,media,desconocido,noche,4.1048708,-73.6482798,Siniestro real Secretaria Movilidad (TAXI -MOTO),CARRERA 40 ESTE CON CALLE 20 SUR
+2022-04-26 18:30:00,media,desconocido,noche,4.1332286,-73.6271969,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 33 CON CALLE 16
+2022-04-27 17:12:00,media,desconocido,dia,4.1490509,-73.6192627,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 36 CON CARRERA 19 
+2022-04-28 13:45:00,media,desconocido,dia,4.1233746,-73.6429173,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 CON CALLE 4 
+2022-04-23 16:45:00,media,desconocido,dia,4.1395698,-73.6352973,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),AVENIDA 40 CON CALLE 26
+2022-04-26 01:19:00,alta,desconocido,noche,4.130372,-73.5917658,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CARRERA 12 CON CALLE 25
+2022-04-24 13:34:00,media,desconocido,dia,4.1061629,-73.6472098,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 39 CON CALLE 18
+2022-05-02 10:40:00,baja,desconocido,dia,4.147806,-73.6192101,Siniestro real Secretaria Movilidad (AUTOMOVIL - BUSETA),CALLE 35 CON CARRERA 19 
+2022-05-02 10:26:00,baja,desconocido,dia,4.1160081,-73.6099726,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 22 CON CALLE 8
+2022-05-02 07:55:00,baja,desconocido,dia,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (TRACTOCAMION - AUTOMOVIL),CARRERA 48 CON CALLE 1 
+2022-05-01 06:50:00,media,desconocido,dia,4.1460189,-73.6396875,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 38 BARZAL
+2022-04-29 06:18:00,media,desconocido,dia,4.1208581,-73.5599351,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 15 CON CARRERA 45
+2022-04-28 20:10:00,media,desconocido,noche,4.1374445,-73.5890932,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 15 SUR
+2022-04-23 09:48:00,media,desconocido,dia,4.1132937,-73.6316036,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 35 CON CALLE 4
+2022-04-27 20:13:00,media,desconocido,noche,4.1048708,-73.6482798,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 40 CON CALLE 20
+2022-04-29 11:39:00,media,desconocido,dia,4.1310911,-73.6376851,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 48 CON CALLE 12
+2022-05-08 05:28:00,baja,desconocido,noche,4.1315402,-73.6375818,Siniestro real Secretaria Movilidad (AUTOMOVIL - POSTE),CARRERA 48 CON CALLE 12B
+2022-05-06 13:00:00,baja,desconocido,dia,4.1538488,-73.6326696,Siniestro real Secretaria Movilidad (CAMIONETA - CAMPERO),CALLE 38 CON CARRERA 27 VILLA JULIA
+2022-05-04 15:26:00,media,desconocido,dia,4.1360083,-73.6386976,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 19 CON CARRERA 40 BARRIO SAN JORGE
+2022-05-03 07:00:00,media,desconocido,dia,4.1282732,-73.5918378,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 12 ESTE CON CALLE 21 
+2022-05-01 15:43:00,media,desconocido,dia,4.1498345,-73.6310873,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 36 CON CARRERA 25
+2022-05-07 16:30:00,media,desconocido,dia,4.1503119,-73.6236265,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 20E CON CALLE 36A
+2022-05-08 15:05:00,alta,desconocido,dia,4.1437718,-73.6159748,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 15 ESTE CON CALLE 30
+2022-05-05 13:39:00,media,desconocido,dia,4.153162,-73.639563,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 41 CON CARRERA 33 CENTRO
+2022-04-26 17:20:00,media,desconocido,dia,4.1583155,-73.6492888,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 44 CON CARRERA 42
+2022-05-06 17:28:00,baja,desconocido,dia,4.1340563,-73.6328668,Siniestro real Secretaria Movilidad (CAMIONETA - TAXI),CALLE 16 CON CARRERA 37
+2022-05-06 21:25:00,alta,desconocido,noche,4.1377348,-73.5911337,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 12E
+2022-04-03 08:28:00,media,desconocido,dia,4.0827079,-73.6674828,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 53 SUR CON CARRERA 39
+2022-05-04 17:06:00,media,desconocido,dia,4.1090591,-73.6546729,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 CON CALLE 19 SUR
+2022-05-13 11:05:00,baja,desconocido,dia,4.1382468,-73.6426564,Siniestro real Secretaria Movilidad (CAMPERO - CAMIONETA),CALLE 20 CON CARRERA 43D
+2022-05-12 21:47:00,baja,desconocido,noche,4.146282,-73.6121013,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CARRERA 12 CON CALLE 35
+2022-05-12 12:00:00,baja,desconocido,dia,4.1488311,-73.6398432,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CALLE 37 CON CARRERA 35
+2022-05-11 12:23:00,media,desconocido,dia,4.2678351,-73.4895029,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 22 CON CALLE 14
+2022-05-15 11:57:00,baja,desconocido,dia,4.1572115,-73.639681,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CALLE 43 CON CARRERA 31
+2022-05-15 10:10:00,baja,desconocido,dia,4.1489797,-73.616785,Siniestro real Secretaria Movilidad (TAXI - MICROBUS),CALLE 37 CON CARRERA 17
+2022-05-14 13:10:00,baja,desconocido,dia,4.1465402,-73.6367384,Siniestro real Secretaria Movilidad (CAMPERO - CAMIONETA),CALLE 34 CON CARRERA 34 BARZAL
+2022-05-16 15:48:00,baja,desconocido,dia,4.1395698,-73.6352973,Siniestro real Secretaria Movilidad (CAMPERO - MICROBUS),AVENIDA 40 CON CALLE 26
+2022-05-15 08:40:00,media,desconocido,dia,4.147363,-73.62942,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 31 CON CARRERA 25
+2022-05-12 13:11:00,media,desconocido,dia,4.1406057,-73.6251436,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 23 CON CALLE 24
+2022-05-15 12:26:00,media,desconocido,dia,4.1468706,-73.6093117,Siniestro real Secretaria Movilidad (TAXI - BICICLETA),CALLE 36 CON CARRERA 9 SUR 
+2022-05-19 06:48:00,baja,desconocido,dia,4.1504667,-73.6110766,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL - CAMIONETA),CALLE 40 CON CARRERA 12
+2022-05-13 16:06:00,media,desconocido,dia,4.1304908,-73.6171982,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 6 CON CARRERA 16
+2022-05-18 07:20:00,baja,desconocido,dia,4.1401001,-73.6358631,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),CARRERA 36A CON CALLE 26B
+2022-05-20 13:05:00,baja,desconocido,dia,4.1393317,-73.580847,Siniestro real Secretaria Movilidad (CAMPERO - BUS),CARRERA 23 CON CALLE 37-77
+2022-05-18 22:10:00,media,desconocido,noche,4.1080558,-73.6320395,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 35A CON CALLE 8
+2022-05-17 07:55:00,media,desconocido,dia,4.1173306,-73.5962073,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 12 CON CALLE 18 ESTERO
+2022-05-20 10:45:00,media,desconocido,dia,4.1020665,-73.6455377,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 22 CON CARRERA 37A
+2022-05-22 09:00:00,alta,desconocido,dia,4.1384495,-73.6155606,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 21 SUR CON CARRERA 14
+2022-05-18 23:19:00,media,desconocido,noche,4.1378023,-73.6103763,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 21 ESTE CON CARRERA 10 -03 CAMINO GANADERO
+2022-05-21 22:30:00,media,desconocido,noche,4.0931392,-73.6643857,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 SUR CON CALLE 40 SUR
+2022-05-22 08:45:00,media,desconocido,dia,4.1235359,-73.6336058,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 39 CON CALLE 7
+2022-05-25 14:48:00,baja,desconocido,dia,4.1371849,-73.6179743,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 16 CON CALLE 18
+2022-05-23 06:42:00,baja,desconocido,dia,4.1431874,-73.6393284,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CALLE 33 CON CARRERA 39
+2022-05-21 21:10:00,baja,desconocido,noche,4.1247559,-73.6351374,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CALLE 7 CON CARRERA 42
+2022-05-23 05:00:00,baja,desconocido,noche,4.1436175,-73.6311068,Siniestro real Secretaria Movilidad (TAXI - TAXI),CARRERA 29 CON CALLE 27
+2022-05-24 12:20:00,baja,desconocido,dia,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (CAMIONETA - CAMION),CALLE 1 CON CARRERA 48 ANILLO VIAL
+2022-05-21 10:50:00,media,desconocido,dia,4.1233746,-73.6429173,Siniestro real Secretaria Movilidad (CAMPERO - MOTO),CARRERA 48 CON CALLE 4
+2022-05-19 22:38:00,alta,desconocido,noche,4.1090591,-73.6546729,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL - MICROBUS - BUSETA),CARRERA 48 CON CALLE 19 SUR
+2022-05-25 06:54:00,baja,desconocido,dia,4.1383448,-73.6251878,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMION),CARRERA 22 CON CALLE 21 SUR
+2022-05-15 16:15:00,media,desconocido,dia,4.1175183,-73.616641,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 4 CON CARRERA 23
+2022-05-26 21:17:00,baja,desconocido,noche,4.1183796,-73.5960386,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CARRERA 12 CON CALLE 15
+2022-05-30 13:20:00,baja,desconocido,dia,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),CALLE 15 CON CARRERA 1
+2022-05-28 16:12:00,baja,desconocido,dia,4.154125,-73.637885,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMION -AUTOMOVIL),CALLE 41 CON CARRERA 30
+2022-05-24 06:18:00,media,desconocido,dia,4.1558731,-73.6524036,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 48 CON CALLE 43
+2022-05-22 13:35:00,media,desconocido,dia,4.1444614,-73.583543,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 19 CON CALLE 42A
+2022-05-19 15:30:00,media,desconocido,dia,4.1334744,-73.6130728,Siniestro real Secretaria Movilidad (MOTO - CAMPERO),CARRERA 12 CON CALLE 13
+2022-05-29 09:45:00,media,desconocido,dia,4.1514799,-73.6193419,Siniestro real Secretaria Movilidad (CAMPERO),CALLE 39 CON CARRERA 19A
+2022-05-20 19:14:00,media,desconocido,noche,4.1168397,-73.5987656,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 20 CON CARRERA 9
+2022-05-31 13:56:00,baja,desconocido,dia,4.153799,-73.636784,Siniestro real Secretaria Movilidad (CAMION - TAXI),CALLE 40 CON CARRERA 30 CENTRO
+2022-06-01 03:50:00,baja,desconocido,noche,4.2612893,-73.5547579,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA),CALLE 15 CON CARRERA 1A 
+2022-05-27 03:54:00,media,desconocido,noche,4.0977366,-73.6406144,Siniestro real Secretaria Movilidad (MOTO - MURO),CARRERA 33 CON CALLE 31
+2022-05-23 06:37:00,media,desconocido,dia,4.1317733,-73.6370544,Siniestro real Secretaria Movilidad (CAMION - BICICLETA),CARRERA 48 CON CALLE 13 SUR 
+2022-05-28 21:21:00,media,desconocido,noche,4.1359456,-73.643006,Siniestro real Secretaria Movilidad (CAMION - MOTO),CALLE 15 CON CARRERA 43 SEMAFORO
+2022-06-03 11:27:00,baja,desconocido,dia,4.1254648,-73.6358495,Siniestro real Secretaria Movilidad (TAXI - ARBOL),CALLE 7 CON CARRERA 44
+2022-05-08 00:10:00,alta,desconocido,noche,4.1583155,-73.6492888,Siniestro real Secretaria Movilidad (AUTOMOVIL VOLCAMIENTO),CALLE 44 CON CARRERA 42
+2022-06-01 21:01:00,media,desconocido,noche,4.1478715,-73.6332029,Siniestro real Secretaria Movilidad (CAMIONETA - BUSETA - MICROBUS),CARRERA 29 CON CALLE 34
+2022-06-02 08:00:00,media,desconocido,dia,4.1161982,-73.6484181,Siniestro real Secretaria Movilidad (TAXI - PEATON),CARRERA 48 CON CALLE 11 SUR
+2022-06-03 12:10:00,baja,desconocido,dia,4.1183796,-73.5960386,Siniestro real Secretaria Movilidad (VOLQUETA - MICROBUS),CARRERA 12 ESTE CON CALLE 15 SUR
+2022-06-05 17:26:00,baja,desconocido,dia,4.1408095,-73.6391956,Siniestro real Secretaria Movilidad (AUTOMOVIL - ARBOL),CARRERA 40 CON CALLE 27 BARRIO SIETE DE AGOSTO
+2022-05-31 18:50:00,media,desconocido,noche,4.0969674,-73.6508851,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CALLE 31 CON CARRERA 37
+2022-06-04 17:15:00,media,desconocido,dia,4.1338063,-73.5859408,Siniestro real Secretaria Movilidad (TAXI - PEATON),CARRERA 19 CON CALLE 31
+2022-06-05 11:36:00,media,desconocido,dia,4.1059368,-73.6481145,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 40 CON CALLE 19 SUR
+2022-06-01 22:33:00,media,desconocido,noche,4.1321659,-73.6147002,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 10 CON CARRERA 12C
+2022-06-08 08:35:00,baja,desconocido,dia,4.1579842,-73.6395068,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 31 CON CALLE 44
+2022-06-08 00:14:00,baja,desconocido,noche,4.1225433,-73.6464003,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CALLE 1 CON CARRERA 51 LLANO LINDO
+2022-06-07 17:53:00,baja,desconocido,dia,4.1276385,-73.6387959,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 48 CON CALLE 7 ESPERANZA
+2022-06-05 02:56:00,baja,desconocido,noche,4.1558731,-73.6524036,Siniestro real Secretaria Movilidad (AUTOMOVIL VOLCAMIENTO),CARRERA 48 CON CALLE 43
+2022-06-08 14:30:00,baja,desconocido,dia,4.1285187,-73.6381231,Siniestro real Secretaria Movilidad (MOTO - CAMPERO),CARRERA 48 CON CALLE 10
+2022-05-31 20:50:00,media,desconocido,noche,4.1339602,-73.6363095,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 SUR CON CALLE 16
+2022-06-04 10:05:00,media,desconocido,dia,4.1084123,-73.6325488,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 36 CON CALLE 7 SUR
+2022-06-06 09:00:00,media,desconocido,dia,4.0838124,-73.6693158,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 43 CON CALLE 51
+2022-06-05 04:20:00,media,desconocido,noche,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 48 CON CALLE 1
+2022-06-06 08:38:00,media,desconocido,dia,4.1499561,-73.6395099,Siniestro real Secretaria Movilidad (BUSETA CAIDA OCUPANTE),CALLE 37C CON CARRERA 33A
+2022-06-09 09:45:00,baja,desconocido,dia,4.1452883,-73.6350274,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMION),CARRERA 33 CON CALLE 33 LA VORAGINE
+2022-06-07 12:40:00,media,desconocido,dia,4.1310911,-73.6376851,Siniestro real Secretaria Movilidad (TAXI - MICROBUS),CALLE 12 CON CARRERA 48 ETAPA 2 LA ESPERANZA
+2022-06-08 19:18:00,media,desconocido,noche,4.1408162,-73.6316389,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 33 CON CALLE 25
+2022-06-08 07:48:00,media,desconocido,dia,4.1523563,-73.6309116,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 25 CON CALLE 37C
+2022-06-10 15:50:00,baja,desconocido,dia,4.1208669,-73.6455556,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA),CARRERA 48 CON CALLE 5
+2022-06-10 06:15:00,baja,desconocido,dia,4.1450184,-73.6433425,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CALLE 37 CON CARRERA 42
+2022-06-11 12:50:00,baja,desconocido,dia,4.1069147,-73.6552709,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA),CARRERA 48 CON CALLE 22
+2022-01-30 14:52:00,media,desconocido,dia,4.1069147,-73.6552709,Siniestro real Secretaria Movilidad (MICROBUS CAIDA OCUPANTE),CARRERA 48 CON CALLE 22
+2022-06-09 14:40:00,media,desconocido,dia,4.1503484,-73.6293456,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 37 CON CARRERA 24
+2022-06-09 16:22:00,media,desconocido,dia,4.1426857,-73.6265689,Siniestro real Secretaria Movilidad (TAXI - CAMIONETA - AUTOMOVIL),CARRERA 25 CON CALLE 25D
+2022-06-12 12:48:00,alta,desconocido,dia,4.1526166,-73.6213817,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 20A CON CALLE 39B
+2022-06-11 08:30:00,baja,desconocido,dia,4.1464537,-73.6132846,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMION),CALLE 35 CON CARRERA 13B
+2022-06-10 00:50:00,media,desconocido,noche,4.1285187,-73.6381231,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 48 CON CALLE 10
+2022-06-15 13:20:00,baja,desconocido,dia,4.157014,-73.6389947,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CARRERA 31 CON CARRERA 30A
+2022-06-15 11:15:00,baja,desconocido,dia,4.1496364,-73.6289957,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CARRERA 23A CON CALLE 36
+2022-06-16 18:29:00,baja,desconocido,noche,4.1374445,-73.5890932,Siniestro real Secretaria Movilidad (TRACTOCAMION - AUTOMOVIL),CALLE 35 CON CARRERA 15
+2022-06-17 12:30:00,baja,desconocido,dia,4.1160081,-73.6099726,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL - CAMIONETA),CARRERA 22 CON CALLE 8-93
+2022-06-12 03:11:00,media,desconocido,noche,4.1412948,-73.585336,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 18 CON CALLE 38A
+2022-06-14 18:50:00,alta,desconocido,noche,4.1407966,-73.6184459,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 25 CON CARRERA 17
+2022-06-14 23:10:00,media,desconocido,noche,4.1153041,-73.649495,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 48 SUR CON CALLE 14
+2022-06-24 08:25:00,baja,desconocido,dia,4.1482088,-73.6329876,Siniestro real Secretaria Movilidad (CAMION - AUTOMOVIL),CALLE 34 CON CARRERA 27
+2022-06-29 11:19:00,baja,desconocido,dia,4.1338063,-73.5859408,Siniestro real Secretaria Movilidad (AUTOMOVIL - TRACTOCAMION),CALLE 31 CON CARRERA 19
+2022-06-27 11:00:00,baja,desconocido,dia,4.1570009,-73.6522288,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 44 CON CARRERA 47
+2022-06-28 07:33:00,baja,desconocido,dia,4.1165581,-73.6305416,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),CALLE 2 CON CARRERA 34
+2022-06-25 22:49:00,baja,desconocido,noche,4.1549156,-73.6299474,Siniestro real Secretaria Movilidad (CAMION - TAXI),CARRERA 24A CON CALLE 38
+2022-06-26 03:20:00,baja,desconocido,noche,4.1038024,-73.6576372,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),CARRERA 48 CON CALLE 26 SUR
+2022-06-21 16:35:00,baja,desconocido,dia,4.116841,-73.5852472,Siniestro real Secretaria Movilidad (CAMIONETA - CAMION),CARRERA 19 CON CALLE 22 GLORIETA POSTOBON
+2022-06-23 15:30:00,baja,desconocido,dia,4.1425241,-73.6290627,Siniestro real Secretaria Movilidad (AUTOMOVIL - VOLQUETA),CALLE 25 CON CARRERA 27
+2022-06-24 16:35:00,media,desconocido,dia,4.139147,-73.638638,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 40 CON CALLE 26B
+2022-06-27 12:00:00,media,desconocido,dia,4.138783,-73.614436,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 13 CON CALLE 23
+2022-06-17 22:10:00,media,desconocido,noche,4.1131927,-73.5871757,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 24A CON CARRERA 15
+2022-06-18 02:24:00,media,desconocido,noche,4.1213372,-73.6453315,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 48 CON CALLE 3 SUR
+2022-06-16 07:06:00,media,desconocido,dia,4.1501212,-73.6211402,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 37 CON CARRERA 20
+2022-07-04 14:37:00,baja,desconocido,dia,4.1563187,-73.6548665,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL - CAMPERO),CALLE 44 CON CARRERA 52 BARRIO GALAN
+2022-06-30 20:39:00,baja,desconocido,noche,4.1503671,-73.6189811,Siniestro real Secretaria Movilidad (CAMIONETA - CAMION),CARRERA 19 CON CALLE 37B
+2022-07-03 11:10:00,media,desconocido,dia,4.1228663,-73.6479059,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 52 CON CALLE 3 LLANO LINDO
+2022-07-03 02:37:00,media,desconocido,noche,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 48 CON CALLE 1 BARRIO LEON
+2022-07-01 20:40:00,media,desconocido,noche,4.1487389,-73.6372969,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 33 CON CALLE 35 
+2022-07-03 17:36:00,media,desconocido,dia,4.1122424,-73.6166815,Siniestro real Secretaria Movilidad (FUGA - PEATON),CARRERA 34 CON CALLE 12 SEPTIMA ETAPA LA ESPERANZA
+2022-06-30 20:05:00,alta,desconocido,noche,4.1338063,-73.5859408,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CARRERA 19 CON CALLE 31
+2022-06-28 15:29:00,media,desconocido,dia,4.144691,-73.616904,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 31 CON CARRERA 16A
+2022-06-29 09:27:00,media,desconocido,dia,4.1591537,-73.6441832,Siniestro real Secretaria Movilidad (TAXI - PEATON),CALLE 44 CON CARRERA 35C
+2022-06-29 13:11:00,media,desconocido,dia,4.1116102,-73.6532388,Siniestro real Secretaria Movilidad (MOTO - TRACTOCAMION),CARRERA 48 SUR CON CALLE 17
+2022-07-02 22:11:00,media,desconocido,noche,4.1042304,-73.6483796,Siniestro real Secretaria Movilidad (CAMION - MOTO),CARRERA 40 CON CALLE 21 SUR
+2022-07-01 22:46:00,media,desconocido,noche,4.1398222,-73.6388759,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 40 CON CALLE 26C
+2022-07-03 14:27:00,media,desconocido,dia,4.1199554,-73.5655988,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 14 CON CARRERA 40 SAN ANTONIO
+2022-07-07 18:00:00,baja,desconocido,noche,4.153206,-73.637812,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CARRERA 31 CON CALLE 40
+2022-07-05 03:20:00,media,desconocido,noche,4.1285187,-73.6381231,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CARRERA 48 CON CALLE 10
+2022-07-03 16:26:00,alta,desconocido,dia,4.1511536,-73.6178358,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 18 CON CALLE 39
+2022-07-09 08:00:00,baja,desconocido,dia,4.1358898,-73.6362888,Siniestro real Secretaria Movilidad (CAMION - CAMIONETA),CALLE 20 CON AVENIDA 40 BARRIO CAMOA
+2022-07-03 20:00:00,media,desconocido,noche,4.146282,-73.6121013,Siniestro real Secretaria Movilidad (BICICLETA - MOTO),CALLE 35 CON CARRERA 12 ESTE
+2022-07-07 17:48:00,media,desconocido,dia,4.134755,-73.639114,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 15 CON CARRERA 40
+2022-07-09 17:45:00,baja,desconocido,dia,4.0987326,-73.6407633,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CARRERA 33 CON CALLE 29 
+2022-06-30 08:07:00,media,desconocido,dia,4.1369298,-73.6141023,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 18 CON CARRERA 12C VILLA ORTIZ
+2022-07-12 14:44:00,baja,desconocido,dia,4.1551014,-73.6291654,Siniestro real Secretaria Movilidad (VOLQUETA - AUTOMOVIL),CALLE 39 CON CARRERA 24A
+2022-07-11 05:20:00,media,desconocido,noche,4.158659,-73.6418903,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CALLE 44 CON CARRERA 34
+2022-06-23 13:30:00,media,desconocido,dia,4.1437718,-73.6159748,Siniestro real Secretaria Movilidad (AUTOMOVIL - BICICLETA),CARRERA 15 ESTE CON CALLE 30
+2022-07-14 21:35:00,baja,desconocido,noche,4.1579842,-73.6395068,Siniestro real Secretaria Movilidad (CAMIONETA - BARANDA),CALLE 44 CON CARRERA 31
+2022-07-15 13:00:00,baja,desconocido,dia,4.1354735,-73.6412743,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL - AUTOMOVIL),CALLE 15 CON CARRERA 42 BUQUE
+2022-07-15 18:50:00,baja,desconocido,noche,4.134827,-73.639328,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 15 CON CARRERA 40A
+2022-07-12 09:11:00,media,desconocido,dia,4.0726828,-73.6694693,Siniestro real Secretaria Movilidad (AUTOMOVIL - BICICLETA),CARRERA 43 CON CALLE 79 VILLA JULIANA
+2022-07-15 01:22:00,media,desconocido,noche,4.1059368,-73.6481145,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 40 CON CALLE 19 SUR
+2022-07-14 14:00:00,media,desconocido,dia,4.1188461,-73.6499533,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CARRERA 50 CON CALLE 11 SUR
+2022-07-14 21:07:00,alta,desconocido,noche,4.1481351,-73.6065866,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 7 CON CALLE 39
+2022-07-19 14:07:00,baja,desconocido,dia,4.110193,-73.6529113,Siniestro real Secretaria Movilidad (TAXI - CAMIONETA),CARRERA 48 CON CALLE 17A
+2022-07-20 16:07:00,baja,desconocido,dia,4.1355831,-73.6096452,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 17A CON CARRERA 9
+2022-07-16 09:20:00,media,desconocido,dia,4.15821,-73.6402806,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 44 CON CARRERA 32
+2022-07-16 22:30:00,alta,desconocido,noche,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 1 CON CALLE 15 
+2022-07-16 14:15:00,media,desconocido,dia,4.1509811,-73.638434,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 33 CON CALLE 38
+2022-07-19 13:35:00,media,desconocido,dia,4.1443553,-73.6169862,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 30 CON CARRERA 16A
+2022-07-20 20:15:00,media,desconocido,noche,4.1183733,-73.5969548,Siniestro real Secretaria Movilidad (MOTO - BUSETA),CALLE 15 CON CARRERA 11 ESTE
+2022-07-17 17:58:00,media,desconocido,dia,4.1284588,-73.6339753,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 44 CON CALLE 11
+2022-07-07 03:49:00,media,desconocido,noche,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CARRERA 1 CON CALLE 15 
+2022-07-22 16:34:00,baja,desconocido,dia,4.1398222,-73.6388759,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA),CARRERA 40 CON CALLE 26C
+2022-07-23 05:15:00,media,desconocido,noche,4.1398222,-73.6388759,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 40 CON CALLE 26CX
+2022-07-24 11:34:00,media,desconocido,dia,4.1176356,-73.6308191,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 34 CON CALLE 3 LAS ACACIAS
+2022-07-19 07:23:00,media,desconocido,dia,4.1349671,-73.5893102,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 15 ESTE CON CALLE 32
+2022-07-28 17:50:00,baja,desconocido,dia,4.1231343,-73.6477039,Siniestro real Secretaria Movilidad (TAXI - CAMIONETA),CALLE 2 CON CARRERA 52
+2022-07-28 12:10:00,baja,desconocido,dia,4.150127,-73.6380249,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CARRERA 33 CON CALLE 37
+2022-07-28 13:15:00,baja,desconocido,dia,4.112564,-73.6166601,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CALLE 11 CON CARRERA 34 
+2022-07-27 20:28:00,media,desconocido,noche,4.1339602,-73.6363095,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 CON CALLE 16
+2022-07-25 14:47:00,media,desconocido,dia,4.105468,-73.6566543,Siniestro real Secretaria Movilidad (MOTO - PEATON),TRANSVERSAL 48 CON CALLE 24
+2022-07-25 23:00:00,alta,desconocido,noche,4.1156674,-73.6095288,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 22 CON CALLE 9 SUR
+2022-07-14 12:40:00,media,desconocido,dia,4.1511536,-73.6178358,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CARRERA 18 CON CALLE 39
+2022-07-25 19:01:00,media,desconocido,noche,4.0984685,-73.6439748,Siniestro real Secretaria Movilidad (BICICLETA - MOTO),CALLE 28 SUR CON CRA 35-09
+2022-07-25 22:10:00,media,desconocido,noche,4.0574861,-73.6754618,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 92 SUR CON CARRERA 55 LA MADRID
+2022-07-22 16:20:00,media,desconocido,dia,4.1277911,-73.6320846,Siniestro real Secretaria Movilidad (CAMION - PEATON),CARRERA 39 CON CALLE 11
+2022-08-02 12:28:00,baja,desconocido,dia,4.1221875,-73.6249975,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 28A CON CALLE 4 SUR
+2022-07-29 22:07:00,media,desconocido,noche,4.1511536,-73.6178358,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 39 CON CARRERA 18
+2022-07-31 06:22:00,media,desconocido,dia,4.1378524,-73.6095535,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 21 SUR CON CARRERA 9 ESTE VALLES DE ARAGON
+2022-07-29 02:38:00,media,desconocido,noche,4.128401,-73.5863101,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 19 A ESTE CON CALLE 21
+2022-08-03 19:30:00,baja,desconocido,noche,4.1276385,-73.6387959,Siniestro real Secretaria Movilidad (AUTOMOVIL - TRACTOCAMION),CARRERA 48 CON CALLE 7 ESPERANZA
+2022-08-02 20:20:00,media,desconocido,noche,4.1419763,-73.6331372,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 26B CON CARRERA 33A
+2022-07-25 15:17:00,media,desconocido,dia,4.1472096,-73.6114741,Siniestro real Secretaria Movilidad (MOTO - CAMION),CARRERA 12 CON CALLE 36
+2022-08-06 11:25:00,media,desconocido,dia,4.1395817,-73.5840425,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 20 CON CALLE 37
+2022-08-03 19:20:00,media,desconocido,noche,4.1429297,-73.6400041,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 33 CON CARRERA 40
+2022-08-05 16:20:00,media,desconocido,dia,4.1523534,-73.6313689,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 26 CON CALLE 37C
+2022-08-07 11:08:00,baja,desconocido,dia,4.1451056,-73.63072,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 29 CON CARRERA 27
+2022-08-08 18:06:00,media,desconocido,noche,4.1304047,-73.5886762,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 16 CON CALLE 25A
+2022-08-08 18:40:00,alta,desconocido,noche,4.1455494,-73.620237,Siniestro real Secretaria Movilidad (MOTO - MOTO),AVENIDA 19 CON CALLE 31
+2022-08-03 22:40:00,alta,desconocido,noche,4.1056714,-73.646355,Siniestro real Secretaria Movilidad (VOLQUETA - MOTO),CARRERA 38A CON CALLE 19 SUR
+2022-08-07 10:07:00,media,desconocido,dia,4.1423962,-73.6357665,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 36 CON CALLE 29
+2022-07-25 16:31:00,media,desconocido,dia,4.1342424,-73.5882144,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO- TAXI),CALLE 31 CON CARRERA 17 LA CIEBA
+2022-07-26 10:26:00,media,desconocido,dia,4.1451526,-73.6419221,Siniestro real Secretaria Movilidad (TAXI - TAXI),CALLE 35 CON CARRERA 41 BARZAL
+2022-08-13 04:30:00,alta,desconocido,noche,4.1090591,-73.6546729,Siniestro real Secretaria Movilidad (CAMION - PEATON),CARRERA 48 CON CALLE 19 SUR
+2022-08-11 15:26:00,media,desconocido,dia,4.142297,-73.6416619,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CARRERA 42 CON CALLE 33 BARZAL ALTO
+2022-08-14 12:00:00,alta,desconocido,dia,4.1517562,-73.6143965,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL - MOTO),CALLE 40B CON CARRERA 15 SUR
+2022-08-06 10:53:00,media,desconocido,dia,4.1513565,-73.6301579,Siniestro real Secretaria Movilidad (BUSETA - MOTO),CALLE 37A CON CARRERA 24
+2022-08-11 07:01:00,media,desconocido,dia,4.122001,-73.6320836,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 34 CON CALLE 6 SUR
+2022-08-03 16:06:00,media,desconocido,dia,4.1359456,-73.643006,Siniestro real Secretaria Movilidad (TAXI - TAXI),CALLE 15 CON CARRERA 43 CLINICA DE OCULAR
+2022-07-30 15:40:00,media,desconocido,dia,4.15821,-73.6402806,Siniestro real Secretaria Movilidad (CAMION - MOTO),CALLE 44 CON CARRERA 32
+2022-08-14 19:01:00,media,desconocido,noche,4.1165637,-73.5890845,Siniestro real Secretaria Movilidad (BICICLETA - AUTOMOVIL),CALLE 20 SUR CON CARRERA 15A ESTE
+2022-08-15 17:25:00,media,desconocido,dia,4.1373587,-73.5917482,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 12A CON CALLE 35
+2022-08-16 21:25:00,media,desconocido,noche,4.1287299,-73.6178071,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CARRERA 19 CON CALLE 5 MACUNAIMA
+2022-08-12 17:00:00,media,desconocido,dia,4.1285409,-73.6381775,Siniestro real Secretaria Movilidad (TAXI - PEATON),AVENIDA 40 CON CALLE 10
+2022-08-21 03:20:00,media,desconocido,noche,4.1208687,-73.6336293,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 36 CON CALLE 6 SUR
+2022-08-18 07:40:00,media,desconocido,dia,4.1378023,-73.6103763,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 21 CON CARRERA 10 ESTE
+2022-08-23 11:20:00,baja,desconocido,dia,4.152755,-73.640267,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CALLE 41 CON CARRERA 33A
+2022-08-22 20:01:00,media,desconocido,noche,4.1467178,-73.6303942,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 31 CON CARRERA 27
+2022-08-20 19:20:00,media,desconocido,noche,4.1408162,-73.6316389,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 33 CON CALLE 25
+2022-08-25 10:12:00,media,desconocido,dia,4.108863,-73.6306143,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CALLE 7 SUR CON CARRERA 35
+2022-08-27 23:39:00,alta,desconocido,noche,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 48 CON CALLE 1
+2022-08-14 07:44:00,alta,desconocido,dia,4.1153041,-73.649495,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 CON CALLE 14 SUR
+2022-08-22 10:30:00,media,desconocido,dia,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 CON CALLE 1
+2022-08-23 06:39:00,media,desconocido,dia,4.0784905,-73.6715881,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 63 CON CARRERA 45 PORFIA
+2022-08-27 20:10:00,media,desconocido,noche,4.1383448,-73.6251878,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 21 SUR CON CARRERA 22
+2022-08-25 06:30:00,media,desconocido,dia,4.1321669,-73.61183,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 10 CON CARRERA 10B
+2022-08-26 13:07:00,media,desconocido,dia,4.1364967,-73.6181027,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 16 CON CALLE 17C
+2022-08-28 22:13:00,media,desconocido,noche,4.1427326,-73.6344918,Siniestro real Secretaria Movilidad (MOTO - MOTO),AVENIDA 40 CON TRANSVERSAL 33A
+2022-08-31 14:40:00,media,desconocido,dia,4.1466617,-73.6147444,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 14
+2022-08-25 06:15:00,media,desconocido,dia,4.0826876,-73.6693292,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 43 CON CALLE 53
+2022-08-27 09:38:00,media,desconocido,dia,4.1448229,-73.6387412,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 33B CON CARRERA 38
+2022-08-31 08:14:00,media,desconocido,dia,4.1061629,-73.6472098,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 18 CON CARRERA 39
+2022-08-31 15:29:00,media,desconocido,dia,4.1597931,-73.6479091,Siniestro real Secretaria Movilidad (MOTO - ARBOL),CALLE 45 CON CARRERA 40
+2022-08-26 07:00:00,media,desconocido,dia,4.1408162,-73.6316389,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 33 CON CALLE 25
+2022-04-09 14:50:00,media,desconocido,dia,4.1458746,-73.6277308,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 27 CON CARRERA 24
+2022-08-31 13:37:00,media,desconocido,dia,4.081588,-73.6715268,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 55 CON CARRERA 45
+2022-09-08 23:36:00,media,desconocido,noche,4.1165637,-73.5890845,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 20 SUR CON CARRERA 15A ESTE
+2022-09-11 18:18:00,media,desconocido,noche,4.1245816,-73.6218408,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 24 CON CALLE 5
+2022-09-10 19:19:00,media,desconocido,noche,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 15 CON CARRERA 1
+2022-09-06 13:45:00,media,desconocido,dia,4.0796163,-73.6693834,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 43 CON CALLE 60 SUR PORFIA
+2022-09-03 17:20:00,baja,desconocido,dia,4.1298447,-73.638292,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),AVENIDA 40 CON CALLE 11
+2022-08-31 20:15:00,media,desconocido,noche,4.1300961,-73.6401397,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 11 SUR  CON CARRERA 40
+2022-09-01 14:34:00,media,desconocido,dia,4.1403462,-73.6169769,Siniestro real Secretaria Movilidad (CAMIONETA - PEATON),CARRERA 15C CON CALLE 25
+2022-09-05 14:47:00,media,desconocido,dia,4.1402929,-73.6161414,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 15 CON CALLE 25 OLIMPICO
+2022-09-03 10:35:00,media,desconocido,dia,4.1216479,-73.6319885,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 34 CON CALLE 5B LA VEGA
+2022-09-05 05:40:00,media,desconocido,noche,4.0911003,-73.6658289,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETRA),CALLE 43 SUR CON CARRERA 39
+2022-09-06 10:32:00,media,desconocido,dia,4.1355501,-73.6373374,Siniestro real Secretaria Movilidad (BUS - AUTOMOVIL),CARRERA 38 ESTE CON CALLE 19 SUR
+2022-09-06 22:19:00,alta,desconocido,noche,4.1090591,-73.6546729,Siniestro real Secretaria Movilidad (BICICLETA - MOTO),CARRERA 48 SUR CON CALLE 19 CATUMARE
+2022-09-16 05:27:00,baja,desconocido,noche,4.1055311,-73.651611,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CARRERA 44 CON CALLE 21
+2022-09-11 07:40:00,media,desconocido,dia,4.2593625,-73.5597698,Siniestro real Secretaria Movilidad (AUTOMOVIL - BICICLETA),CARRERA 1 CON CALLE 10 ANILLO VIAL
+2022-09-10 17:15:00,media,desconocido,dia,4.1237259,-73.6299132,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 7 CON CARRERA 32 BARRIO LA VEGA
+2022-09-16 06:48:00,media,desconocido,dia,4.1456624,-73.6354014,Siniestro real Secretaria Movilidad,CARRERA 33 CON AVENIDA 40
+2022-09-17 13:15:00,media,desconocido,dia,4.1286604,-73.589922,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 22 SUR CON CARRERA 14 ESTE
+2022-09-08 13:45:00,media,desconocido,dia,4.076957,-73.6705285,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 67 CON CARRERA 44 PANORAMA
+2022-09-12 21:37:00,media,desconocido,noche,4.158659,-73.6418903,Siniestro real Secretaria Movilidad (MOTO - CAMPERO),CALLE 44 CON CARRERA 34
+2022-09-18 15:03:00,media,desconocido,dia,4.1437304,-73.5868053,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 41 CON CARRERA 16 ESTE
+2022-09-17 07:00:00,media,desconocido,dia,4.1570009,-73.6522288,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 44 CON CARRERA 47
+2022-09-16 15:45:00,media,desconocido,dia,4.1411321,-73.612767,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 26 CON CARRERA 12
+2022-09-14 13:55:00,media,desconocido,dia,4.1353281,-73.627535,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 33 CON CALLE 19
+2022-09-19 20:58:00,media,desconocido,noche,4.1409604,-73.63498,Siniestro real Secretaria Movilidad (MOTO - PEATON),AVENIDA 40 CON CALLE 26C
+2022-09-25 02:42:00,media,desconocido,noche,4.0777434,-73.6694122,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 43 CON CALLE 65
+2022-09-21 02:14:00,media,desconocido,noche,4.1246809,-73.6250965,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 26 CON CALLE 6A
+2022-09-19 17:56:00,media,desconocido,dia,4.1111521,-73.631104,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 5 CON CARRERA 35
+2022-09-18 02:25:00,media,desconocido,noche,4.1039097,-73.6463447,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 21 CON CARRERA 38 ESTE
+2022-09-25 13:30:00,baja,desconocido,dia,4.1405629,-73.6344937,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),AVENIDA 40 CON CARRERA 35A 
+2022-09-21 08:30:00,media,desconocido,dia,4.150549,-73.6319527,Siniestro real Secretaria Movilidad (TAXI),CALLE 37 CON CARRERA 26 SAN ISIDRIO
+2022-09-20 20:05:00,media,desconocido,noche,4.099805,-73.6475796,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 38 CON CALLE27
+2022-09-20 14:10:00,media,desconocido,dia,4.1589132,-73.6484607,Siniestro real Secretaria Movilidad (BICICLETA - MOTO),CARRERA 41 CON CALLE 44
+2022-09-25 15:19:00,media,desconocido,dia,4.149329,-73.6208,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 19D CON CALLE 36 JORDAN
+2022-09-25 04:40:00,media,desconocido,noche,4.0977366,-73.6406144,Siniestro real Secretaria Movilidad (MOTO - MOTO),SUBNIVEL ALKOSTO CALLE 31 CON CARRERA 33
+2022-09-22 21:15:00,alta,desconocido,noche,4.1291799,-73.5675755,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 21 SUR CON CARRERA 40 ESTE
+2022-09-23 12:00:00,media,desconocido,dia,4.1233746,-73.6429173,Siniestro real Secretaria Movilidad (CAMION - MOTO - CAMIOMETA - MOTO),CARRERA 48 CON CALLE 4 SUR 
+2022-09-25 23:28:00,media,desconocido,noche,4.1411201,-73.6318889,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 33 CON CALLE 26
+2022-09-28 18:30:00,media,desconocido,noche,4.1338063,-73.5859408,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 31 CON CARRERA 19
+2022-09-29 11:02:00,media,desconocido,dia,4.1425175,-73.6329531,Siniestro real Secretaria Movilidad (MOTO - CAMION),CARRERA 33 CON CALLE 26B
+2022-09-18 01:41:00,media,desconocido,noche,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (TAXI - CAMIONETA),CARRERA 1 CON CALLE 15 FRENTE TERMINAL
+2022-09-30 09:30:00,media,desconocido,dia,4.1353378,-73.60752,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CALLE 17 CON CARRERA 6
+2022-09-21 20:40:00,media,desconocido,noche,4.1357211,-73.5727962,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 35 CON CARRERA 31 ESTE
+2022-09-23 06:30:00,media,desconocido,dia,4.1411201,-73.6318889,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 33 CON CALLE 26
+2022-10-03 06:40:00,media,desconocido,dia,4.1296268,-73.6185092,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 6 CON CARRERA 19
+2022-10-07 22:00:00,media,desconocido,noche,4.1326053,-73.6130529,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 12 CON CALLE 11
+2022-10-04 10:30:00,media,desconocido,dia,4.1345882,-73.6304849,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 20 CON CARRERA 36 SAN BENITO
+2022-10-05 08:34:00,alta,desconocido,dia,4.1467185,-73.6125124,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 13
+2022-10-10 04:55:00,media,desconocido,noche,4.1161982,-73.6484181,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 CON CALLE 11 Y 12
+2022-10-11 22:16:00,media,desconocido,noche,4.1500044,-73.6328746,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CALLE 36 CON CARRERA 27
+2022-10-14 09:49:00,media,desconocido,dia,4.1503338,-73.6404011,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 38 CON CARRERA 34 CENTRO
+2022-10-18 20:15:00,alta,desconocido,noche,4.0842061,-73.6693026,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 43 CON CALLE 50A PORFIA
+2022-10-13 10:52:00,media,desconocido,dia,4.147363,-73.62942,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA),CARRERA 25 CON CALLE 31 PORVENIR
+2022-10-17 14:22:00,media,desconocido,dia,4.1429297,-73.6400041,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 40 CON CALLE 33
+2022-10-17 20:10:00,media,desconocido,noche,4.1425555,-73.6428827,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 44 CON CALLE 33A SUR
+2022-10-23 10:50:00,media,desconocido,dia,4.2635251,-73.4843814,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 17 ESTE CON CALLE 21 SUR
+2022-08-31 21:19:00,media,desconocido,noche,4.156982,-73.6523395,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 48 CON CALLE 44 SUR
+2022-09-16 06:49:00,media,desconocido,dia,4.1456624,-73.6354014,Siniestro real Secretaria Movilidad,CARRERA 33 CON AVENIDA 40
+2022-09-30 09:11:00,media,desconocido,dia,4.1583155,-73.6492888,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 44 CON CARRERA 42
+2022-10-22 13:10:00,media,desconocido,dia,4.1442838,-73.6151742,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 31 CON CARRERA 14A 
+2022-10-22 14:15:00,media,desconocido,dia,4.1406057,-73.6251436,Siniestro real Secretaria Movilidad (MOTO - BUSETA),CALLE 24 CON CARRERA 23
+2022-10-22 00:32:00,media,desconocido,noche,4.138021,-73.6120243,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 21 SUR CON CARRERA 11 ESTE GAVIOTAS
+2022-10-23 13:10:00,alta,desconocido,dia,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 1 CON CALLE 15
+2022-10-16 19:07:00,media,desconocido,noche,4.147806,-73.6192101,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 35 CON CARRERA 19
+2022-10-27 23:58:00,media,desconocido,noche,4.1233746,-73.6429173,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 48 CON CALLE 4 SUR 
+2022-10-27 18:10:00,media,desconocido,noche,4.1294515,-73.6227678,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CARRERA 22 CON CALLE 8B 
+2022-10-30 10:20:00,alta,desconocido,dia,4.1523534,-73.6313689,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 37C CON CARRERA 26
+2022-11-01 18:30:00,media,desconocido,noche,4.0792465,-73.669387,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 43 CON CALLE 61 SUR PORFIA
+2022-11-06 20:08:00,media,desconocido,noche,4.1284932,-73.6141179,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 4 CON CARRERA 14
+2022-11-01 05:18:00,media,desconocido,noche,4.1338307,-73.6263304,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 22 CON CALLE 17 SEPTIMA BRIGADA
+2022-10-31 06:53:00,media,desconocido,dia,4.1519186,-73.6182293,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CALLE 39BCON CARRERA 19 GLORIETA VANGUARDIA
+2022-10-09 14:19:00,media,desconocido,dia,4.1394215,-73.6329992,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CALLE 25 CON CARRERA 35
+2022-10-10 15:30:00,media,desconocido,dia,4.1525475,-73.6354719,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 30 CON CALLE 38
+2022-11-02 10:26:00,alta,desconocido,dia,4.1016319,-73.6582435,Siniestro real Secretaria Movilidad (CAMIONETA VOLCAMIENTO),CARRERA 48 SUR CON CALLE 29
+2022-09-28 06:19:00,media,desconocido,dia,4.1176415,-73.5860799,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CALLE 20 SUR CON CARRERA 18A ESTE
+2022-11-06 06:50:00,media,desconocido,dia,4.1302588,-73.6378277,Siniestro real Secretaria Movilidad (MOTO - MURO),CARRERA 48 CON CALLE 11A 
+2022-11-07 10:37:00,media,desconocido,dia,4.1156674,-73.6095288,Siniestro real Secretaria Movilidad (MOTO - CAMION),CARRERA 22 CON CALLE 9 SUR
+2022-11-06 15:40:00,media,desconocido,dia,4.1591537,-73.6441832,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 44 CON CARRERA 35C
+2022-11-09 09:30:00,media,desconocido,dia,4.1594465,-73.6391054,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 30 CON CALLE 46 LA GRAMA
+2022-11-10 18:15:00,media,desconocido,noche,4.1226323,-73.6305378,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 6 CON CARRERA 32B LA VEGA
+2022-11-12 12:20:00,media,desconocido,dia,4.1469099,-73.6127904,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 12 CON CALLE 35A 
+2022-11-12 06:10:00,media,desconocido,dia,4.1069147,-73.6552709,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 CON CALLE 22 SUR
+2022-11-18 01:30:00,media,desconocido,noche,4.1361748,-73.6317081,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 36 CON CALLE 22
+2022-11-07 14:30:00,media,desconocido,dia,4.140709,-73.616102,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 15 ESTE CON CALLE 25A
+2022-11-10 10:44:00,media,desconocido,dia,4.118142,-73.5652868,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 11A CON CARRERA 40
+2022-11-12 20:15:00,media,desconocido,noche,4.2685849,-73.4824431,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 15 CON CARRERA 14
+2022-11-14 07:29:00,media,desconocido,dia,4.1400451,-73.6382374,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 26C CON CARRERA 39
+2022-11-15 14:20:00,media,desconocido,dia,4.1536535,-73.6169104,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 18 ESTE CON CALLE 42A
+2022-11-18 07:45:00,media,desconocido,dia,4.1429051,-73.6160699,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CARRERA 15 CON CALLE 28A
+2022-11-19 06:56:00,media,desconocido,dia,4.1090591,-73.6546729,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 CON CALLE 19 SUR
+2022-11-21 12:19:00,alta,desconocido,dia,4.1205777,-73.5956895,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 9 CON CARRERA 12
+2022-11-30 10:00:00,media,desconocido,dia,4.1511536,-73.6178358,Siniestro real Secretaria Movilidad (MOTO - MICROBUS),CALLE 39 CON CARRERA 18
+2022-11-30 21:19:00,media,desconocido,noche,4.1371153,-73.6265415,Siniestro real Secretaria Movilidad (MOTO - MOTO),TRANSVERSAL 23 CON DIAGONAL 19 
+2022-11-23 02:21:00,media,desconocido,noche,4.1498368,-73.6183484,Siniestro real Secretaria Movilidad (MOTO - VEHICULO FUGA),CARRERA 18 CON CALLE 37A
+2022-11-24 09:00:00,media,desconocido,dia,4.152821,-73.638527,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 40 CON CARRERA 32 CENTRO
+2022-11-15 20:39:00,media,desconocido,noche,4.151778,-73.636915,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 31 CON CALLE 38
+2022-11-25 21:00:00,media,desconocido,noche,4.1591537,-73.6441832,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 44 CON CARRERA 35C
+2022-12-09 09:00:00,media,desconocido,dia,4.1466617,-73.6147444,Siniestro real Secretaria Movilidad (BUSETA - MOTO),CALLE 35 CON CARRERA 14 ESTE
+2022-12-08 11:11:00,media,desconocido,dia,4.1137959,-73.5836309,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 19 CON CALLE 25
+2022-12-03 17:18:00,alta,desconocido,dia,4.1140649,-73.6175711,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 6 CON CARRERA 35 LA FONTANA
+2022-12-04 10:45:00,media,desconocido,dia,4.1054519,-73.6565765,Siniestro real Secretaria Movilidad (BICICLETA - MICROBUS),CARRERA 48 CON CALLE 24 SUR
+2022-12-04 02:27:00,alta,desconocido,noche,4.1488311,-73.6398432,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 37 CON CARRERA 35 ESTE
+2022-12-02 21:48:00,media,desconocido,noche,4.1425481,-73.6201863,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 18A CON CALLE 25D
+2022-11-30 07:40:00,media,desconocido,dia,4.1037499,-73.6231755,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 15 CON CARRERA 33-34
+2022-11-30 15:41:00,media,desconocido,dia,4.1449048,-73.6347239,Siniestro real Secretaria Movilidad (BUSETA - PEATON),CARRERA 33 CON CALLE 32
+2022-11-15 22:55:00,media,desconocido,noche,4.1332286,-73.6271969,Siniestro real Secretaria Movilidad (MOTO),CARRERA 33 CON CALLE 16
+2022-10-10 18:29:00,media,desconocido,noche,4.0906022,-73.6643809,Siniestro real Secretaria Movilidad (AUTOMOVIL - MICROBUS),CALLE 44 CON CARRERA 37
+2022-11-21 14:31:00,media,desconocido,dia,4.1604923,-73.6393181,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 30 CON CALLE 47 CAUDAL
+2022-11-16 12:15:00,media,desconocido,dia,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 48 CON CALLE 1 
+2022-12-10 00:45:00,alta,desconocido,noche,4.137375,-73.5881786,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CALLE 35 CON CARRERA 16 BARRIO SANTA HELENA
+2022-12-11 11:17:00,media,desconocido,dia,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 48 CON CALLE 1 CON KM 1
+2022-12-12 15:50:00,media,desconocido,dia,4.1460924,-73.6327551,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 29 CON CALLE 32
+2022-12-14 18:20:00,media,desconocido,noche,4.1466617,-73.6147444,Siniestro real Secretaria Movilidad (BUS - MOTO),CALLE 35 CON CARRERA 14 ESTE
+2022-12-16 19:24:00,media,desconocido,noche,4.1498368,-73.6183484,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 37A CON CARRERA 18
+2022-12-17 22:45:00,media,desconocido,noche,4.1137959,-73.5836309,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),CARRERA 19 CON CALLE 25
+2022-12-17 00:20:00,media,desconocido,noche,4.1208687,-73.6336293,Siniestro real Secretaria Movilidad (MOTO),CARRERA 36 CON CALLE 6 SUR
+2022-10-12 17:57:00,media,desconocido,dia,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (CAMION - MOTO),CALLE 15 CON CARRERA 1
+2022-12-25 16:54:00,media,desconocido,dia,4.1488227,-73.6416036,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 39 B CON CARRERA 37 BIS
+2022-12-19 15:10:00,alta,desconocido,dia,4.1379989,-73.5882043,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 16 CON CALLE 35B 
+2022-12-25 15:55:00,media,desconocido,dia,4.147806,-73.6192101,Siniestro real Secretaria Movilidad (MOTO - VEHICULO FUGA),CALLE 35 CON CARRERA 19
+2022-12-21 21:14:00,media,desconocido,noche,4.1189257,-73.5903589,Siniestro real Secretaria Movilidad (MOTO - POSTE),CALLE 15 CON CARRERA 15 ESTERO
+2022-12-25 01:20:00,media,desconocido,noche,4.1306076,-73.6401588,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CARRERA 40 CON CALLE 11 SUR
+2022-11-13 06:28:00,media,desconocido,dia,4.1448229,-73.6387412,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),CARRERA 38 CON CALLE 33B
+2022-12-01 06:51:00,media,desconocido,dia,4.1471055,-73.6163191,Siniestro real Secretaria Movilidad (BICICLETA),CARRERA 16A CON CALLE 35 CEIBA
+2022-12-04 04:44:00,media,desconocido,noche,4.1402492,-73.615455,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 25 CON CARRERA 14
+2022-08-23 09:12:00,media,desconocido,dia,4.1116102,-73.6532388,Siniestro real Secretaria Movilidad (MOTO - MOTO - MOTO - TAXI),CALLE 17 CON CARRERA 48
+2022-10-14 11:09:00,media,desconocido,dia,4.1108932,-73.6321386,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 35A CON CALLE 5 SUR
+2022-09-13 15:21:00,media,desconocido,dia,4.2648235,-73.485202,Siniestro real Secretaria Movilidad (BUSETA - CAMIONETA),CALLE 19 CON CARRERA 18 LA FLORENCIA
+2022-12-25 11:30:00,media,desconocido,dia,4.1203851,-73.633882,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CARRERA 36 CON CALLE 5A
+2022-12-28 18:38:00,media,desconocido,noche,4.1161982,-73.6484181,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 CON CALLE 11
+2022-12-31 18:54:00,media,desconocido,noche,4.1347512,-73.6081764,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 7 CON CALLE 16A
+2022-12-31 02:40:00,media,desconocido,noche,4.1416383,-73.6237134,Siniestro real Secretaria Movilidad (CAMPERO - MOTO),CARRERA 21 CON CALLE 25 
+2022-09-21 16:10:00,media,desconocido,dia,4.1041709,-73.6568307,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 CON CALLE 25 SUR
+2022-12-15 09:23:00,media,desconocido,dia,4.1204793,-73.6272424,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 4 CON CARRERA 30A
+2022-12-12 18:46:00,media,desconocido,noche,4.1059368,-73.6481145,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 40 CON CALLE 19 SUR
+2022-05-29 07:25:00,media,desconocido,dia,4.1306076,-73.6401588,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 40 CON CALLE 11
+2022-06-29 11:25:00,media,desconocido,dia,4.0989515,-73.6387181,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 29 CON CALLE 31
+2023-01-06 15:33:00,media,desconocido,dia,4.15821,-73.6402806,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 44 CON CARRERA 32 BARRIO EL TRIUNFO
+2023-01-07 22:15:00,media,desconocido,noche,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 1 CON CALLE 15
+2023-01-04 14:14:00,media,desconocido,dia,4.1419608,-73.6183258,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CALLE 25D CON CARRERA 17 BARRIO DOS MIL
+2023-01-01 20:30:00,media,desconocido,noche,4.1137959,-73.5836309,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 19 CON CALLE 25
+2023-01-03 03:19:00,media,desconocido,noche,4.1233746,-73.6429173,Siniestro real Secretaria Movilidad (CAMIONETA),CARRERA 48 CON CALLE 4 SUR LEON TRECE
+2023-01-01 20:35:00,media,desconocido,noche,4.0525547,-73.7426576,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 8 CON CARRERA 17
+2023-01-01 11:05:00,media,desconocido,dia,4.1501262,-73.6196548,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 37A CON CARRERA 19A
+2023-01-10 20:15:00,media,desconocido,noche,4.1574589,-73.6504429,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 44 CON CARRERA 45
+2023-01-11 12:30:00,media,desconocido,dia,4.133393,-73.618902,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 12A CON CARRERA 17
+2023-01-06 23:50:00,media,desconocido,noche,4.1160081,-73.6099726,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 22 CON CALLE 8
+2023-01-09 11:19:00,media,desconocido,dia,4.2648235,-73.485202,Siniestro real Secretaria Movilidad (CAMPERO - MOTO),CALLE 19 CON CARRERA 18
+2023-01-15 11:40:00,media,desconocido,dia,4.1482824,-73.637911,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 35 CON CARRERA 34 ESTE
+2023-01-10 20:15:00,media,desconocido,noche,4.1574589,-73.6504429,Siniestro real Secretaria Movilidad (CAMION - MOTO),CALLE 44 CON CARRERA 45 
+2023-01-11 12:30:00,alta,desconocido,dia,4.132966,-73.618983,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 12 A CON CARRERA 17
+2023-01-15 03:40:00,media,desconocido,noche,4.1148509,-73.5842027,Siniestro real Secretaria Movilidad (MOTO CONTRA ADEN),CALLE 23 CON CARRERA 19
+2023-01-12 10:39:00,media,desconocido,dia,4.138461,-73.638399,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 26 CON CARRERA 40
+2023-01-12 11:53:00,alta,desconocido,dia,4.0822709,-73.6693436,Siniestro real Secretaria Movilidad (CAMION - PEATON),CARRERA 43 CON CALLE 54 SUR
+2023-01-19 20:40:00,alta,desconocido,noche,4.137375,-73.5881786,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 35 CON CARRERA 16 ESTE
+2023-01-16 16:03:00,media,desconocido,dia,4.1452883,-73.6350274,Siniestro real Secretaria Movilidad (CAMPERO - PEATON),CARRERA 33 CON CALLE 33
+2023-01-18 18:30:00,media,desconocido,noche,4.1016319,-73.6582435,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 CON CALLE 29 SUR MONTECARLOS
+2023-01-22 16:00:00,media,desconocido,dia,4.1291799,-73.5675755,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 21 CON CARRERA 40
+2023-01-20 20:00:00,media,desconocido,noche,4.1452883,-73.6350274,Siniestro real Secretaria Movilidad (BICICLETA - AUTOMOVIL),CARRERA 33 CON CALLE 33
+2023-01-23 06:10:00,media,desconocido,dia,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CARRERA 1 CON CALLE 15
+2023-01-23 21:40:00,media,desconocido,noche,4.1172089,-73.5953508,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CALLE 18 SUR CON CARRERA 13
+2023-01-20 19:06:00,media,desconocido,noche,4.131266,-73.611815,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 10B CON CALLE 8 ESTERO
+2023-01-21 03:59:00,media,desconocido,noche,4.1378001,-73.6087634,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CALLE 21 SUR CON CARRERA 8 ESTE
+2023-01-24 22:35:00,alta,desconocido,noche,4.1468044,-73.627312,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CALLE 28 CON CARRERA 22D
+2023-01-22 16:52:00,alta,desconocido,dia,4.1311582,-73.610703,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 8 CON CARRERA 10 ESTERO
+2023-01-24 08:48:00,media,desconocido,dia,4.1377234,-73.6188275,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 17 CON CALLE 19 BOCHICA
+2023-01-26 16:40:00,media,desconocido,dia,4.1574589,-73.6504429,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 44 CON CARRERA 45
+2023-01-29 22:35:00,media,desconocido,noche,4.1570009,-73.6522288,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 44 CON CARRERA 47
+2023-01-26 19:20:00,alta,desconocido,noche,4.1412646,-73.6216028,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO - MOTO),CALLE 25 CON CARRERA 19B-01
+2023-01-29 17:10:00,media,desconocido,dia,4.1395698,-73.6352973,Siniestro real Secretaria Movilidad (MOTO - PEATON),AVENIDA 40 CON CALLE 26
+2023-01-27 04:07:00,media,desconocido,noche,4.1460196,-73.6357458,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 33 CON CALLE 33B
+2023-01-28 20:40:00,media,desconocido,noche,4.1447854,-73.6158637,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 15 ESTE CALLE 31A
+2023-01-31 04:34:00,media,desconocido,noche,4.1353129,-73.6360803,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),AVENIDA 40 CON CALLE 19
+2023-01-30 10:21:00,media,desconocido,dia,4.1450184,-73.6433425,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 42 CON CALLE37
+2023-01-31 08:40:00,media,desconocido,dia,4.1398222,-73.6388759,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 40 CON CALLE 26C
+2023-02-04 09:20:00,media,desconocido,dia,4.1215258,-73.6282633,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL),CARRERA 31 CON CALLE 4D  LA VEGA
+2023-02-04 15:13:00,media,desconocido,dia,4.1333298,-73.6185251,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 16 CON CALLE 12A 
+2023-02-07 12:00:00,media,desconocido,dia,4.1383448,-73.6251878,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 22 CON CALLE 21 SUR
+2023-02-06 14:15:00,media,desconocido,dia,4.1577572,-73.638548,Siniestro real Secretaria Movilidad (MICROBUS - CAIDA OCUPANTE),CARRERA 30 CON CALLE 44 LA GRAMA
+2023-02-08 08:00:00,baja,desconocido,dia,4.1460196,-73.6357458,Siniestro real Secretaria Movilidad (CAMION - AUTOMOVIL),CARRERA 33 CON CALLE 33B
+2023-02-11 06:24:00,baja,desconocido,dia,4.1355501,-73.6373374,Siniestro real Secretaria Movilidad (AUTOMOVIL POSTE),CALLE 19 CON CARRERA 38-69
+2023-02-09 06:17:00,media,desconocido,dia,4.110086,-73.6325048,Siniestro real Secretaria Movilidad (MOTO - TAXI),DIAGONAL 6 SUR CON CALLE 5A SUR
+2023-02-07 09:19:00,media,desconocido,dia,4.122001,-73.6320836,Siniestro real Secretaria Movilidad (CAMION - MOTO),CARRERA 34 CON CALLE 6 SUR
+2023-02-12 12:08:00,alta,desconocido,dia,4.1475967,-73.6188744,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 35 CON CARRERA 18
+2023-02-10 21:17:00,media,desconocido,noche,4.1156674,-73.6095288,Siniestro real Secretaria Movilidad (TRACTOCAMION - MOTO),CARRERA 22 CON CALLE 9 SUR
+2023-02-11 09:17:00,media,desconocido,dia,4.1357211,-73.5727962,Siniestro real Secretaria Movilidad (MICROBUS - MOTO),CALLE 35 CON CARRERA 31 ESTE
+2023-02-15 13:30:00,media,desconocido,dia,4.1223391,-73.6446989,Siniestro real Secretaria Movilidad (CAMION - MOTO),CALLE 1 CON CARRERA 50
+2023-02-11 07:00:00,media,desconocido,dia,4.130184,-73.6317428,Siniestro real Secretaria Movilidad (MOTO - BUSETA),CARRERA 40 CON CALLE 14
+2023-02-16 12:30:00,media,desconocido,dia,4.1014566,-73.6596089,Siniestro real Secretaria Movilidad (BUS - TAXI),CARRERA 48 SUR CON CALLE 30
+2023-02-17 20:00:00,media,desconocido,noche,4.1090591,-73.6546729,Siniestro real Secretaria Movilidad (TRACTOCAMION - CAMPERO),CARRERA 48 CON CALLE 19 SUR
+2023-02-19 09:23:00,media,desconocido,dia,4.1467178,-73.6303942,Siniestro real Secretaria Movilidad (AUTOMOVIL),CARRERA 27 CON CALLE 31
+2023-02-16 08:00:00,alta,desconocido,dia,4.1476711,-73.6383642,Siniestro real Secretaria Movilidad (TAXI - TAXI),CARRERA 35 NCON CALLE 35 BARZAL
+2023-02-16 08:55:00,media,desconocido,dia,4.1228135,-73.646405,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMION),CALLE 1 CON CARRERA 52 LLANO LINDO
+2023-02-18 17:41:00,media,desconocido,dia,4.132061,-73.6285363,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 36 CON CALLE 15A
+2023-02-19 02:40:00,alta,desconocido,noche,4.1470811,-73.6388111,Siniestro real Secretaria Movilidad (CAMION - MOTO),CALLE 35 CON CARRERA 36
+2023-02-17 17:20:00,alta,desconocido,dia,4.1235755,-73.6421892,Siniestro real Secretaria Movilidad (BICICLETA - MOTO),AVENIDA 40 CON CALLE 4
+2023-02-21 11:42:00,media,desconocido,dia,4.1474746,-73.6192231,Siniestro real Secretaria Movilidad (TRACTOCAMION - MOTO),CARRERA 19 CON CALLE 34
+2023-02-23 19:26:00,media,desconocido,noche,4.1437444,-73.6122346,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 12 CON CALE 31 EL RECREO
+2023-02-24 11:59:00,media,desconocido,dia,4.1193848,-73.6312708,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CARRERA 34 CON CALLE 4
+2023-02-20 17:08:00,media,desconocido,dia,4.133082,-73.6130743,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 12 CON CALLE 12 ESTERO
+2023-02-17 09:50:00,media,desconocido,dia,4.1266068,-73.6402624,Siniestro real Secretaria Movilidad (MOTO - PEATON),AVENIDA 40 CON CALLE 6
+2023-02-28 17:25:00,alta,desconocido,dia,4.0784729,-73.6694171,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 43 CON CALLE 63
+2023-02-22 08:56:00,media,desconocido,dia,4.1459923,-73.628512,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 25 CON CALLE 28 PORVENIR
+2023-03-02 16:14:00,media,desconocido,dia,4.1327667,-73.629081,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 36 SUR CON CALLE 16
+2023-03-02 05:30:00,media,desconocido,noche,4.1276385,-73.6387959,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CARRERA 48 CON CALLE 7
+2023-03-03 16:45:00,media,desconocido,dia,4.139932,-73.5839584,Siniestro real Secretaria Movilidad (AUTOMOVIL - BICICLETA),CARRERA 20 ESTE CON CALLE 37A MORICHAL
+2023-03-05 10:41:00,media,desconocido,dia,4.146282,-73.6121013,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 35 CON CARRERA 12
+2023-03-09 14:18:00,alta,desconocido,dia,4.1383484,-73.615929,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO - MOTO),CALLE 21 SUR CON CARRERA 15
+2023-03-11 20:15:00,media,desconocido,noche,4.0908545,-73.6665093,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 44 CON CARRERA 40 BARRIO PANORAMA
+2023-03-15 07:43:00,media,desconocido,dia,4.1334744,-73.6130728,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 12 CON CALLE 14
+2023-03-12 11:50:00,media,desconocido,dia,4.1435718,-73.6382924,Siniestro real Secretaria Movilidad (AUTOMOVIL - TAXI),CARRERA 38 CON CALLE 33
+2023-03-13 12:15:00,alta,desconocido,dia,4.1511536,-73.6178358,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 39 CON CARRERA 18
+2023-03-19 03:15:00,media,desconocido,noche,4.1339602,-73.6363095,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 48 CON CALLE 16
+2023-02-28 18:04:00,media,desconocido,noche,4.130372,-73.5917658,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 25 CON CARRERA 12
+2023-03-17 00:20:00,media,desconocido,noche,4.1090591,-73.6546729,Siniestro real Secretaria Movilidad (MOTO),CARRERA 48 CO CALLE 19 SUR CATUMARE
+2023-03-17 11:00:00,media,desconocido,dia,4.0989515,-73.6387181,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 31 CON CARRERA 29
+2023-03-20 10:38:00,media,desconocido,dia,4.0638986,-73.6707231,Siniestro real Secretaria Movilidad (MOTO - MICROBUS),CARRERA 49 CON CALLE 90 SUR
+2023-03-18 18:43:00,alta,desconocido,noche,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CARRERA 1 CON CALLE 15
+2023-03-28 18:50:00,media,desconocido,noche,4.0826876,-73.6693292,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 43 CON CALLE 53 SUR
+2023-03-22 16:06:00,media,desconocido,dia,4.0908381,-73.6668158,Siniestro real Secretaria Movilidad (BICICLETA - MOTO),CARRERA 48 CON CALLE 45 B SUR
+2023-04-01 20:30:00,media,desconocido,noche,4.1353129,-73.6360803,Siniestro real Secretaria Movilidad (MOTO - PEATON),AVENIDA 40 CON CALLE 19
+2023-03-21 10:35:00,media,desconocido,dia,4.1530562,-73.6300646,Siniestro real Secretaria Movilidad (CAMION - MOTO),CARRERA 24 CON CALLE 37D
+2023-03-31 11:39:00,media,desconocido,dia,4.1300736,-73.5873525,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 25 CON CARRERA 18
+2023-03-31 20:14:00,media,desconocido,noche,4.1411917,-73.6347189,Siniestro real Secretaria Movilidad (MOTO - PEATON),AVENIDA 40 CON TRANSVERSAL 35
+2023-03-30 13:49:00,media,desconocido,dia,4.1066256,-73.6480077,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 40 CON CALLE 18 SUR
+2023-03-31 06:07:00,media,desconocido,dia,4.1153041,-73.649495,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 CON CALLE 14 SUR
+2023-04-02 01:25:00,media,desconocido,noche,4.1340563,-73.6328668,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 37 CON CALLE 16
+2023-03-27 18:30:00,media,desconocido,noche,4.1438596,-73.6374948,Siniestro real Secretaria Movilidad (CAMION - MOTO),CARRERA 37 CON CALLE 33 B
+2023-03-29 13:02:00,media,desconocido,dia,4.1342409,-73.6363411,Siniestro real Secretaria Movilidad (MOTO - PEATON),AVENIDA 40 CON CALLE 16
+2023-03-27 18:30:00,media,desconocido,noche,4.145124,-73.637942,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 37 CON CALLE 33B
+2023-04-08 11:41:00,alta,desconocido,dia,4.1209778,-73.6515035,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 12 SUR CON CRA 55
+2023-04-08 08:21:00,media,desconocido,dia,4.1475967,-73.6188744,Siniestro real Secretaria Movilidad (MOTO CAIDA DE OCUPANTE),CALLE 35 CON CARRERA 18
+2023-04-05 13:20:00,media,desconocido,dia,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 CON CALLE 1
+2023-04-10 00:30:00,media,desconocido,noche,4.1153041,-73.649495,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL),CARRERA 48 CON CALLE 14 SUR
+2023-04-13 06:20:00,media,desconocido,dia,4.1334744,-73.6130728,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 12 CON CALLE 14 BARRIO ESTERO
+2023-04-13 11:30:00,media,desconocido,dia,4.1394999,-73.6344196,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CALLE 26 CON CARRERA 36
+2023-04-12 18:15:00,media,desconocido,noche,4.1398222,-73.6388759,Siniestro real Secretaria Movilidad (TAXI - MOTOCARRO),CARRERA 40 CON CALLE 26C BARRIO SIETE DE AGOSTO
+2023-04-16 22:25:00,baja,desconocido,noche,4.1301818,-73.622338,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL - AUTOMOVIL),CARRERA 22 CON CALLE 8C
+2023-04-15 20:40:00,media,desconocido,noche,4.1383561,-73.6350278,Siniestro real Secretaria Movilidad (MOTO - PEATON),AVENIDA 40 CON CALLE 25
+2023-04-15 14:38:00,media,desconocido,dia,4.2641765,-73.4862194,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 19 CON CARRERA 19 ESTE
+2023-04-22 12:00:00,baja,desconocido,dia,4.1467185,-73.6125124,Siniestro real Secretaria Movilidad (MOTO - POSTE),CALLE 35 CON CARRERA 13 ESTE
+2023-04-18 02:30:00,baja,desconocido,noche,4.1010584,-73.6491305,Siniestro real Secretaria Movilidad (CAMPERO - POSTE),CARRERA 40 CON CALLE 25
+2023-04-14 13:37:00,media,desconocido,dia,4.1193848,-73.6312708,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 34 CON CALLE 4 ACACIAS
+2023-04-21 00:49:00,media,desconocido,noche,4.1376376,-73.6381401,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 40 CON CALLE 24
+2023-04-19 18:35:00,media,desconocido,noche,4.1203851,-73.633882,Siniestro real Secretaria Movilidad (AUTOMOVIL - TRATOCAMION),CARRERA 36 CON CALLE 5A -21 SUR
+2023-04-22 12:04:00,media,desconocido,dia,4.135641,-73.6277725,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 33 CON CALLE 20 SAN BENITO
+2023-04-19 14:41:00,media,desconocido,dia,4.1130736,-73.629835,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 4 SUR CON CARRERA 34
+2023-04-19 08:15:00,media,desconocido,dia,4.146282,-73.6121013,Siniestro real Secretaria Movilidad (BUS - MOTO),CALLE 35 CON CARRERA 12
+2023-04-13 07:10:00,media,desconocido,dia,4.1223391,-73.6446989,Siniestro real Secretaria Movilidad (CAMION - MOTO),CALLE 1 CON CARRERA 50 LLANO LINDO
+2023-04-22 12:15:00,media,desconocido,dia,4.137995,-73.633464,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 36 CON CALLE 24A
+2023-04-22 21:38:00,media,desconocido,noche,4.1521153,-73.6175515,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 18 CON CALLE 40 
+2023-04-25 12:00:00,media,desconocido,dia,4.1541146,-73.6351765,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 29A CON CALLE 39D
+2023-04-26 11:55:00,media,desconocido,dia,4.1503484,-73.6293456,Siniestro real Secretaria Movilidad (AUTOMOVIL - MICROBUS),CALLE 37 CON CARRERA 24
+2023-04-28 13:10:00,media,desconocido,dia,4.145121,-73.6400001,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 39 CON CALLE 34
+2023-04-29 23:25:00,media,desconocido,noche,4.147363,-73.62942,Siniestro real Secretaria Movilidad (MOTO),CALLE 31 COON CARRERA 25
+2023-04-26 12:45:00,alta,desconocido,dia,4.1301952,-73.615863,Siniestro real Secretaria Movilidad (CAMPERO - MOTO),CARRERA 14 CALLE 5 Y 5A
+2023-04-26 20:05:00,media,desconocido,noche,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 1 CON CALLE 15
+2023-04-28 15:15:00,media,desconocido,dia,4.0842061,-73.6693026,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 43 CON CALLE 50A-51
+2023-05-01 08:40:00,media,desconocido,dia,4.1228135,-73.646405,Siniestro real Secretaria Movilidad (CAMIONETA - AUTOMOVIL),CALLE 1 CON CARRERA 52 LLANO LINDO
+2023-05-02 13:10:00,media,desconocido,dia,4.150549,-73.6319527,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CALLE 37 CON CARRERA 26 SAN ISIDRIO
+2023-04-28 09:17:00,media,desconocido,dia,4.1487389,-73.6372969,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CALLE 35 CON CARRERA 33
+2023-04-28 06:37:00,media,desconocido,dia,4.1506328,-73.6243067,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 37 CON CARRERA 21 ESTE
+2023-05-02 07:55:00,media,desconocido,dia,4.125827,-73.6202233,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 22 CON CALLE 5
+2023-05-05 07:40:00,media,desconocido,dia,4.1395806,-73.6263726,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 23 CON CARRERA 24 BARRIO NOGAL
+2023-05-07 06:15:00,media,desconocido,dia,4.1479795,-73.604988,Siniestro real Secretaria Movilidad (CAMIONETA - PEATON),CALLE 39B CON CARRERA 6 BARRIO MANANTIAL
+2023-05-01 21:40:00,alta,desconocido,noche,4.0800013,-73.6693786,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 43 CON CALLE 59 SUR
+2023-05-10 07:11:00,baja,desconocido,dia,4.1465767,-73.6276453,Siniestro real Secretaria Movilidad (TRACTOCAMION - POSTE),CALLE 28 CON CARRERA 23
+2023-05-10 15:10:00,media,desconocido,dia,4.1511536,-73.6178358,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 39 CON CARRERA 18
+2023-05-11 21:30:00,media,desconocido,noche,4.1109361,-73.6331731,Siniestro real Secretaria Movilidad (CAMIONETA - PEATON),CARRERA 36 CON CALLE 5 SUR
+2023-05-13 20:24:00,media,desconocido,noche,4.1353281,-73.627535,Siniestro real Secretaria Movilidad (MOTO),CARRERA 33 CON CALLE 19
+2023-05-12 20:30:00,media,desconocido,noche,4.146282,-73.6121013,Siniestro real Secretaria Movilidad (MOTO),CALLE 35 CON CARRERA 12
+2023-05-14 15:31:00,media,desconocido,dia,4.0586823,-73.6701236,Siniestro real Secretaria Movilidad (MOTO - CAMPERO),CARRERA 49 CON CALLE 93 SUR
+2023-05-16 21:50:00,baja,desconocido,noche,4.1037499,-73.6231755,Siniestro real Secretaria Movilidad (CAMION - AUTOMOVIL),CALLE 15 CON CARRERA 33
+2023-05-18 07:59:00,media,desconocido,dia,4.1408162,-73.6316389,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 33 CON CALLE 25
+2023-05-18 07:30:00,alta,desconocido,dia,4.1375851,-73.6358749,Siniestro real Secretaria Movilidad (MOTO - MOTO),AVENIDA 40 CON CARRERA 38 - 37A
+2023-05-20 07:10:00,media,desconocido,dia,4.1037499,-73.6231755,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 15 CON CARRERA 33
+2023-05-24 01:00:00,baja,desconocido,noche,4.1475967,-73.6188744,Siniestro real Secretaria Movilidad (MOTO CONTRA ARBOL),CALLE 35 CON CARRERA 18
+2023-05-19 08:10:00,media,desconocido,dia,4.1589132,-73.6484607,Siniestro real Secretaria Movilidad (MOTO INDUSTRIAL - CAMPERO),CALLE 44 CON CARRERA 41
+2023-05-23 21:10:00,alta,desconocido,noche,4.1149086,-73.6081511,Siniestro real Secretaria Movilidad (AUTOMOVIL - AUTOMOVIL - AUTOMOVIL),CARRERA 22 CON CALLE 10
+2023-05-24 19:30:00,media,desconocido,noche,4.1463802,-73.6411944,Siniestro real Secretaria Movilidad (BUS - MOTO),CARRERA 40 CON CALLE 37 GLORIETA POSTOBON
+2023-05-11 20:15:00,media,desconocido,noche,4.1109361,-73.6331731,Siniestro real Secretaria Movilidad (CAMION - TRACTOCAMION),CARRERA 36 CON CALLE 5 SUR
+2023-05-23 20:40:00,media,desconocido,noche,4.1536535,-73.6169104,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 18 ESTE CON CALLE 42A
+2023-05-26 07:55:00,media,desconocido,dia,4.1393317,-73.580847,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 23 CON CALLE 37
+2023-05-27 02:10:00,alta,desconocido,noche,4.1378023,-73.6103763,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 21 SUR CON CARRERA 10
+2023-05-25 18:08:00,media,desconocido,noche,4.1497565,-73.6302663,Siniestro real Secretaria Movilidad (MICROBUS - MOTO),CALLE 36 CON CARRERA 24
+2023-05-24 07:00:00,media,desconocido,dia,4.148124,-73.638946,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 36 CON CARRERA 35
+2023-05-29 13:13:00,media,desconocido,dia,4.133602,-73.6109741,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 10A CON CALLE 15B
+2023-05-27 21:40:00,media,desconocido,noche,4.0762446,-73.6716447,Siniestro real Secretaria Movilidad (CAMION - PEATON),CALLE 69 CON CARRERA 45
+2023-05-31 22:55:00,media,desconocido,noche,4.1316491,-73.5917727,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 27 CON CARRERA 12
+2023-05-30 10:50:00,media,desconocido,dia,4.1436188,-73.6347283,Siniestro real Secretaria Movilidad (MOTO - PEATON),AVENIDA 40 CON CALLE 31
+2023-05-31 16:25:00,media,desconocido,dia,4.1398473,-73.6174525,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 16 CON CALLE 24A
+2023-06-03 21:26:00,media,desconocido,noche,4.130184,-73.6317428,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 40 A ESTE CON CALLE 14 SUR SAN ANTONIO
+2023-06-02 13:17:00,media,desconocido,dia,4.1061699,-73.6562067,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 CON CALLE 23 VIA ACACIAS
+2023-06-03 00:38:00,media,desconocido,noche,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (TAXI - AUTOMOVIL - TAXI),CARRERA 1 CON CALLE 15
+2023-05-30 19:10:00,media,desconocido,noche,4.1332188,-73.6335723,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 17 C SUR CON CARRERA 45
+2023-06-03 16:05:00,media,desconocido,dia,4.1059368,-73.6481145,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 40 CON CALLE 19
+2023-06-06 12:11:00,media,desconocido,dia,4.074778,-73.6694369,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 43 CON CALLE 73 PORFIA
+2023-06-06 21:05:00,media,desconocido,noche,4.1467185,-73.6125124,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 35 CON CARRERA 13 ESTE
+2023-05-31 18:20:00,media,desconocido,noche,4.156762,-73.6392709,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 42 CON CARRERA 30A
+2023-06-08 14:20:00,media,desconocido,dia,4.1458746,-73.6277308,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 24 CON CALLE 27
+2023-06-10 12:45:00,media,desconocido,dia,4.144691,-73.616904,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 16A CON CALLE 31
+2023-06-10 20:55:00,media,desconocido,noche,4.1495208,-73.6184538,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CARRERA 18 ESTE CON CALLE 37
+2023-06-07 23:11:00,media,desconocido,noche,4.1040685,-73.6225185,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 15 CON CARRERA 31
+2023-06-10 16:53:00,media,desconocido,dia,4.125827,-73.6202233,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 22 CON CALLE 5
+2023-06-19 20:07:00,media,desconocido,noche,4.1300961,-73.6401397,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 11 A ESTE CON CARRERA 40 SAN ANTONIO
+2023-06-18 12:50:00,media,desconocido,dia,4.1038024,-73.6576372,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 48 CON CALLE 26 SUR
+2023-06-12 12:12:00,media,desconocido,dia,4.1584358,-73.641086,Siniestro real Secretaria Movilidad (BICICLETA - TAXI),CALLE 44 CON CARRERA 33
+2023-06-18 21:50:00,media,desconocido,noche,4.1584358,-73.641086,Siniestro real Secretaria Movilidad (MOTO - CAMPERO),CALLE 44 CON CARRERA 33
+2023-06-17 20:45:00,media,desconocido,noche,4.1419475,-73.6255683,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 24 CON CALLE 25
+2023-06-21 14:40:00,media,desconocido,dia,4.0777611,-73.6705137,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 65 CON CARRERA 44 SUR PORFIA
+2023-06-26 14:19:00,media,desconocido,dia,4.1219899,-73.6448994,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 CON CALLE 1
+2023-06-22 11:07:00,alta,desconocido,dia,4.1151715,-73.5961585,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 24 CON CARRERA 12
+2023-06-23 18:45:00,media,desconocido,noche,4.1384495,-73.6155606,Siniestro real Secretaria Movilidad (CAMION - MOTO),CALLE 21 SUR CON CARRERA 14
+2023-06-27 13:40:00,media,desconocido,dia,4.125827,-73.6202233,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 22 ENTRADA CALLE 5 SEMILLANO
+2023-06-28 12:25:00,media,desconocido,dia,4.154125,-73.637885,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 41 CON CARRERA 30 CENTRO
+2023-07-05 01:48:00,baja,desconocido,noche,4.1298047,-73.5862742,Siniestro real Secretaria Movilidad (CAMIONETA CONTRA SEMAFORO),CALLE 25 CON CARRERA 19
+2023-07-01 09:39:00,media,desconocido,dia,4.0994426,-73.6304961,Siniestro real Secretaria Movilidad (BICICLETA - BICICLETA),CARRERA 36 CON CALLE 16B SUR
+2023-07-01 16:40:00,media,desconocido,dia,4.1474403,-73.6179242,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CALLE 35 CON CARRERA 17B
+2023-07-06 07:30:00,media,desconocido,dia,4.1233746,-73.6429173,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 48 CON CALLE 4 SUR  
+2023-07-06 10:50:00,media,desconocido,dia,4.0588255,-73.6716104,Siniestro real Secretaria Movilidad (CAMION - MOTO),CARRERA 51 CON CALLE 92
+2023-07-09 07:40:00,media,desconocido,dia,4.1025776,-73.6581788,Siniestro real Secretaria Movilidad (TAXI - PEATON),CARRERA 48 CON CALLE 28 SUR
+2023-07-10 16:28:00,media,desconocido,dia,4.1469338,-73.6189004,Siniestro real Secretaria Movilidad (AUTOMOVIL - MICROBUS),CALLE 34 CON CARRERA 18
+2023-07-07 10:40:00,media,desconocido,dia,4.1444844,-73.637714,Siniestro real Secretaria Movilidad (TAXI - PEATON),CARRERA 37 CON CALLE 33A
+2023-07-06 16:05:00,media,desconocido,dia,4.1431777,-73.6160473,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 15 ESTE CON CALLE 29
+2023-07-09 19:15:00,media,desconocido,noche,4.1361748,-73.6317081,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 36 CON CALLE 22 SAN BENITO
+2023-07-10 23:42:00,media,desconocido,noche,4.0638986,-73.6707231,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 49 CON CALLE 90 SUR LA MADRID
+2023-07-05 20:02:00,media,desconocido,noche,4.1316877,-73.6130343,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 12 CON CALLE 9
+2023-07-10 10:10:00,media,desconocido,dia,4.1059368,-73.6481145,Siniestro real Secretaria Movilidad (BUSETA - PEATON),CARRERA 40 CON CALLE 19
+2023-07-10 05:20:00,media,desconocido,noche,4.15821,-73.6402806,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 44 CON CARRERA 32 BARRIO EL TRIUNFO
+2023-07-11 08:49:00,media,desconocido,dia,4.1466248,-73.6114317,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 35 CON CARRERA 11
+2023-07-09 15:10:00,alta,desconocido,dia,4.1050724,-73.6450748,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 19 SUR CON CARRERA 37
+2023-07-20 03:35:00,baja,desconocido,noche,4.1339602,-73.6363095,Siniestro real Secretaria Movilidad (CAMIONETA - TAXI),CARRERA 48 CON CALLE 16 SUR
+2023-07-20 23:10:00,alta,desconocido,noche,4.1243253,-73.6304645,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL - MOTO),CARRERA 32 CON CALLE 8A
+2023-07-15 00:38:00,media,desconocido,noche,4.1310429,-73.6377601,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),AVENIDA 40 CON CALLE 12
+2023-07-15 20:25:00,media,desconocido,noche,4.152424,-73.6189217,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 19A CON CALLE 40
+2023-07-16 15:10:00,media,desconocido,dia,4.1331038,-73.6272098,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 33 CON CALLE 15A
+2023-07-15 09:25:00,media,desconocido,dia,4.1467185,-73.6125124,Siniestro real Secretaria Movilidad (MOTO CAIDA DE OCUPANTE),CARRERA 13 ESTE CON CALLE 35
+2023-07-19 11:48:00,media,desconocido,dia,4.1452883,-73.6350274,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 33 CON CALLE 33 
+2023-07-19 14:43:00,media,desconocido,dia,4.1059368,-73.6481145,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 40 CON CALLE 19
+2023-07-19 16:20:00,media,desconocido,dia,4.147806,-73.6192101,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 19
+2023-07-21 23:21:00,alta,desconocido,noche,4.1153041,-73.649495,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 CON CALLE 14 SUR
+2023-07-22 10:30:00,baja,desconocido,dia,4.1323868,-73.6309897,Siniestro real Secretaria Movilidad (TAXI),CALLE 16 CON CARRERA 37D-36
+2023-07-21 15:30:00,media,desconocido,dia,4.1371402,-73.6465958,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 15 CON CARRERA 44C
+2023-07-19 15:12:00,media,desconocido,dia,4.1151715,-73.5961585,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 24 CON CARRERA 12
+2023-07-18 07:00:00,media,desconocido,dia,4.1557674,-73.6322298,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 39B CON TRANSVERSAL 25
+2023-07-21 17:20:00,media,desconocido,dia,4.1511536,-73.6178358,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 39 CON CARRERA 18 SANTA HELENA
+2023-07-30 21:35:00,media,desconocido,noche,4.1326053,-73.6130529,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 12 CON CALLE 11 BARRIO ESTERO
+2023-07-24 20:58:00,media,desconocido,noche,4.2629712,-73.5561902,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 1 CON CALLE 17
+2023-07-26 08:13:00,media,desconocido,dia,4.1498368,-73.6183484,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 37A CON CARRERA 18 BARRIO SANTA HELENA
+2023-07-23 15:58:00,media,desconocido,dia,4.1577572,-73.638548,Siniestro real Secretaria Movilidad (MOTO - FUGA AUTOMOVIL),CALLE 44 CON CARRERA 30
+2023-07-29 14:45:00,media,desconocido,dia,4.1483449,-73.628596,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CARRERA 23 ENTRE CALLE 34 Y 35
+2023-07-31 22:58:00,media,desconocido,noche,4.1393317,-73.580847,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 23 CON CALLE 37
+2023-07-29 18:00:00,media,desconocido,noche,4.0762202,-73.670539,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 69 CON CARRERA 44 PORFIA
+2023-07-25 07:50:00,media,desconocido,dia,4.1324309,-73.5488625,Siniestro real Secretaria Movilidad (MOTO - VOLQUETA),CALLE 35 CON CARRERA 61 ESTE RELIQUIA
+2023-08-02 18:00:00,media,desconocido,noche,4.1604923,-73.6393181,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 30 CON CALLE 47
+2023-08-05 06:32:00,media,desconocido,dia,4.1161982,-73.6484181,Siniestro real Secretaria Movilidad (TAXI - PEATON),CARRERA 48 CON CALLE 11
+2023-08-06 09:05:00,media,desconocido,dia,4.1149086,-73.6081511,Siniestro real Secretaria Movilidad (CAMIONETA - PEATON),CARRERA 22 CON CALLE 10 SUR
+2023-08-11 15:15:00,baja,desconocido,dia,4.1455357,-73.6409266,Siniestro real Secretaria Movilidad (CAMIONETA CON CABLEADO),CARRERA 40 CON CALLE 35
+2023-08-10 11:05:00,media,desconocido,dia,4.137995,-73.633464,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 36 CON CALLE 24A
+2023-08-06 13:28:00,media,desconocido,dia,4.147806,-73.6192101,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CALLE 35 CON CARRERA 19 PARQUE DE LA VIDA
+2023-08-01 16:05:00,media,desconocido,dia,4.1161982,-73.6484181,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 CON CALLE 11 SUR
+2023-08-09 17:15:00,media,desconocido,dia,4.134755,-73.639114,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMIONETA),CALLE 15 CON CARRERA 40
+2023-08-11 08:07:00,media,desconocido,dia,4.1509811,-73.638434,Siniestro real Secretaria Movilidad (TAXI - PEATON),CALLE 38 CON CARRERA 33 CENTRO
+2023-08-15 16:55:00,media,desconocido,dia,4.1352696,-73.6274882,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 33 CON TRANSVERSAL 23
+2023-08-16 01:00:00,media,desconocido,noche,4.2641765,-73.4862194,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 19 CON CALLE 19
+2023-08-14 12:00:00,media,desconocido,dia,4.1362876,-73.6068928,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 5 CON CALLE 18 EL DANUBIO
+2023-08-24 10:08:00,media,desconocido,dia,4.1359456,-73.643006,Siniestro real Secretaria Movilidad (CAMIONETA - BICICLETA),CALLE 15 CON CARRERA 43 EL BUQUE
+2023-08-17 23:00:00,media,desconocido,noche,4.1395698,-73.6352973,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),AVENIDA 40 CON CALLE 26 SAN BENITO
+2023-08-17 20:40:00,media,desconocido,noche,4.1419763,-73.6331372,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 26B CON CARRERA 33A
+2023-08-17 14:10:00,media,desconocido,dia,4.0829431,-73.664499,Siniestro real Secretaria Movilidad (MOTO - BICICLETA),CARRERA 35 CON CALLE 54 SUR
+2023-08-19 13:35:00,media,desconocido,dia,4.1502802,-73.635783,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 36 CON CARRERA 30
+2023-08-24 16:45:00,media,desconocido,dia,4.1338307,-73.6263304,Siniestro real Secretaria Movilidad (MOTO - MOTO - MOTO),CARRERA 22 CON CALLE 17 PUENTE SEPTIMA BRIGADA
+2023-08-29 18:02:00,media,desconocido,noche,4.1393317,-73.580847,Siniestro real Secretaria Movilidad,CARRERA 23 CON CALLE 37
+2023-08-26 18:30:00,media,desconocido,noche,4.1472096,-73.6114741,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 12 CON CALLE 36
+2023-08-30 19:30:00,alta,desconocido,noche,4.1374445,-73.5890932,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 35 CON CARRERA 15 ESTE
+2023-08-19 17:45:00,alta,desconocido,dia,4.1526166,-73.6213817,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 20A CON CALLE 39B
+2023-08-27 23:18:00,alta,desconocido,noche,4.1452827,-73.6351492,Siniestro real Secretaria Movilidad (MOTO - MOTO),AVENIDA 40 CON CALLE 33
+2023-08-25 19:08:00,media,desconocido,noche,4.1382344,-73.584368,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 20 CON CALLE 36 JORDAN PARAISO
+2023-02-05 03:15:00,alta,desconocido,noche,4.1495208,-73.6184538,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 18 ESTE CON CALLE 37
+2023-09-02 06:14:00,media,desconocido,dia,4.1026228,-73.6530172,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 25 SUR CON CARRERA 44 ROCHELA
+2023-09-07 18:20:00,media,desconocido,noche,4.1397062,-73.6268013,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 23 CON CARRERA 24A VILLA JULIA
+2023-09-06 13:30:00,media,desconocido,dia,4.1526166,-73.6213817,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 20A CON CALLE 39B
+2023-08-25 22:00:00,media,desconocido,noche,4.0584923,-73.6725686,Siniestro real Secretaria Movilidad (MOTO - TAXI),CALLE 92 SUR CON CARRERA 52
+2023-09-01 17:20:00,media,desconocido,dia,4.2623203,-73.5567876,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 1 CON CALLE 15 TERMINAL
+2023-09-01 06:25:00,media,desconocido,dia,4.150682,-73.6293315,Siniestro real Secretaria Movilidad (MOTO - BUSETA),CARRERA 24 CON CALLE 37 
+2023-09-12 12:05:00,media,desconocido,dia,4.1164867,-73.596335,Siniestro real Secretaria Movilidad (BICICLETA),CARRERA 12 CON CALLE 20
+2023-09-14 23:06:00,media,desconocido,noche,4.1233746,-73.6429173,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 48 CON CALLE 4 FRENTE ALMA VIVA
+2023-09-12 21:29:00,media,desconocido,noche,4.128401,-73.5863101,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 19 A ESTE CON CALLE 21 BARRIO KIRPAS
+2023-09-14 01:50:00,baja,desconocido,noche,4.1014566,-73.6596089,Siniestro real Secretaria Movilidad (AUTOMOVIL - POSTE),CARRERA 48 CON CALLE 30 A SUR
+2023-09-12 16:40:00,media,desconocido,dia,4.1209764,-73.6318175,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 34 CON CALLE 5 LA VEGA
+2023-09-06 11:40:00,media,desconocido,dia,4.1062199,-73.6560517,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO - MOTO),CARRERA 48 CON CALLE 23A SUR BARRIO PLAYA RICA
+2023-08-31 10:07:00,media,desconocido,dia,4.1324714,-73.5492604,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 35 CON CARRERA 60 ENTREDA RELIQUIA
+2023-09-07 12:40:00,media,desconocido,dia,4.1510399,-73.6190213,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 19 CON CALLE 38 DOS MIL ALTO
+2023-09-16 07:55:00,media,desconocido,dia,4.1161982,-73.6484181,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 CON CALLE 11
+2023-09-16 21:00:00,media,desconocido,noche,4.125827,-73.6202233,Siniestro real Secretaria Movilidad (MOTO),CARRERA 22 CON CALLE 5
+2023-09-15 12:50:00,media,desconocido,dia,4.1438596,-73.6374948,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 33 B CON CARRERA 37
+2023-09-15 23:17:00,media,desconocido,noche,4.1289968,-73.5862983,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 19 CON CALLE 23A
+2023-09-20 07:30:00,media,desconocido,dia,4.1145464,-73.607158,Siniestro real Secretaria Movilidad (MOTO - CAMION),CARRERA 22 CON CALLE 11 SUR
+2023-09-23 07:03:00,media,desconocido,dia,4.1164867,-73.596335,Siniestro real Secretaria Movilidad (MOTO - CAMION),CARRERA 12 CON CALLE 20  
+2023-09-24 21:14:00,media,desconocido,noche,4.1429297,-73.6400041,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 40 CON CALLE 33 BARRIO BARZAL
+2023-09-22 14:08:00,media,desconocido,dia,4.1014566,-73.6596089,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 48 CON CALLE 30 A SUR
+2023-09-25 18:37:00,media,desconocido,noche,4.150127,-73.6380249,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 33 CON CALLE 37 CENTRO
+2023-09-25 08:27:00,media,desconocido,dia,4.1482877,-73.6113768,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 37 CON CARRERA 12
+2023-09-27 16:57:00,media,desconocido,dia,4.0967368,-73.6503002,Siniestro real Secretaria Movilidad (TAXI - MOTO),CALLE 31 CON CARRERA 35
+2023-09-26 14:44:00,media,desconocido,dia,4.1360778,-73.6129273,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 12 CON CALLE 17B
+2023-09-27 00:03:00,alta,desconocido,noche,4.1437718,-73.6159748,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 15 CON CALLE 30  
+2023-09-27 20:16:00,media,desconocido,noche,4.1541377,-73.6202686,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 42A CON CARRERA 20 COVISAN
+2023-08-07 12:42:00,media,desconocido,dia,4.1208406,-73.5656021,Siniestro real Secretaria Movilidad (MOTO - CAMIONETA),CARRERA 40 CON CALLE 15 VILLA MARIA
+2023-09-27 22:24:00,media,desconocido,noche,4.1208406,-73.5656021,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 40 CON CALLE 15 VILLA MARIA
+2023-09-30 17:33:00,media,desconocido,dia,4.1449048,-73.6347239,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 33 CON CALLE 32
+2023-04-03 18:42:00,media,desconocido,noche,4.1589132,-73.6484607,Siniestro real Secretaria Movilidad (MOTO),CALLE 44 CON CARRERA 41 BARRIO 12 OCTUBRE
+2023-09-26 11:15:00,media,desconocido,dia,4.1405629,-73.6344937,Siniestro real Secretaria Movilidad (TAXI - MOTO),AVENIDA 40 CON CARRERA 35A
+2023-09-28 14:59:00,media,desconocido,dia,4.1292343,-73.6338109,Siniestro real Secretaria Movilidad (MOTO - TAXI),CARRERA 44 CON CALLE 11B 
+2023-05-12 17:14:00,media,desconocido,dia,4.0996899,-73.6452571,Siniestro real Secretaria Movilidad (CAMIONETA - CAMIONETA - MOTO),CALLE 27 CON CARRERA 36B
+2023-05-23 08:20:00,media,desconocido,dia,4.1310911,-73.6376851,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 48 CON CALLE 12 C SUR
+2023-08-14 08:46:00,media,desconocido,dia,4.1037499,-73.6231755,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CALLE 15 CON CARRERA 33
+2023-09-30 08:40:00,media,desconocido,dia,4.1016319,-73.6582435,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 CON CALLE 29 SUR MONTECARLOS
+2023-10-15 09:29:00,media,desconocido,dia,4.1233746,-73.6429173,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 48 CON CALLE 4
+2023-10-17 10:58:00,media,desconocido,dia,4.1449048,-73.6347239,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 33 CON CALLE 32
+2023-10-15 16:08:00,media,desconocido,dia,4.1040685,-73.6225185,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CALLE 15 CON CARRERA 31
+2023-07-24 18:30:00,media,desconocido,noche,4.1310266,-73.6306912,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 39 CON CALLE 14C
+2023-10-15 11:07:00,media,desconocido,dia,4.1350898,-73.6081556,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 7 CON CALLE 16B VILLA JOHANA
+2023-10-12 10:45:00,media,desconocido,dia,4.1340563,-73.6328668,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 37 I CON CALLE 16 BARRIO GUATIQUIA
+2023-10-14 20:23:00,media,desconocido,noche,4.1151998,-73.5835002,Siniestro real Secretaria Movilidad (MOTO - PEATON),CALLE 23 CON CARRERA 20 BARRIO LA MACARENA
+2023-09-20 18:11:00,media,desconocido,noche,4.1137959,-73.5836309,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 19 CON CALLE 25
+2023-10-11 13:50:00,media,desconocido,dia,4.1040558,-73.647364,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 21 CON CARRERA 39
+2023-10-10 17:29:00,media,desconocido,dia,4.0784729,-73.6694171,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 43 CON CALLE 63 
+2023-10-09 14:15:00,media,desconocido,dia,4.1213241,-73.631916,Siniestro real Secretaria Movilidad (TAXI - MOTO),CARRERA 34 CON CALLE 5A LA VEGA
+2023-10-08 22:00:00,media,desconocido,noche,4.0762135,-73.6694298,Siniestro real Secretaria Movilidad (MOTO - MOTO),CALLE 69 CON CARRERA 43
+2023-10-07 22:11:00,alta,desconocido,noche,4.1153041,-73.649495,Siniestro real Secretaria Movilidad (AUTOMOVIL - CAMPERO),CARRERA 48 CON CALLE 14 SUR
+2023-10-03 22:45:00,media,desconocido,noche,4.1338321,-73.5860363,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CARRERA 19 CON CARRERA 18
+2023-10-06 19:22:00,media,desconocido,noche,4.1391772,-73.5866471,Siniestro real Secretaria Movilidad (CAMIONETA - MOTO),CARRERA 17A CON CALLE 36A SANTA HELENA
+2023-10-03 16:45:00,media,desconocido,dia,4.1149471,-73.6118264,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 24A CON CALLE 8
+2023-09-30 09:50:00,media,desconocido,dia,4.134755,-73.639114,Siniestro real Secretaria Movilidad (TAXI - PEATON),CALLE 15 CON CARRERA 40
+2023-10-18 07:50:00,media,desconocido,dia,4.1571471,-73.638672,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CARRERA 30 CON CALLE 43 - 53 GLORIETA
+2023-10-20 06:50:00,media,desconocido,dia,4.1369298,-73.6141023,Siniestro real Secretaria Movilidad (MOTO - MOTO),CARRERA 12C CON CALLE 18
+2023-10-19 20:03:00,media,desconocido,noche,4.1245254,-73.6191167,Siniestro real Secretaria Movilidad (MOTO - AUTOMOVIL),CALLE 4 CON CARRERA 22
+2023-10-18 13:22:00,media,desconocido,dia,4.1416383,-73.6237134,Siniestro real Secretaria Movilidad (MOTO - MICROBUS),CALLE 25 CON CARRERA 21
+2023-10-15 01:20:00,media,desconocido,noche,4.1388564,-73.615193,Siniestro real Secretaria Movilidad (AUTOMOVIL - PEATON),CALLE 24 AVENIDA MARACOS CON CALLE 21 SUR
+2023-10-25 21:17:00,media,desconocido,noche,4.1389451,-73.6255973,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 23 CON CALLE 22
+2023-10-25 20:51:00,alta,desconocido,noche,4.1431788,-73.6287884,Siniestro real Secretaria Movilidad (CAMPERO - MOTO),CALLE 26 CON CARRERA 26
+2023-10-25 13:08:00,media,desconocido,dia,4.1338321,-73.5860363,Siniestro real Secretaria Movilidad (MOTO - PEATON),CARRERA 18 CON CARRERA 19
+2023-10-26 22:40:00,media,desconocido,noche,4.1471301,-73.6109063,Siniestro real Secretaria Movilidad (AUTOMOVIL - MOTO),CALLE 36 CON CARRERA 11A 

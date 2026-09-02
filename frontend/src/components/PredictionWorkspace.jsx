@@ -24,6 +24,7 @@ const fallbackCity = {
 
 const initialFilters = {
   city: fallbackCity.key,
+  dataset: 'mixto',
   address: '',
   latitude: null,
   longitude: null,
@@ -299,6 +300,7 @@ export default function PredictionWorkspace({
   const mapRef = useRef(null);
   const predictionsLayerRef = useRef(null);
   const reportsLayerRef = useRef(null);
+  const signalsLayerRef = useRef(null);
   const queryLayerRef = useRef(null);
   const draftSelectionLayerRef = useRef(null);
   const reportSelectionLayerRef = useRef(null);
@@ -319,7 +321,10 @@ export default function PredictionWorkspace({
   const [querySummary, setQuerySummary] = useState(null);
   const [queryProbabilityDelta, setQueryProbabilityDelta] = useState(null);
   const [rangeSummary, setRangeSummary] = useState(null);
+  const [modelMeta, setModelMeta] = useState(null);
   const [reports, setReports] = useState([]);
+  const [trafficSignals, setTrafficSignals] = useState([]);
+  const [showSignals, setShowSignals] = useState(false);
   const [loadingPredictions, setLoadingPredictions] = useState(false);
   const [submittingReport, setSubmittingReport] = useState(false);
   const [weatherForecast, setWeatherForecast] = useState(null);
@@ -328,6 +333,33 @@ export default function PredictionWorkspace({
   const [isWeatherAutoEnabled, setIsWeatherAutoEnabled] = useState(true);
 
   const topPredictions = useMemo(() => predictions.slice(0, 60), [predictions]);
+  const modelAverageMetrics = useMemo(() => {
+    const metrics = modelMeta?.metrics;
+    if (!metrics) {
+      return null;
+    }
+    const keys = ['accuracy', 'precision', 'recall', 'f1'];
+    const severities = ['leve', 'medio', 'grave'];
+    const result = {};
+    keys.forEach((key) => {
+      const values = severities
+        .map((severity) => Number(metrics?.[severity]?.[key]))
+        .filter((value) => Number.isFinite(value));
+      result[key] = values.length
+        ? values.reduce((sum, value) => sum + value, 0) / values.length
+        : null;
+    });
+    return result;
+  }, [modelMeta]);
+  const modelSourceLabel = useMemo(() => {
+    const labels = {
+      mysql_accidents: 'Datos reales (MySQL)',
+      geojson: 'GeoJSON precomputado',
+      synthetic_model: 'Modelo sintetico (demo)',
+      idle: 'Sin consulta'
+    };
+    return labels[modelMeta?.source] || null;
+  }, [modelMeta]);
   const isQueryActive = hasActiveFilters(appliedFilters || initialFilters);
   const isRangeModeActive = Boolean(rangeSummary?.isActive);
   const authHeaders = useMemo(
@@ -363,6 +395,7 @@ export default function PredictionWorkspace({
 
     predictionsLayerRef.current = L.layerGroup().addTo(map);
     reportsLayerRef.current = L.layerGroup().addTo(map);
+    signalsLayerRef.current = L.layerGroup().addTo(map);
     queryLayerRef.current = L.layerGroup().addTo(map);
     draftSelectionLayerRef.current = L.layerGroup().addTo(map);
     reportSelectionLayerRef.current = L.layerGroup().addTo(map);
@@ -410,6 +443,7 @@ export default function PredictionWorkspace({
       setQuerySummary(null);
       setQueryProbabilityDelta(null);
       setRangeSummary(null);
+      setModelMeta(null);
       lastQueryProbabilityRef.current = null;
       return;
     }
@@ -418,6 +452,7 @@ export default function PredictionWorkspace({
     try {
       const params = new URLSearchParams();
       if (filtersToApply.city) params.append('city', filtersToApply.city);
+      if (filtersToApply.dataset) params.append('dataset', filtersToApply.dataset);
       if ((filtersToApply.address || '').trim()) params.append('address', filtersToApply.address.trim());
       if (isValidCoordinate(filtersToApply.latitude, filtersToApply.longitude)) {
         params.append('latitude', String(filtersToApply.latitude));
@@ -458,6 +493,11 @@ export default function PredictionWorkspace({
       const nextQuerySummary = payload?.meta?.query || null;
       setQuerySummary(nextQuerySummary);
       setRangeSummary(payload?.meta?.range || null);
+      setModelMeta({
+        source: payload?.meta?.source || null,
+        dataset: payload?.meta?.dataset || null,
+        metrics: payload?.meta?.metrics || null
+      });
 
       const nextProbability = Number(nextQuerySummary?.probability);
       const previousProbability = lastQueryProbabilityRef.current;
@@ -863,11 +903,26 @@ export default function PredictionWorkspace({
       { key: 'alta', label: 'Alta' }
     ]);
 
+    const historicalRow = Number.isFinite(Number(hotspot.historicalAccidentCount))
+      ? `<strong>Accidentes historicos:</strong> ${Number(hotspot.historicalAccidentCount)}<br />`
+      : '';
+    const signalRow = Number.isFinite(Number(hotspot.signalDistKm))
+      ? `<strong>Semaforo cercano:</strong> ${
+          Number(hotspot.signalDistKm) >= 5
+            ? '> 5 km'
+            : `${Math.round(Number(hotspot.signalDistKm) * 1000)} m`
+        }${Number(hotspot.signalCount) > 0 ? ` (${Number(hotspot.signalCount)} en la zona)` : ''}<br />`
+      : '';
+    const dailyProb = Number(hotspot.accidentProbabilityDaily);
+    const dailyProbRow = Number.isFinite(dailyProb)
+      ? `<strong>Prob. accidente (dia):</strong> ${(dailyProb * 100).toFixed(1)}%<br />`
+      : '';
     const popupHtml = `
       <strong>${hotspot.roadSegment || 'Zona sin nombre'}</strong><br />
-      <strong>Probabilidad:</strong> ${Math.round(riskScore * 100)}%<br />
+      <strong>Indice de riesgo:</strong> ${Math.round(riskScore * 100)}/100<br />
+      ${dailyProbRow}
       <strong>Nivel:</strong> ${hotspot.riskLevel || 'N/A'}<br />
-      <strong>Fecha:</strong> ${hotspot.date || 'N/A'}<br />
+      ${historicalRow}${signalRow}<strong>Fecha:</strong> ${hotspot.date || 'N/A'}<br />
       <strong>Hora:</strong> ${hotspot.hour || 'N/A'}<br />
       <strong>Clima:</strong> ${formatWeather(hotspot.weather)}<br />
       <strong>Periodo:</strong> ${formatPeriod(hotspot.period)}<br />
@@ -942,7 +997,14 @@ export default function PredictionWorkspace({
     })
       .bindPopup(
         `<strong>Consulta:</strong> ${querySummary.address}<br />
-         <strong>Probabilidad:</strong> ${Math.round((querySummary.probability || 0) * 100)}%<br />
+         <strong>Indice de riesgo:</strong> ${Math.round((querySummary.probability || 0) * 100)}/100<br />
+         ${
+           Number.isFinite(Number(querySummary.accidentProbabilityDaily))
+             ? `<strong>Prob. accidente (dia):</strong> ${(
+                 Number(querySummary.accidentProbabilityDaily) * 100
+               ).toFixed(1)}%<br />`
+             : ''
+         }
          <strong>Zona:</strong> ${querySummary.roadSegment || 'N/A'}<br />
          <strong>Tipo probable:</strong> ${formatAccidentType(querySummary.probableAccidentType)}<br />
          <strong>Gravedad probable:</strong> ${formatSeverity(querySummary.probableSeverity)}<br />
@@ -1038,6 +1100,60 @@ export default function PredictionWorkspace({
         .addTo(layer);
     });
   }, [reports]);
+
+  const fetchTrafficSignals = async (cityKey) => {
+    if (!authToken) {
+      return;
+    }
+    try {
+      const response = ensureAuthorizedOrThrow(
+        await fetch(`${API_BASE_URL}/api/traffic-signals?city=${encodeURIComponent(cityKey || 'villavicencio')}`, {
+          headers: authHeaders
+        })
+      );
+      if (!response.ok) {
+        throw new Error('No se pudieron obtener los semaforos');
+      }
+      const payload = await response.json();
+      setTrafficSignals(Array.isArray(payload.data) ? payload.data : []);
+    } catch (error) {
+      setTrafficSignals([]);
+    }
+  };
+
+  useEffect(() => {
+    if (!authToken) {
+      return;
+    }
+    fetchTrafficSignals(draftFilters.city);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authToken, draftFilters.city]);
+
+  // Renderiza la capa de semaforos (toggle).
+  useEffect(() => {
+    if (!signalsLayerRef.current) return;
+    const layer = signalsLayerRef.current;
+    layer.clearLayers();
+    if (!showSignals) {
+      return;
+    }
+    trafficSignals.forEach((signal) => {
+      if (!isValidCoordinate(signal.latitude, signal.longitude)) {
+        return;
+      }
+      L.circleMarker([signal.latitude, signal.longitude], {
+        radius: 4.5,
+        color: '#0b7a3b',
+        weight: 1.4,
+        fillColor: '#22c55e',
+        fillOpacity: 0.95
+      })
+        .bindPopup(
+          `<strong>Semaforo</strong>${signal.name ? `<br />${signal.name}` : ''}<br /><small>Fuente: OpenStreetMap</small>`
+        )
+        .addTo(layer);
+    });
+  }, [trafficSignals, showSignals]);
 
   const handleFilterChange = (nextFilters) => {
     const changedCity = nextFilters.city !== draftFilters.city;
@@ -1198,6 +1314,37 @@ export default function PredictionWorkspace({
             weatherForecastLoading={loadingWeatherForecast}
             weatherAutoMessage={weatherAutoMessage}
           />
+          <div className="map-toolbar d-flex align-items-center gap-2 mb-2">
+            <div className="form-check form-switch mb-0">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="toggle-signals"
+                checked={showSignals}
+                onChange={(event) => setShowSignals(event.target.checked)}
+              />
+              <label className="form-check-label small" htmlFor="toggle-signals">
+                Mostrar semaforos
+                {trafficSignals.length ? ` (${trafficSignals.length})` : ''}
+              </label>
+            </div>
+            {showSignals && (
+              <span className="map-toolbar-dot d-inline-flex align-items-center gap-1 small text-muted">
+                <span
+                  style={{
+                    width: 12,
+                    height: 12,
+                    borderRadius: '50%',
+                    background: '#22c55e',
+                    border: '1.4px solid #0b7a3b',
+                    display: 'inline-block'
+                  }}
+                />
+                Semaforo (OSM)
+              </span>
+            )}
+          </div>
           <div
             className={`map-container ${isPickingOnMap ? 'map-container--pick-location' : ''}`}
             ref={mapContainerRef}
@@ -1244,15 +1391,35 @@ export default function PredictionWorkspace({
                 <div className="d-flex flex-column gap-1">
                   <strong>{querySummary.address}</strong>
                   <span className={`badge rounded-pill align-self-start ${getRiskClassName(querySummary.probability || 0)}`}>
-                    {Math.round((querySummary.probability || 0) * 100)}%
+                    Riesgo {Math.round((querySummary.probability || 0) * 100)}/100
                   </span>
                   {Number.isFinite(queryProbabilityDelta) && (
                     <small className={`fw-semibold ${getProbabilityDeltaClassName(queryProbabilityDelta)}`}>
                       Variacion frente a la consulta anterior: {formatProbabilityDelta(queryProbabilityDelta)}
                     </small>
                   )}
+                  <small className="text-muted">
+                    Prob. accidente (dia):{' '}
+                    <strong>
+                      {Number.isFinite(Number(querySummary.accidentProbabilityDaily))
+                        ? `${(Number(querySummary.accidentProbabilityDaily) * 100).toFixed(1)}%`
+                        : 'N/D'}
+                    </strong>
+                  </small>
                   <small className="text-muted">Zona: {querySummary.roadSegment || 'N/A'}</small>
                   <small className="text-muted">Distancia aprox: {querySummary.distanceKm} km</small>
+                  {Number.isFinite(Number(querySummary.historicalAccidentCount)) && (
+                    <small className="text-muted">
+                      Accidentes historicos cercanos:{' '}
+                      <strong>{Number(querySummary.historicalAccidentCount)}</strong>
+                    </small>
+                  )}
+                  {modelMeta?.source === 'mysql_accidents' &&
+                    Number(querySummary.historicalAccidentCount) < 5 && (
+                      <small className="text-warning fw-semibold">
+                        Pocos datos historicos en esta zona: estimacion de menor confianza.
+                      </small>
+                    )}
                   <small className="text-muted">
                     Accidente probable: {formatAccidentType(querySummary.probableAccidentType)}
                   </small>
@@ -1280,6 +1447,76 @@ export default function PredictionWorkspace({
             </div>
           </div>
 
+          {modelSourceLabel && (
+            <div className="card border-0 shadow-sm mt-4">
+              <div className="card-body">
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <h6 className="panel-title mb-0">Desempeno del modelo</h6>
+                  <span
+                    className={`badge rounded-pill ${
+                      modelMeta?.source === 'mysql_accidents'
+                        ? 'text-bg-success'
+                        : modelMeta?.source === 'geojson'
+                        ? 'text-bg-primary'
+                        : 'text-bg-secondary'
+                    }`}
+                  >
+                    {modelSourceLabel}
+                  </span>
+                </div>
+                {modelMeta?.dataset && (
+                  <small className="text-muted d-block mb-2">
+                    Entrenado con {modelMeta.dataset.sampleSize} accidentes reales -{' '}
+                    {modelMeta.dataset.coveragePct}% de zonas con datos
+                    {Number.isFinite(Number(modelMeta.dataset.observationDays))
+                      ? ` - ${modelMeta.dataset.observationDays} dias observados (base de la prob. diaria)`
+                      : ''}
+                  </small>
+                )}
+                {modelMeta?.source === 'synthetic_model' && (
+                  <small className="text-muted d-block mb-2">
+                    No hay accidentes cargados en la base de datos: se usa un modelo de demostracion.
+                    Ejecuta el seed para activar predicciones con datos reales.
+                  </small>
+                )}
+                {modelAverageMetrics && modelMeta?.source !== 'geojson' && (
+                  <div className="d-flex flex-wrap gap-3 small">
+                    <span>
+                      Exactitud:{' '}
+                      <strong>
+                        {modelAverageMetrics.accuracy === null
+                          ? 'N/D'
+                          : `${Math.round(modelAverageMetrics.accuracy * 100)}%`}
+                      </strong>
+                    </span>
+                    <span>
+                      Precision:{' '}
+                      <strong>
+                        {modelAverageMetrics.precision === null
+                          ? 'N/D'
+                          : `${Math.round(modelAverageMetrics.precision * 100)}%`}
+                      </strong>
+                    </span>
+                    <span>
+                      Sensibilidad:{' '}
+                      <strong>
+                        {modelAverageMetrics.recall === null
+                          ? 'N/D'
+                          : `${Math.round(modelAverageMetrics.recall * 100)}%`}
+                      </strong>
+                    </span>
+                    <span>
+                      F1:{' '}
+                      <strong>
+                        {modelAverageMetrics.f1 === null ? 'N/D' : modelAverageMetrics.f1.toFixed(2)}
+                      </strong>
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="card border-0 shadow-sm mt-4">
             <div className="card-body">
               <div className="d-flex align-items-center justify-content-between mb-3">
@@ -1304,7 +1541,7 @@ export default function PredictionWorkspace({
                     <div className="d-flex align-items-center justify-content-between gap-2">
                       <strong>{prediction.roadSegment}</strong>
                       <span className={`badge rounded-pill ${getRiskClassName(prediction.riskScore)}`}>
-                        {Math.round(prediction.riskScore * 100)}%
+                        {Math.round(prediction.riskScore * 100)}/100
                       </span>
                     </div>
                     <div className="text-muted small">

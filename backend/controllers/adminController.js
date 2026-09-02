@@ -6,22 +6,38 @@ import {
   getActiveRegistrationCode
 } from '../models/authModel.js';
 import { generateVerificationCode, toMySqlDateTime } from '../services/authSecurity.js';
+import { getCityModelInsights } from '../services/localPredictionEngine.js';
+
+const DATASET_VALUES = new Set(['mixto', 'real', 'sintetico']);
 
 const getDashboard = async (req, res) => {
   try {
+    const requestedDataset = String(req.query?.dataset || 'mixto').trim().toLowerCase();
+    const dataset = DATASET_VALUES.has(requestedDataset) ? requestedDataset : 'mixto';
+
     const connection = await pool.getConnection();
+    let summary;
     try {
-      const summary = await getDashboardSummary(connection);
-      return res.json({
-        data: summary,
-        meta: {
-          generatedAt: new Date().toISOString(),
-          generatedBy: req.authUser.username
-        }
-      });
+      summary = await getDashboardSummary(connection, { dataset });
     } finally {
       connection.release();
     }
+
+    // Desempeno del modelo de prediccion (fuente de datos + metricas honestas).
+    let model = null;
+    try {
+      model = await getCityModelInsights(summary?.accidents?.cityKey || 'villavicencio', dataset);
+    } catch {
+      model = null;
+    }
+
+    return res.json({
+      data: { ...summary, model },
+      meta: {
+        generatedAt: new Date().toISOString(),
+        generatedBy: req.authUser.username
+      }
+    });
   } catch {
     return res.status(500).json({ message: 'No se pudo cargar el dashboard administrativo.' });
   }

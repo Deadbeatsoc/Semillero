@@ -1,9 +1,28 @@
+// Servicio de pronostico de clima con soporte multi-proveedor.
+//
+// Proveedor por defecto: Open-Meteo (gratis, SIN API key, alta disponibilidad).
+// Proveedor opcional: WeatherAPI.com (requiere WEATHERAPI_KEY).
+//
+// Estrategia: se intenta el proveedor primario y, si falla, se cae al
+// secundario disponible. Asi el pronostico funciona de inmediato sin
+// configuracion y se mantiene robusto ante caidas o cuotas agotadas.
+
+const OPEN_METEO_BASE_URL =
+  process.env.OPEN_METEO_BASE_URL || 'https://api.open-meteo.com/v1';
 const WEATHER_API_BASE_URL = process.env.WEATHER_API_BASE_URL || 'https://api.weatherapi.com/v1';
 const WEATHER_API_KEY = String(process.env.WEATHERAPI_KEY || process.env.WEATHER_API_KEY || '').trim();
-const WEATHER_API_DAYS = Math.max(
+const FORECAST_DAYS = Math.max(
   1,
-  Math.min(10, Number.parseInt(process.env.WEATHER_API_DAYS || '3', 10) || 3)
+  Math.min(
+    10,
+    Number.parseInt(process.env.WEATHER_FORECAST_DAYS || process.env.WEATHER_API_DAYS || '3', 10) || 3
+  )
 );
+// 'open-meteo' (default) | 'weatherapi'
+const PREFERRED_PROVIDER = String(process.env.WEATHER_PROVIDER || 'open-meteo')
+  .trim()
+  .toLowerCase();
+const DEFAULT_TIMEZONE = process.env.WEATHER_TIMEZONE || 'America/Bogota';
 const FORECAST_CACHE_TTL_MS = 15 * 60 * 1000;
 
 const CITY_COORDINATES = {
@@ -13,6 +32,11 @@ const CITY_COORDINATES = {
   cali: { latitude: 3.4516, longitude: -76.532, label: 'Cali' },
   barranquilla: { latitude: 10.9685, longitude: -74.7813, label: 'Barranquilla' }
 };
+
+// Codigos WMO (Open-Meteo) que representan precipitacion de lluvia.
+const RAIN_WEATHER_CODES = new Set([
+  51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99
+]);
 
 const forecastCache = new Map();
 
@@ -78,7 +102,8 @@ const resolveWeatherLocation = ({ city, latitude, longitude }) => {
   };
 };
 
-const buildCacheKey = (locationToken) => `forecast:${locationToken}:days:${WEATHER_API_DAYS}`;
+const buildCacheKey = (locationToken, provider) =>
+  `forecast:${provider}:${locationToken}:days:${FORECAST_DAYS}`;
 
 const getCached = (cacheKey) => {
   const cached = forecastCache.get(cacheKey);
@@ -185,13 +210,74 @@ const buildDailySummary = (hourlyRows = []) => {
   });
 };
 
-const assertConfigured = () => {
-  if (!WEATHER_API_KEY) {
-    throw new WeatherForecastError(
-      'Falta configurar WEATHERAPI_KEY en backend/.env para consultar WeatherAPI.',
-      500
-    );
+const buildTopHourly = (hourly) => {
+  const sorted = [...hourly].sort((left, right) => {
+    if (right.precipitationProbability !== left.precipitationProbability) {
+      return right.precipitationProbability - left.precipitationProbability;
+    }
+    if (right.precipMm !== left.precipMm) {
+      return right.precipMm - left.precipMm;
+    }
+    return String(left.time).localeCompare(String(right.time));
+  });
+
+  const selected = [];
+  const perDate = new Map();
+  for (const entry of sorted) {
+    const dateKey = String(entry.time).slice(0, 10);
+    const currentCount = perDate.get(dateKey) || 0;
+    if (currentCount >= 3) {
+      continue;
+    }
+    selected.push(entry);
+    perDate.set(dateKey, currentCount + 1);
+    if (selected.length >= 8) {
+      break;
+    }
   }
+
+  if (selected.length < 8) {
+    for (const entry of sorted) {
+      if (selected.some((selectedEntry) => selectedEntry.time === entry.time)) {
+        continue;
+      }
+      selected.push(entry);
+      if (selected.length >= 8) {
+        break;
+      }
+    }
+  }
+
+  return selected.map((entry) => ({
+    time: String(entry.time),
+    precipitationProbability: Math.round(entry.precipitationProbability),
+    precipMm: Number(entry.precipMm.toFixed(2)),
+    willItRain: Boolean(entry.willItRain)
+  }));
+};
+
+const buildForecastPayload = (location, hourly, { timezone, provider }) => {
+  const daily = buildDailySummary(hourly);
+  return {
+    city: {
+      key: location.cityKey,
+      label: location.label,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      source: location.source
+    },
+    provider,
+    generatedAt: new Date().toISOString(),
+    timezone: timezone || DEFAULT_TIMEZONE,
+    hourly,
+    daily,
+    range: {
+      startDate: daily[0]?.date || '',
+      endDate: daily[daily.length - 1]?.date || '',
+      totalDays: daily.length
+    },
+    topHourly: buildTopHourly(hourly)
+  };
 };
 
 const parseWeatherApiErrorMessage = async (response) => {
@@ -207,20 +293,85 @@ const parseWeatherApiErrorMessage = async (response) => {
   return '';
 };
 
-const fetchWeatherForecast = async ({ city, latitude, longitude }) => {
-  assertConfigured();
+// ---------------------------------------------------------------------------
+// Proveedor: Open-Meteo (sin API key)
+// ---------------------------------------------------------------------------
+const fetchFromOpenMeteo = async (location) => {
+  const params = new URLSearchParams({
+    latitude: String(location.latitude),
+    longitude: String(location.longitude),
+    hourly: 'precipitation_probability,precipitation,weather_code',
+    forecast_days: String(FORECAST_DAYS),
+    timezone: DEFAULT_TIMEZONE
+  });
 
-  const weatherLocation = resolveWeatherLocation({ city, latitude, longitude });
-  const cacheKey = buildCacheKey(weatherLocation.cacheToken);
-  const cached = getCached(cacheKey);
-  if (cached) {
-    return cached;
+  let response;
+  try {
+    response = await fetch(`${OPEN_METEO_BASE_URL}/forecast?${params.toString()}`);
+  } catch {
+    throw new WeatherForecastError('No se pudo conectar con el servicio de clima (Open-Meteo).', 502);
+  }
+
+  if (!response.ok) {
+    throw new WeatherForecastError(
+      `Open-Meteo no esta disponible en este momento (HTTP ${response.status}).`,
+      response.status >= 400 && response.status < 600 ? response.status : 502
+    );
+  }
+
+  let payload;
+  try {
+    payload = await response.json();
+  } catch {
+    throw new WeatherForecastError('Respuesta invalida de Open-Meteo.', 502);
+  }
+
+  const block = payload?.hourly || {};
+  const times = Array.isArray(block.time) ? block.time : [];
+  const probabilities = Array.isArray(block.precipitation_probability)
+    ? block.precipitation_probability
+    : [];
+  const precipitations = Array.isArray(block.precipitation) ? block.precipitation : [];
+  const weatherCodes = Array.isArray(block.weather_code) ? block.weather_code : [];
+
+  const hourly = times
+    .map((time, index) => {
+      const precipitationProbability = clamp(Number(probabilities[index]) || 0, 0, 100);
+      const precipMm = Math.max(0, Number(precipitations[index]) || 0);
+      const weatherCode = Number(weatherCodes[index]);
+      // "Va a llover" si el codigo WMO es de lluvia o si hay precipitacion real.
+      const willItRain = RAIN_WEATHER_CODES.has(weatherCode) || precipMm >= 0.1;
+      return {
+        time: toIsoDateTime(time),
+        precipitationProbability,
+        precipMm,
+        willItRain
+      };
+    })
+    .filter((entry) => entry.time);
+
+  if (!hourly.length) {
+    throw new WeatherForecastError('Open-Meteo no devolvio datos horarios de precipitacion.', 502);
+  }
+
+  return {
+    hourly,
+    timezone: String(payload?.timezone || DEFAULT_TIMEZONE)
+  };
+};
+
+// ---------------------------------------------------------------------------
+// Proveedor: WeatherAPI.com (requiere WEATHERAPI_KEY)
+// ---------------------------------------------------------------------------
+const fetchFromWeatherApi = async (location) => {
+  if (!WEATHER_API_KEY) {
+    throw new WeatherForecastError('WeatherAPI no esta configurado (falta WEATHERAPI_KEY).', 500);
   }
 
   const params = new URLSearchParams({
     key: WEATHER_API_KEY,
-    q: `${weatherLocation.latitude},${weatherLocation.longitude}`,
-    days: String(WEATHER_API_DAYS),
+    q: `${location.latitude},${location.longitude}`,
+    days: String(FORECAST_DAYS),
     aqi: 'no',
     alerts: 'no',
     lang: 'es'
@@ -238,7 +389,10 @@ const fetchWeatherForecast = async ({ city, latitude, longitude }) => {
     const message = providerMessage
       ? `WeatherAPI respondio: ${providerMessage}`
       : 'WeatherAPI no esta disponible en este momento.';
-    throw new WeatherForecastError(message, response.status >= 400 && response.status < 600 ? response.status : 502);
+    throw new WeatherForecastError(
+      message,
+      response.status >= 400 && response.status < 600 ? response.status : 502
+    );
   }
 
   const payload = await response.json();
@@ -254,74 +408,70 @@ const fetchWeatherForecast = async ({ city, latitude, longitude }) => {
     }))
     .filter((entry) => entry.time);
 
-  const daily = buildDailySummary(hourly);
+  if (!hourly.length) {
+    throw new WeatherForecastError('WeatherAPI no devolvio datos horarios de precipitacion.', 502);
+  }
 
-  const normalizedPayload = {
-    city: {
-      key: weatherLocation.cityKey,
-      label: weatherLocation.label,
-      latitude: weatherLocation.latitude,
-      longitude: weatherLocation.longitude,
-      source: weatherLocation.source
-    },
-    generatedAt: new Date().toISOString(),
-    timezone: String(payload?.location?.tz_id || 'America/Bogota'),
+  return {
     hourly,
-    daily,
-    range: {
-      startDate: daily[0]?.date || '',
-      endDate: daily[daily.length - 1]?.date || '',
-      totalDays: daily.length
-    },
-    topHourly: (() => {
-      const sorted = [...hourly].sort((left, right) => {
-        if (right.precipitationProbability !== left.precipitationProbability) {
-          return right.precipitationProbability - left.precipitationProbability;
-        }
-        if (right.precipMm !== left.precipMm) {
-          return right.precipMm - left.precipMm;
-        }
-        return String(left.time).localeCompare(String(right.time));
-      });
-
-      const selected = [];
-      const perDate = new Map();
-      for (const entry of sorted) {
-        const dateKey = String(entry.time).slice(0, 10);
-        const currentCount = perDate.get(dateKey) || 0;
-        if (currentCount >= 3) {
-          continue;
-        }
-        selected.push(entry);
-        perDate.set(dateKey, currentCount + 1);
-        if (selected.length >= 8) {
-          break;
-        }
-      }
-
-      if (selected.length < 8) {
-        for (const entry of sorted) {
-          if (selected.some((selectedEntry) => selectedEntry.time === entry.time)) {
-            continue;
-          }
-          selected.push(entry);
-          if (selected.length >= 8) {
-            break;
-          }
-        }
-      }
-
-      return selected.map((entry) => ({
-        time: String(entry.time),
-        precipitationProbability: Math.round(entry.precipitationProbability),
-        precipMm: Number(entry.precipMm.toFixed(2)),
-        willItRain: Boolean(entry.willItRain)
-      }));
-    })()
+    timezone: String(payload?.location?.tz_id || DEFAULT_TIMEZONE)
   };
+};
 
-  setCached(cacheKey, normalizedPayload);
-  return normalizedPayload;
+const PROVIDERS = {
+  'open-meteo': { name: 'open-meteo', fetcher: fetchFromOpenMeteo, available: () => true },
+  weatherapi: { name: 'weatherapi', fetcher: fetchFromWeatherApi, available: () => Boolean(WEATHER_API_KEY) }
+};
+
+// Orden de proveedores: el preferido primero, luego el resto disponible como
+// respaldo automatico.
+const resolveProviderOrder = () => {
+  const order = [];
+  if (PROVIDERS[PREFERRED_PROVIDER] && PROVIDERS[PREFERRED_PROVIDER].available()) {
+    order.push(PROVIDERS[PREFERRED_PROVIDER]);
+  }
+  for (const provider of Object.values(PROVIDERS)) {
+    if (provider.available() && !order.includes(provider)) {
+      order.push(provider);
+    }
+  }
+  return order;
+};
+
+const fetchWeatherForecast = async ({ city, latitude, longitude }) => {
+  const weatherLocation = resolveWeatherLocation({ city, latitude, longitude });
+  const providers = resolveProviderOrder();
+
+  if (!providers.length) {
+    throw new WeatherForecastError('No hay proveedores de clima disponibles.', 500);
+  }
+
+  let lastError = null;
+  for (const provider of providers) {
+    const cacheKey = buildCacheKey(weatherLocation.cacheToken, provider.name);
+    const cached = getCached(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    try {
+      const { hourly, timezone } = await provider.fetcher(weatherLocation);
+      const normalizedPayload = buildForecastPayload(weatherLocation, hourly, {
+        timezone,
+        provider: provider.name
+      });
+      setCached(cacheKey, normalizedPayload);
+      return normalizedPayload;
+    } catch (error) {
+      lastError = error;
+      // eslint-disable-next-line no-console
+      console.warn(`Proveedor de clima "${provider.name}" fallo: ${error.message}. Probando respaldo...`);
+    }
+  }
+
+  throw lastError instanceof WeatherForecastError
+    ? lastError
+    : new WeatherForecastError('No se pudo obtener el pronostico del clima.', 502);
 };
 
 export { WeatherForecastError, fetchWeatherForecast };

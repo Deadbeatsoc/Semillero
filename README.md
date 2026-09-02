@@ -36,9 +36,12 @@ Variables en `.env`:
 - `LOCAL_PREDICTIONS_GEOJSON` (opcional): ruta a un GeoJSON local precomputado.
 - `GEOCODER_USER_AGENT` (opcional): identificador para consultas de geocodificacion.
 - `NOMINATIM_BASE_URL` (opcional): proveedor de geocodificacion (default Nominatim OSM).
-- `WEATHERAPI_KEY` o `WEATHER_API_KEY`: API key para consultar clima en WeatherAPI.
-- `WEATHER_API_DAYS` (opcional): cantidad de dias a consultar (default `3`).
-- `WEATHER_API_BASE_URL` (opcional): base URL de WeatherAPI.
+- Clima: el proveedor por defecto es **Open-Meteo** (gratis, sin API key). No requiere configuracion.
+  - `WEATHER_PROVIDER` (opcional): `open-meteo` (default) o `weatherapi`.
+  - `WEATHER_FORECAST_DAYS` (opcional, alias `WEATHER_API_DAYS`): dias a consultar (1-10, default `3`).
+  - `WEATHER_TIMEZONE` (opcional): zona horaria (default `America/Bogota`).
+  - `WEATHERAPI_KEY` o `WEATHER_API_KEY` (opcional): solo si quieres usar WeatherAPI; si Open-Meteo falla y hay key, se usa como respaldo automatico.
+  - `OPEN_METEO_BASE_URL` / `WEATHER_API_BASE_URL` (opcional): endpoints base.
 - `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`: conexion MySQL para migraciones.
 - `DB_CHARSET`, `DB_COLLATION`: codificacion/collation para crear esquema MySQL.
 - `ADMIN_DEFAULT_USERNAME`, `ADMIN_DEFAULT_PASSWORD`: credenciales del primer administrador (si no existe uno).
@@ -48,7 +51,12 @@ Variables en `.env`:
 - `SEED_DELETE_PREVIOUS` (opcional): borra seed anterior (`true` por defecto).
 - `OVERPASS_URL` (opcional): endpoint Overpass para descargar vias OSM.
 
-Si no defines `LOCAL_PREDICTIONS_GEOJSON`, el backend usa un modelo local sintetico entrenado en memoria.
+Prioridad de la fuente de datos del modelo de prediccion:
+1. `LOCAL_PREDICTIONS_GEOJSON` (o `backend/data/predicciones.geojson`) si existe.
+2. Accidentes reales en MySQL (`accident_events`): el modelo se entrena sobre la siniestralidad real agregada por zonas. Es la fuente recomendada (ejecuta el seed).
+3. Modelo sintetico en memoria como fallback de desarrollo cuando no hay datos cargados.
+
+Las metricas del modelo (accuracy, precision, recall, f1) que ve el admin se evaluan sobre un conjunto de prueba real cuando la fuente es MySQL.
 Si no existe ningun administrador, al iniciar backend se crea uno automaticamente y se muestra en consola.
 
 ### Migraciones MySQL
@@ -82,6 +90,35 @@ npm run seed:villavicencio
 - Esto evita puntos en rios/montanas o zonas sin acceso vehicular, porque el muestreo se hace sobre calles.
 
 Nota: para esta seed necesitas acceso a internet hacia el endpoint de Overpass configurado.
+
+### Tres bases de datos seleccionables (Real / Mixta / Sintetica)
+
+La app permite alternar la fuente de datos de accidentalidad con el selector "Base de datos"
+(en predicciones y en el dashboard admin). Se implementa con la columna `accident_events.dataset`:
+
+- **Real** (`dataset='real'`): siniestros reales de la Secretaria de Movilidad (Excel 2022-2023),
+  geocodificados por interseccion de vias OSM.
+- **Sintetica** (`dataset='sintetico'`): siniestros generados aleatoriamente sobre vias reales OSM (gran volumen).
+- **Mixta** (`mixto`): union de ambas (no duplica datos; es una consulta sobre las dos).
+
+El modelo, el dashboard y el mapa de calor se entrenan/calculan sobre el dataset elegido.
+
+Comandos:
+
+```bash
+cd backend
+npm run migrate                 # incluye la migracion 005 (columna dataset)
+npm run seed:villavicencio      # vias OSM + accidentes base (sinteticos)
+npm run seed:synthetic          # genera MUCHOS sinteticos extra (SYNTH_COUNT, default 30000)
+
+# Datos reales (2 pasos):
+python scripts/geocode_real_accidents.py   # Excel -> geocodifica -> data/real_accidents.json
+npm run import:real                        # carga los reales geocodificados (dataset='real')
+```
+
+Variables utiles: `SYNTH_COUNT`, `SYNTH_MONTHS_BACK`, `REAL_EXCEL_PATH`.
+Nota: la geocodificacion de direcciones tipo "CALLE X CON CARRERA Y" depende de OSM; el hit-rate
+tipico es ~50% (el resto son direcciones sin dos vias parseables o ausentes en OSM).
 
 ### Endpoints
 

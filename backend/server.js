@@ -19,6 +19,7 @@ import {
   getAvailableCities,
   LocalPredictionEngineError
 } from './services/localPredictionEngine.js';
+import { getSignalsForCity } from './services/trafficSignalsProvider.js';
 import { ensureEvidenceDirectory } from './services/reportEvidenceService.js';
 import { resolveAuthenticatedUser } from './services/sessionAuthService.js';
 import {
@@ -78,9 +79,20 @@ app.get('/api/cities', (req, res) => {
   res.json({ data: getAvailableCities() });
 });
 
+app.get('/api/traffic-signals', async (req, res) => {
+  try {
+    const city = String(req.query?.city || 'villavicencio').trim().toLowerCase();
+    const signals = await getSignalsForCity(city);
+    return res.json({ data: signals, meta: { city, total: signals.length } });
+  } catch {
+    return res.status(500).json({ message: 'No se pudieron obtener los semaforos.' });
+  }
+});
+
 app.get('/api/predictions', async (req, res) => {
   const {
     city,
+    dataset,
     date,
     hour,
     weather,
@@ -96,6 +108,7 @@ app.get('/api/predictions', async (req, res) => {
   try {
     const payload = await fetchLocalPredictions({
       city,
+      dataset,
       date,
       hour,
       weather,
@@ -188,9 +201,9 @@ io.use(async (socket, next) => {
 });
 
 io.on('connection', async (socket) => {
+  let reports = [];
   try {
     const connection = await pool.getConnection();
-    let reports = [];
     try {
       reports = await listApprovedTodayReports(connection);
     } finally {

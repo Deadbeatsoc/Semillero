@@ -1,12 +1,19 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildRealCellsForCity } from './accidentDataProvider.js';
+import { getSignalsForCity, computeSignalFeatures } from './trafficSignalsProvider.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const DEFAULT_CITY_KEY = 'villavicencio';
 const CACHE_TTL_MS = 5 * 60 * 1000;
+// El modelo por ciudad se reconstruye periodicamente para reflejar nuevos
+// accidentes ingestados (seed/reportes) sin reiniciar el proceso.
+const MODEL_CACHE_TTL_MS = 15 * 60 * 1000;
+// Limite de respuestas cacheadas para evitar crecimiento ilimitado de memoria.
+const RESPONSE_CACHE_MAX_ENTRIES = 240;
 const DEFAULT_GEOJSON_PATH = path.resolve(__dirname, '..', 'data', 'predicciones.geojson');
 
 const CITY_PROFILES = {
@@ -68,6 +75,8 @@ const CITY_ALIASES = {
 
 const WEATHER_VALUES = new Set(['todos', 'lluvia', 'no_lluvia']);
 const PERIOD_VALUES = new Set(['todos', 'dia', 'noche']);
+const DATASET_VALUES = new Set(['mixto', 'real', 'sintetico']);
+const DEFAULT_DATASET = 'mixto';
 const RANGE_MODE_VALUES = new Set(['none', 'dia', 'mes']);
 const MAX_RANGE_DAY_STEPS = 120;
 const MAX_RANGE_MONTH_STEPS = 24;
@@ -857,6 +866,7 @@ const buildAddressScopedPredictions = (predictions, queryPoint) => {
         roadSegment: nearestPrediction.roadSegment,
         probability: nearestPrediction.riskScore,
         riskLevel: nearestPrediction.riskLevel,
+        accidentProbabilityDaily: nearestPrediction.accidentProbabilityDaily ?? null,
         distanceKm: Number(nearestPrediction.__distanceKm.toFixed(3)),
         probableAccidentType: nearestPrediction.probableAccidentType || 'carro',
         accidentTypeBreakdown: nearestPrediction.accidentTypeBreakdown || null,
@@ -866,6 +876,7 @@ const buildAddressScopedPredictions = (predictions, queryPoint) => {
         period: nearestPrediction.period || 'todos',
         hour: nearestPrediction.hour || '',
         supportPoints: 1,
+        historicalAccidentCount: Number(nearestPrediction.historicalAccidentCount) || 0,
         withinCoverage: false
       }
     };
@@ -949,6 +960,19 @@ const buildAddressScopedPredictions = (predictions, queryPoint) => {
     0,
     1
   );
+  // Probabilidad Poisson ponderada por distancia sobre los vecinos de la consulta.
+  // Solo se reporta si TODOS los vecinos la tienen (mismo origen real); si alguno
+  // carece del dato (sintetico/geojson), se deja null en vez de subestimar con 0.
+  const neighborsHaveDailyProb = queryNeighbors.every((prediction) =>
+    Number.isFinite(Number(prediction.accidentProbabilityDaily))
+  );
+  const weightedAccidentProbabilityDaily = neighborsHaveDailyProb
+    ? clamp(
+        weightedAverage((prediction) => clamp(prediction.accidentProbabilityDaily ?? 0, 0, 1), 0),
+        0,
+        1
+      )
+    : null;
 
   const normalizedSelected = selectedWithWeights
     .map((prediction) => ({
@@ -980,6 +1004,7 @@ const buildAddressScopedPredictions = (predictions, queryPoint) => {
     roadSegment: nearestPrediction.roadSegment,
     probability: weightedRiskScore,
     riskLevel: getRiskLevel(weightedRiskScore),
+    accidentProbabilityDaily: weightedAccidentProbabilityDaily,
     distanceKm: Number(nearestPrediction.__distanceKm.toFixed(3)),
     probableAccidentType: resolveDominantLabel(weightedTypeBreakdown, {
       fallback: 'carro',
@@ -995,6 +1020,10 @@ const buildAddressScopedPredictions = (predictions, queryPoint) => {
     period: nearestPrediction.period || 'todos',
     hour: nearestPrediction.hour || '',
     supportPoints: queryNeighbors.length,
+    historicalAccidentCount: queryNeighbors.reduce(
+      (sum, prediction) => sum + (Number(prediction.historicalAccidentCount) || 0),
+      0
+    ),
     withinCoverage: true
   };
 
@@ -1002,6 +1031,11 @@ const buildAddressScopedPredictions = (predictions, queryPoint) => {
     predictions: normalizedSelected,
     query
   };
+};
+
+const normalizeDataset = (value) => {
+  const normalized = String(value || '').trim().toLowerCase();
+  return DATASET_VALUES.has(normalized) ? normalized : DEFAULT_DATASET;
 };
 
 const normalizeFilters = (filters = {}) => {
@@ -1019,6 +1053,7 @@ const normalizeFilters = (filters = {}) => {
 
   return {
     city: profile.key,
+    dataset: normalizeDataset(filters.dataset),
     weather,
     period,
     hour,
@@ -1032,7 +1067,7 @@ const normalizeFilters = (filters = {}) => {
   };
 };
 
-const buildSyntheticCells = (cityProfile) => {
+const buildSyntheticCells = (cityProfile, signals = []) => {
   const random = createSeededRandom(`grid-${cityProfile.key}`);
   const [west, south, east, north] = cityProfile.bbox;
   const lngStep = (east - west) / cityProfile.cols;
@@ -1109,12 +1144,21 @@ const buildSyntheticCells = (cityProfile) => {
         'carro'
       );
 
+      const signalFeatures = computeSignalFeatures(signals, centroid, {
+        west: cellWest,
+        south: cellSouth,
+        east: cellEast,
+        north: cellNorth
+      });
+
       cells.push({
         id: `${cityProfile.key}-${row}-${col}`,
         row,
         col,
         roadSegment: `Zona ${row + 1}-${col + 1}`,
         centroid,
+        signalDistKm: signalFeatures.signalDistKm,
+        signalCount: signalFeatures.signalCount,
         geometry: {
           type: 'Polygon',
           coordinates: [
@@ -1157,7 +1201,10 @@ const getBaseFeatureVector = (cell) => [
   cell.rainPct,
   cell.dayPct,
   cell.centroid.latitude,
-  cell.centroid.longitude
+  cell.centroid.longitude,
+  // Proximidad a semaforo: distancia al mas cercano (km) y semaforos en la celda.
+  cell.signalDistKm ?? 5,
+  cell.signalCount ?? 0
 ];
 
 const buildContextLikelihoodRatio = (cell, filters) => {
@@ -1239,6 +1286,19 @@ const computeRiskScoreFromSeverity = ({
 }) => {
   const severityImpact = clamp(predLeveProb * 0.35 + predMedioProb * 0.67 + predGraveProb, 0, 1);
   return clamp(incidentProbability * severityImpact, 0, 1);
+};
+
+// Probabilidad Poisson de >=1 accidente en un dia para la celda, ajustada por
+// contexto (clima/hora/dia) via el likelihood ratio ya calculado. La tasa base
+// (accidentsPerDay) proviene de datos reales; sin ella (sintetico/geojson) => null.
+const computeAccidentProbabilityDaily = (accidentsPerDay, contextLikelihoodRatio = 1) => {
+  const baseLambda = Number(accidentsPerDay);
+  if (!Number.isFinite(baseLambda) || baseLambda < 0) {
+    return null;
+  }
+  const ratio = clamp(Number(contextLikelihoodRatio) || 1, 0.22, 4.4);
+  const lambdaConditioned = baseLambda * ratio;
+  return clamp(1 - Math.exp(-lambdaConditioned), 0, 1);
 };
 
 const buildModel = (cells, cityKey) => {
@@ -1459,6 +1519,8 @@ const parseGeoJsonPredictions = async (cityProfile) => {
           priority:
             parseMaybeNumber(props.PRIORIDAD ?? props.priority) ??
             (riskScore >= 0.78 ? 4 : riskScore >= 0.62 ? 3 : riskScore >= 0.45 ? 2 : 1),
+          historicalAccidentCount:
+            parseMaybeNumber(props.ACCIDENT_COUNT ?? props.accidentCount ?? props.accidentes_total) ?? 0,
           hourPeakAmPct,
           hourPeakPmPct,
           weekendPct,
@@ -1495,7 +1557,7 @@ const parseGeoJsonPredictions = async (cityProfile) => {
   }
 };
 
-const buildCityModel = async (cityKey) => {
+const buildCityModel = async (cityKey, dataset = DEFAULT_DATASET) => {
   const profile = CITY_PROFILES[cityKey] || CITY_PROFILES[DEFAULT_CITY_KEY];
 
   const geojsonPredictions = await parseGeoJsonPredictions(profile);
@@ -1504,40 +1566,64 @@ const buildCityModel = async (cityKey) => {
       profile,
       source: 'geojson',
       predictions: geojsonPredictions,
-      metrics: {
-        leve: { accuracy: 1, precision: 1, recall: 1, f1: 1 },
-        medio: { accuracy: 1, precision: 1, recall: 1, f1: 1 },
-        grave: { accuracy: 1, precision: 1, recall: 1, f1: 1 }
-      }
+      dataset: null,
+      // Las predicciones GeoJSON son precomputadas externamente: no se entrenan
+      // ni se evaluan aqui, asi que no hay metricas honestas que reportar.
+      metrics: null
     };
   }
 
-  const cells = buildSyntheticCells(profile);
+  // Prioridad de datos observados: si hay accidentes en MySQL para el dataset
+  // seleccionado, el modelo se entrena sobre ellos (anclado a siniestralidad real).
+  const realData = await buildRealCellsForCity(profile, dataset);
+  if (realData && Array.isArray(realData.cells) && realData.cells.length) {
+    const trainedReal = buildModel(realData.cells, `${cityKey}-${dataset}`);
+    return {
+      profile,
+      source: 'mysql_accidents',
+      cells: realData.cells,
+      dataset: realData.dataset,
+      models: trainedReal.models,
+      metrics: trainedReal.metrics,
+      thresholds: trainedReal.thresholds
+    };
+  }
+
+  // Fallback: modelo sintetico procedural (sin datos cargados para ese dataset).
+  const signals = await getSignalsForCity(profile.key);
+  const cells = buildSyntheticCells(profile, signals);
   const trained = buildModel(cells, cityKey);
 
   return {
     profile,
     source: 'synthetic_model',
     cells,
+    dataset: { mode: dataset, sampleSize: 0, cellsWithData: 0, coveragePct: 0 },
     models: trained.models,
     metrics: trained.metrics,
     thresholds: trained.thresholds
   };
 };
 
-const getOrCreateCityModel = async (cityKey) => {
-  if (cityModelCache.has(cityKey)) {
-    return cityModelCache.get(cityKey);
+const getOrCreateCityModel = async (cityKey, dataset = DEFAULT_DATASET) => {
+  const cacheKey = `${cityKey}:${dataset}`;
+  const cached = cityModelCache.get(cacheKey);
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.model;
   }
 
-  const built = await buildCityModel(cityKey);
-  cityModelCache.set(cityKey, built);
+  const built = await buildCityModel(cityKey, dataset);
+  cityModelCache.set(cacheKey, {
+    model: built,
+    expiresAt: Date.now() + MODEL_CACHE_TTL_MS
+  });
   return built;
 };
 
 const buildCacheKey = (filters) =>
   JSON.stringify({
     city: filters.city,
+    dataset: filters.dataset,
     date: filters.date,
     rangeMode: filters.rangeMode,
     rangeStart: filters.rangeStart,
@@ -1564,6 +1650,10 @@ const formatPredictionFromCell = (cell, filters, cityModel) => {
   });
   const { predLeveProb, predMedioProb, predGraveProb } = severityProbabilities;
   const riskScore = computeRiskScoreFromSeverity(severityProbabilities);
+  const accidentProbabilityDaily = computeAccidentProbabilityDaily(
+    cell.accidentsPerDay,
+    contextLikelihoodRatio
+  );
   const insights = buildAccidentInsights({
     filters,
     predLeveProb,
@@ -1589,7 +1679,15 @@ const formatPredictionFromCell = (cell, filters, cityModel) => {
     predGraveProb,
     riskScore,
     riskLevel: getRiskLevel(riskScore),
+    accidentProbabilityDaily,
+    accidentsPerDay: cell.accidentsPerDay ?? null,
     priority: riskScore >= 0.78 ? 4 : riskScore >= 0.62 ? 3 : riskScore >= 0.45 ? 2 : 1,
+    historicalAccidentCount: cell.accidentesTotal ?? 0,
+    historicalLeve: cell.accidentesLeve ?? 0,
+    historicalMedio: cell.accidentesMedio ?? 0,
+    historicalGrave: cell.accidentesGrave ?? 0,
+    signalDistKm: cell.signalDistKm ?? null,
+    signalCount: cell.signalCount ?? 0,
     date: filters.date || new Date().toISOString().slice(0, 10),
     hour: formatHour(filters.hour),
     weather: filters.weather,
@@ -1647,6 +1745,9 @@ const applyFiltersToGeoJsonPrediction = (prediction, filters) => {
     predGraveProb,
     riskScore,
     riskLevel: getRiskLevel(riskScore),
+    // GeoJSON precomputado no trae tasa temporal: sin probabilidad Poisson honesta.
+    accidentProbabilityDaily: null,
+    accidentsPerDay: null,
     priority: riskScore >= 0.78 ? 4 : riskScore >= 0.62 ? 3 : riskScore >= 0.45 ? 2 : 1,
     date: filters.date || prediction.date,
     hour: filters.hour === null ? prediction.hour : formatHour(filters.hour),
@@ -1803,6 +1904,15 @@ const maybeGetCachedResponse = (cacheKey) => {
 };
 
 const storeResponseCache = (cacheKey, payload) => {
+  // Evita crecimiento ilimitado: descarta la entrada mas antigua (orden de
+  // insercion en Map) cuando se supera el limite configurado.
+  while (responseCache.size >= RESPONSE_CACHE_MAX_ENTRIES) {
+    const oldestKey = responseCache.keys().next().value;
+    if (oldestKey === undefined) {
+      break;
+    }
+    responseCache.delete(oldestKey);
+  }
   responseCache.set(cacheKey, {
     payload,
     expiresAt: Date.now() + CACHE_TTL_MS
@@ -1854,7 +1964,7 @@ const fetchLocalPredictions = async (inputFilters = {}) => {
     return cached;
   }
 
-  const cityModel = await getOrCreateCityModel(filters.city);
+  const cityModel = await getOrCreateCityModel(filters.city, filters.dataset);
   let scopedPredictions = [];
   let query = null;
   let range = {
@@ -1884,6 +1994,7 @@ const fetchLocalPredictions = async (inputFilters = {}) => {
       city: cityModel.profile,
       generatedAt: new Date().toISOString(),
       source: cityModel.source,
+      dataset: cityModel.dataset || null,
       metrics: cityModel.metrics,
       activeFilters: true,
       query,
@@ -1905,4 +2016,52 @@ const getAvailableCities = () =>
     bbox: city.bbox
   }));
 
-export { LocalPredictionEngineError, fetchLocalPredictions, getAvailableCities };
+const SOURCE_LABELS = {
+  geojson: 'GeoJSON precomputado',
+  mysql_accidents: 'Datos reales (MySQL)',
+  synthetic_model: 'Modelo sintetico (fallback)'
+};
+
+// Resumen del modelo entrenado para una ciudad: fuente de datos, tamano de
+// muestra y metricas honestas (evaluadas sobre conjunto de prueba). Pensado
+// para alimentar el panel de desempeno del modelo en el dashboard admin.
+const getCityModelInsights = async (cityKey = DEFAULT_CITY_KEY, dataset = DEFAULT_DATASET) => {
+  const profile = getCityProfile(cityKey);
+  const normalizedDataset = normalizeDataset(dataset);
+  const cityModel = await getOrCreateCityModel(profile.key, normalizedDataset);
+
+  const average = (selector) => {
+    const values = ['leve', 'medio', 'grave']
+      .map((key) => Number(cityModel.metrics?.[key]?.[selector]))
+      .filter((value) => Number.isFinite(value));
+    if (!values.length) {
+      // Sin metricas medidas (p.ej. fuente geojson): null => la interfaz muestra N/D,
+      // en vez de un 0% enganoso o un 100% inventado.
+      return null;
+    }
+    return Number((values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(4));
+  };
+
+  return {
+    cityKey: profile.key,
+    dataset: normalizedDataset,
+    source: cityModel.source,
+    sourceLabel: SOURCE_LABELS[cityModel.source] || cityModel.source,
+    isDataDriven: cityModel.source === 'mysql_accidents' || cityModel.source === 'geojson',
+    dataset: cityModel.dataset || null,
+    metricsBySeverity: cityModel.metrics || null,
+    averageMetrics: {
+      accuracy: average('accuracy'),
+      precision: average('precision'),
+      recall: average('recall'),
+      f1: average('f1')
+    }
+  };
+};
+
+export {
+  LocalPredictionEngineError,
+  fetchLocalPredictions,
+  getAvailableCities,
+  getCityModelInsights
+};

@@ -5,19 +5,19 @@ const legendItems = [
     id: 'high-risk',
     label: 'Riesgo alto',
     badgeClassName: 'bg-danger text-white',
-    description: 'Probabilidad mayor o igual a 0.75'
+    description: 'Indice de riesgo mayor o igual a 0.75 (0 a 1, relativo a la ciudad)'
   },
   {
     id: 'medium-risk',
     label: 'Riesgo medio',
     badgeClassName: 'bg-warning text-dark',
-    description: 'Probabilidad entre 0.55 y 0.74'
+    description: 'Indice de riesgo entre 0.55 y 0.74 (0 a 1, relativo a la ciudad)'
   },
   {
     id: 'low-risk',
     label: 'Riesgo bajo',
     badgeClassName: 'bg-success text-white',
-    description: 'Probabilidad menor a 0.55'
+    description: 'Indice de riesgo menor a 0.55 (0 a 1, relativo a la ciudad)'
   },
   {
     id: 'hotspot-shadow',

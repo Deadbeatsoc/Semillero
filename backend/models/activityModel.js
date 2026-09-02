@@ -8,7 +8,13 @@ const createActivityLog = async (connection, { userId = null, eventType, eventDa
   );
 };
 
-const getDashboardSummary = async (connection) => {
+const getDashboardSummary = async (connection, { dataset = 'mixto' } = {}) => {
+  // dataset: 'real' | 'sintetico' | 'mixto'. Solo se inyectan literales validados
+  // del enum (sin riesgo de inyeccion). 'mixto' = sin filtro (union).
+  const safeDataset = dataset === 'real' || dataset === 'sintetico' ? dataset : null;
+  const datasetClause = safeDataset ? ` AND dataset = '${safeDataset}'` : '';
+  const datasetClauseQualified = safeDataset ? ` AND accident_events.dataset = '${safeDataset}'` : '';
+
   const [totalsRows] = await connection.query(
     `
       SELECT
@@ -92,7 +98,7 @@ const getDashboardSummary = async (connection) => {
         SUM(CASE WHEN period <> 'desconocido' THEN 1 ELSE 0 END) AS period_annotated,
         SUM(CASE WHEN road_segment_id IS NOT NULL THEN 1 ELSE 0 END) AS linked_segments
       FROM accident_events
-      WHERE city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)
+      WHERE city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)${datasetClause}
     `
   );
 
@@ -100,7 +106,7 @@ const getDashboardSummary = async (connection) => {
     `
       SELECT severity, COUNT(*) AS total
       FROM accident_events
-      WHERE city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)
+      WHERE city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)${datasetClause}
       GROUP BY severity
     `
   );
@@ -109,7 +115,7 @@ const getDashboardSummary = async (connection) => {
     `
       SELECT weather, COUNT(*) AS total
       FROM accident_events
-      WHERE city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)
+      WHERE city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)${datasetClause}
       GROUP BY weather
     `
   );
@@ -118,7 +124,7 @@ const getDashboardSummary = async (connection) => {
     `
       SELECT period, COUNT(*) AS total
       FROM accident_events
-      WHERE city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)
+      WHERE city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)${datasetClause}
       GROUP BY period
     `
   );
@@ -130,7 +136,7 @@ const getDashboardSummary = async (connection) => {
         COUNT(*) AS total,
         SUM(CASE WHEN severity = 'fatal' THEN 1 ELSE 0 END) AS fatal_count
       FROM accident_events
-      WHERE city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)
+      WHERE city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)${datasetClause}
         AND occurred_at >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH)
       GROUP BY DATE_FORMAT(occurred_at, '%Y-%m')
       ORDER BY month_key ASC
@@ -156,7 +162,7 @@ const getDashboardSummary = async (connection) => {
         ) AS weighted_risk
       FROM accident_events
       INNER JOIN road_segments ON road_segments.id = accident_events.road_segment_id
-      WHERE accident_events.city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)
+      WHERE accident_events.city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)${datasetClauseQualified}
       GROUP BY
         road_segments.id,
         road_segments.name,
@@ -168,9 +174,64 @@ const getDashboardSummary = async (connection) => {
     `
   );
 
+  // Puntos para el mapa de calor: accidentes reales agregados en bins de ~110 m
+  // (redondeo a 3 decimales) con intensidad ponderada por gravedad.
+  const [heatmapRows] = await connection.query(
+    `
+      SELECT
+        ROUND(latitude, 3) AS lat,
+        ROUND(longitude, 3) AS lng,
+        COUNT(*) AS total,
+        SUM(CASE WHEN severity = 'baja' THEN 1 ELSE 0 END) AS baja,
+        SUM(CASE WHEN severity = 'media' THEN 1 ELSE 0 END) AS media,
+        SUM(CASE WHEN severity = 'alta' THEN 1 ELSE 0 END) AS alta,
+        SUM(CASE WHEN severity = 'fatal' THEN 1 ELSE 0 END) AS fatal,
+        SUM(
+          CASE severity
+            WHEN 'fatal' THEN 4
+            WHEN 'alta' THEN 3
+            WHEN 'media' THEN 2
+            ELSE 1
+          END
+        ) AS weight
+      FROM accident_events
+      WHERE city_id = (SELECT id FROM cities WHERE city_key = 'villavicencio' LIMIT 1)${datasetClause}
+        AND latitude IS NOT NULL
+        AND longitude IS NOT NULL
+      GROUP BY ROUND(latitude, 3), ROUND(longitude, 3)
+      ORDER BY weight DESC
+      LIMIT 1200
+    `
+  );
+
+  const [cityCenterRows] = await connection.query(
+    `
+      SELECT center_latitude, center_longitude, zoom_level
+      FROM cities
+      WHERE city_key = 'villavicencio'
+      LIMIT 1
+    `
+  );
+
   const totals = totalsRows[0] || {};
   const today = todayRows[0] || {};
   const accidentTotals = accidentTotalsRows[0] || {};
+
+  const maxHeatWeight = heatmapRows.reduce(
+    (max, row) => Math.max(max, Number(row.weight) || 0),
+    0
+  );
+  const heatmapPoints = heatmapRows.map((row) => ({
+    lat: Number(row.lat),
+    lng: Number(row.lng),
+    count: Number(row.total) || 0,
+    baja: Number(row.baja) || 0,
+    media: Number(row.media) || 0,
+    alta: Number(row.alta) || 0,
+    fatal: Number(row.fatal) || 0,
+    intensity: maxHeatWeight > 0 ? Number((Number(row.weight) / maxHeatWeight).toFixed(4)) : 0
+  }));
+  const cityCenterRow = cityCenterRows[0] || null;
 
   const totalAccidents = Number(accidentTotals.total_accidents || 0);
   const totalFatalities = Number(accidentTotals.total_fatalities || 0);
@@ -280,6 +341,7 @@ const getDashboardSummary = async (connection) => {
     })),
     accidents: {
       cityKey: 'villavicencio',
+      dataset: safeDataset || 'mixto',
       totals: {
         total: totalAccidents,
         fatalities: totalFatalities,
@@ -317,7 +379,18 @@ const getDashboardSummary = async (connection) => {
         total: Number(row.total || 0),
         fatalities: Number(row.fatal_count || 0),
         weightedRisk: Number(Number(row.weighted_risk || 0).toFixed(3))
-      }))
+      })),
+      heatmap: {
+        center: cityCenterRow
+          ? {
+              latitude: Number(cityCenterRow.center_latitude),
+              longitude: Number(cityCenterRow.center_longitude)
+            }
+          : null,
+        zoom: cityCenterRow ? Number(cityCenterRow.zoom_level) || 12 : 12,
+        maxWeight: maxHeatWeight,
+        points: heatmapPoints
+      }
     }
   };
 };

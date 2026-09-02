@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import AccidentHeatmap from './AccidentHeatmap.jsx';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
@@ -193,6 +194,8 @@ export default function AdminDashboard({
   const [pendingRequests, setPendingRequests] = useState([]);
   const [pendingCount, setPendingCount] = useState(0);
   const [activeSection, setActiveSection] = useState('metrics');
+  const [dataset, setDataset] = useState('mixto');
+  const [trafficSignals, setTrafficSignals] = useState([]);
 
   const authHeaders = useMemo(
     () => ({
@@ -209,13 +212,17 @@ export default function AdminDashboard({
     return response;
   };
 
-  const loadMetricsAndCode = async () => {
-    setLoadingMetrics(true);
-    setErrorMessage('');
+  const loadMetricsAndCode = async ({ silent = false } = {}) => {
+    // En refrescos silenciosos no activamos el estado de carga: asi el contenido
+    // no se desmonta/remonta (el mapa, popups y scroll se mantienen intactos).
+    if (!silent) {
+      setLoadingMetrics(true);
+      setErrorMessage('');
+    }
     try {
       const [dashboardResponse, codeResponse] = await Promise.all([
         ensureAuthorized(
-          await fetch(`${API_BASE_URL}/api/admin/dashboard`, {
+          await fetch(`${API_BASE_URL}/api/admin/dashboard?dataset=${encodeURIComponent(dataset)}`, {
             headers: authHeaders
           })
         ),
@@ -241,9 +248,14 @@ export default function AdminDashboard({
       setVerificationCodeData(codePayload.data || null);
       setPendingCount(Number(nextDashboardData?.totals?.pendingReports || 0));
     } catch (error) {
-      setErrorMessage(error.message || 'No se pudo cargar la informacion administrativa.');
+      // Un fallo durante un refresco silencioso no debe interrumpir la vista.
+      if (!silent) {
+        setErrorMessage(error.message || 'No se pudo cargar la informacion administrativa.');
+      }
     } finally {
-      setLoadingMetrics(false);
+      if (!silent) {
+        setLoadingMetrics(false);
+      }
     }
   };
 
@@ -287,18 +299,52 @@ export default function AdminDashboard({
 
   useEffect(() => {
     if (!authToken) {
+      return;
+    }
+    const loadSignals = async () => {
+      try {
+        const response = ensureAuthorized(
+          await fetch(`${API_BASE_URL}/api/traffic-signals?city=villavicencio`, { headers: authHeaders })
+        );
+        const payload = await response.json();
+        setTrafficSignals(Array.isArray(payload.data) ? payload.data : []);
+      } catch {
+        setTrafficSignals([]);
+      }
+    };
+    loadSignals();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authToken]);
+
+  // Al cambiar de base de datos, recarga las metricas en modo silencioso (sin
+  // desmontar el contenido), evitando el parpadeo del dashboard.
+  const datasetInitRef = useRef(true);
+  useEffect(() => {
+    if (datasetInitRef.current) {
+      datasetInitRef.current = false;
+      return;
+    }
+    if (authToken) {
+      loadMetricsAndCode({ silent: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataset]);
+
+  useEffect(() => {
+    if (!authToken) {
       return undefined;
     }
 
     const refreshId = setInterval(() => {
       loadPendingRequests({ silent: true });
       if (activeSection === 'metrics') {
-        loadMetricsAndCode();
+        loadMetricsAndCode({ silent: true });
       }
     }, 15000);
 
     return () => clearInterval(refreshId);
-  }, [authToken, activeSection]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authToken, activeSection, dataset]);
 
   const handleRegenerateCode = async () => {
     setRegenerating(true);
@@ -358,6 +404,10 @@ export default function AdminDashboard({
   const coverage = quality?.coverage || {};
   const monthlySeries = toSafeArray(accidents?.monthlySeries);
   const topRiskRoads = toSafeArray(accidents?.topRiskRoads);
+  const model = dashboardData?.model || null;
+  const modelAvg = model?.averageMetrics || null;
+  const heatmap = accidents?.heatmap || null;
+  const heatmapPoints = toSafeArray(heatmap?.points);
 
   return (
     <div className="container py-4">
@@ -408,6 +458,27 @@ export default function AdminDashboard({
       )}
 
       {activeSection === 'metrics' && (
+        <div className="d-flex align-items-center flex-wrap gap-2 mb-3">
+          <label className="form-label filter-label mb-0">Base de datos:</label>
+          <select
+            className="form-select form-select-sm"
+            style={{ maxWidth: '260px' }}
+            value={dataset}
+            onChange={(event) => setDataset(event.target.value)}
+          >
+            <option value="mixto">Mixta (real + sintetica)</option>
+            <option value="real">Solo datos reales</option>
+            <option value="sintetico">Solo datos sinteticos</option>
+          </select>
+          {accidents?.totals?.total !== undefined && (
+            <span className="text-muted small">
+              {formatNumber(accidents.totals.total)} eventos en esta base
+            </span>
+          )}
+        </div>
+      )}
+
+      {activeSection === 'metrics' && (
         <>
           <section className="arc-header-shell mb-4">
             <div className="arc-header-title">
@@ -453,6 +524,61 @@ export default function AdminDashboard({
             </div>
           </section>
 
+          {model && (
+            <section className="card border-0 shadow-sm mb-4">
+              <div className="card-body">
+                <div className="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
+                  <h6 className="panel-title mb-0">Desempeno del modelo de prediccion</h6>
+                  <span
+                    className={`badge rounded-pill ${
+                      model.isDataDriven ? 'text-bg-success' : 'text-bg-secondary'
+                    }`}
+                  >
+                    {model.sourceLabel || model.source}
+                  </span>
+                </div>
+                {model.dataset && (
+                  <p className="text-muted small mb-3">
+                    Entrenado con {formatNumber(model.dataset.sampleSize)} accidentes reales sobre una
+                    grilla de {model.dataset.gridRows}x{model.dataset.gridCols} zonas (
+                    {formatPercent(model.dataset.coveragePct || 0)} con datos historicos).
+                  </p>
+                )}
+                {model.source === 'synthetic_model' && (
+                  <p className="text-warning small mb-3">
+                    No hay accidentes en la base de datos. El modelo opera en modo demostracion; ejecuta
+                    el seed para entrenar con datos reales.
+                  </p>
+                )}
+                {modelAvg && model.source !== 'geojson' && (
+                  <div className="arc-kpi-grid">
+                    <KpiCard
+                      label="Exactitud (accuracy)"
+                      value={formatPercent((modelAvg.accuracy || 0) * 100)}
+                      hint="Promedio leve/medio/grave en test"
+                    />
+                    <KpiCard
+                      label="Precision"
+                      value={formatPercent((modelAvg.precision || 0) * 100)}
+                      hint="Aciertos sobre zonas marcadas de riesgo"
+                    />
+                    <KpiCard
+                      label="Sensibilidad (recall)"
+                      value={formatPercent((modelAvg.recall || 0) * 100)}
+                      hint="Cobertura de zonas realmente criticas"
+                      tone="alert"
+                    />
+                    <KpiCard
+                      label="F1-score"
+                      value={(modelAvg.f1 || 0).toFixed(2)}
+                      hint="Balance precision-recall"
+                    />
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
           {loadingMetrics && <div className="text-muted">Cargando dashboard...</div>}
 
           {!loadingMetrics && (
@@ -491,6 +617,17 @@ export default function AdminDashboard({
                   value={formatPercent(coverage?.linkedRoadSegmentPct || 0)}
                   hint="Eventos vinculados a corredor"
                   tone="success"
+                />
+                <KpiCard
+                  label="Cobertura periodo"
+                  value={formatPercent(coverage?.periodPct || 0)}
+                  hint="Eventos con etiqueta dia/noche"
+                  tone="success"
+                />
+                <KpiCard
+                  label="Reportes validados hoy"
+                  value={formatNumber(totals?.approvedReportsToday)}
+                  hint={`${formatNumber(totals?.pendingReports)} pendientes`}
                 />
                 <KpiCard
                   label="Usuarios registrados"
@@ -549,6 +686,22 @@ export default function AdminDashboard({
                     { key: 'noche', label: 'Noche' },
                     { key: 'desconocido', label: 'Desconocido' }
                   ]}
+                />
+              </section>
+
+              <section className="arc-card mb-4">
+                <div className="arc-card-head">
+                  <h3>Mapa de calor de accidentalidad</h3>
+                  <small>
+                    Densidad real de siniestros ponderada por gravedad
+                    {heatmapPoints.length ? ` - ${formatNumber(heatmapPoints.length)} zonas con eventos` : ''}
+                  </small>
+                </div>
+                <AccidentHeatmap
+                  center={heatmap?.center}
+                  zoom={heatmap?.zoom || 12}
+                  points={heatmapPoints}
+                  signals={trafficSignals}
                 />
               </section>
 
