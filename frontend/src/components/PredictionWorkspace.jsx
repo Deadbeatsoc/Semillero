@@ -7,7 +7,9 @@ import ReportForm from './ReportForm.jsx';
 import 'leaflet/dist/leaflet.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || '';
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:4000';
+const SOCKET_URL =
+  import.meta.env.VITE_SOCKET_URL ||
+  (typeof window !== 'undefined' ? window.location.origin : '');
 const AUTO_RAIN_THRESHOLD = Math.max(
   1,
   Math.min(100, Number.parseInt(import.meta.env.VITE_AUTO_RAIN_THRESHOLD || '55', 10) || 55)
